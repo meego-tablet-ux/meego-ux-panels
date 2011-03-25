@@ -1,0 +1,370 @@
+/*
+ * Copyright 2011 Intel Corporation.
+ *
+ * This program is licensed under the terms and conditions of the
+ * Apache License, version 2.0.  The full text of the Apache License is at 	
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+import Qt 4.7
+import MeeGo.Labs.Components 0.1
+import MeeGo.Panels 0.1
+import MeeGo.Sharing 0.1
+import MeeGo.Media 0.1
+
+FlipPanel {
+    id: container
+
+    Translator {
+        catalog: "meego-ux-panels-music"
+    }
+
+    //Because we do not have a universal launcher
+    //Need to modify model that this app is launched
+    function notifyModel()
+    {
+        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+    }
+
+
+    ListModel{
+        id: backSettingsModel
+
+        //Get around i18n issues w/ the qsTr of the strings being in a different file
+        Component.onCompleted: {
+            backSettingsModel.append({ "settingsTitle": qsTr("Recently played"),
+                                     "custPropName": "RecentlyPlayed",
+                                             "isVisible": true });
+            backSettingsModel.append({ "settingsTitle": qsTr("Playlists"),
+                                     "custPropName": "Playlists",
+                                     "isVisible": true });
+
+        }
+    }
+
+
+
+    MusicListModel {
+        id: musicRecentsModel
+        type:MusicListModel.ListofRecentlyPlayed
+        limit: 2
+        sort: MusicListModel.SortByDefault
+    }
+
+    onPanelObjChanged: {
+        playlistsModel.hideItemsByURN(panelObj.HiddenItems);
+        musicRecentsModel.hideItemsByURN(panelObj.HiddenItems);
+    }
+
+
+
+    MusicListModel {
+        id: playlistsModel
+        type:MusicListModel.ListofPlaylists
+        limit: 0
+        sort: MusicListModel.SortByDefault
+    }
+
+
+
+    front: Panel {
+        panelTitle: qsTr("Music")
+        panelContent: (((playlistsModel.count + musicRecentsModel.count == 0) && (musicIntf.state != "playing" && musicIntf.state != "paused")) ? itemModelOOBE : itemModelOne)
+        leftIconSource: "image://theme/panels/pnl_icn_music"
+    }
+
+    back: BackPanelStandard {
+        panelTitle: qsTr("Music settings")
+        //panelContent: itemModelSizes
+        settingsListModel: backSettingsModel
+        isBackPanel: true
+        leftIconSource: "image://theme/panels/pnl_icn_music"
+
+        onClearHistClicked:{
+            musicRecentsModel.clear()
+        }
+
+    }
+
+    MusicInterface {
+        id: musicIntf
+        property bool ready: false;
+        //Work around some weird delays in the dbus propogation of the currently playing/next tracks
+        //Actually, I think the issue is in the MusicListModel - my theory
+        //is that, if tracker hasn't populated the URNs we're requesting into the MusicDatabase yet,
+        //then we won't get anything from the model...
+        //So, we're really just giving tracker time to populate the DB on startup...
+        Component.onCompleted: {
+            if (state == "playing" || state == "paused") {
+                refreshTimer.start();
+            } else {
+                ready = true;
+            }
+        }
+    }
+
+    Timer {
+        id: refreshTimer
+        interval: 3000
+        onTriggered: {
+            console.log("Refreshing music!");
+            musicIntf.refresh()
+            musicIntf.ready = true;
+        }
+    }
+
+    resources: [
+        VisualItemModel {
+            id: itemModelOOBE
+            Item {
+                height: container.height
+                width: container.width
+                //anchors.left:  container.left
+                //anchors.left: parent.left
+
+
+                Text {
+                    id: textOOBE
+                    anchors.left: parent.left
+                    anchors.right:  parent.right
+                    anchors.top: parent.top
+                    anchors.topMargin: panelSize.contentTopMargin
+                    anchors.leftMargin: panelSize.contentSideMargin
+                    anchors.rightMargin: panelSize.contentSideMargin
+                    width: parent.width
+                    text: qsTr("Enjoy your music.")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    color: panelColors.textColor
+                }
+
+                Button {
+                    id: btnOOBE
+                    anchors.top:  textOOBE.bottom
+                    anchors.topMargin: panelSize.contentTopMargin
+                    title: qsTr("Open Music!")
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onClicked: {
+                        spinnerContainer.startSpinner();
+                        qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                    }
+                }
+            }
+        },
+
+        VisualItemModel {
+            id: itemModelOne
+
+            ContextMenu {
+                id: ctxMenuRecent
+                property string currentUrn
+                property string currentUri
+                model:[ qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
+                onTriggered: {
+                    if (model[index] == qsTr("Open")) {
+                        spinnerContainer.startSpinner();
+                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --cdata " + currentUrn)
+                        container.notifyModel();
+                    } else if (model[index] == qsTr("Play")){
+                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --noraise --cdata " + currentUrn )
+                        //container.notifyModel();
+                    }
+                    else if(model[index] == qsTr("Share"))
+                    {
+                        shareObj.clearItems();
+                        shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
+                        shareObj.addItem(currentUri);
+                        shareObj.showContextTypes(mouseX, mouseY);
+                    }
+                    else if (model[index] == qsTr("Hide"))
+                    {
+                        panelObj.addHiddenItem(currentUrn)
+                        musicRecentsModel.hideItemByURN(currentUrn)
+                    }
+                    else {
+                        console.log("Unhandled context action in Photos: " + model[index]);
+                    }
+                }
+
+
+            }
+
+
+            ContextMenu {
+                id: ctxMenuAlbum
+                property string currentUrn
+                model:[ qsTr("Play"), qsTr("Hide")]
+
+                onTriggered: {
+                    if (model[index] == qsTr("Play")) {
+                        spinnerContainer.startSpinner();
+                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playAlbum --app meego-app-music --cdata " + currentUrn)
+                        container.notifyModel();
+                    } else if (model[index] == qsTr("Hide"))
+                    {
+                        panelObj.addHiddenItem(currentUrn)
+                        playlistsModel.hideItemByURN(currentUrn)
+                    }
+                    else {
+                        console.log("Unhandled context action in Photos: " + model[index]);
+                    }
+                }
+
+            }
+
+            FrontPanelExpandableContent {
+
+                visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
+                text:qsTr("Currently playing")
+                collapsible: false
+
+                Component.onCompleted: {
+                    if (musicIntf.state == "playing")
+                        musicIntf.refresh();
+                }
+
+                contents: Item{
+
+                    height: curPlayingListView.height
+                    + playqueueItem.height
+
+                    MusicListModel {
+                        id: curPlaying
+                        type: MusicListModel.Editor
+                        urns: musicIntf.nowTrack
+                    }
+
+                    ListView {
+                        id: curPlayingListView
+                        model: curPlaying
+                        width: parent.width
+                        height: (width * .4)
+                        interactive: false
+                        delegate: FrontPanelMusicPreviewContentItem{
+                            id: currentlyPlayingItem
+                            isCurrentlyPlayingLayout: true
+                            anchors.top: parent.top
+                            imageSource: thumburi
+                            imagePlayStatus: (musicIntf.state == "playing")
+                            text: title
+                            onBackButtonClicked: musicIntf.prev()
+                            onForwardButtonClicked: musicIntf.next()
+                            onPlayButtonClicked: (musicIntf.state == "playing" ? musicIntf.pause() : musicIntf.play())
+                        }
+
+                    }
+
+                    FrontPanelExpandableContent {
+
+                        id: playqueueItem
+                        property int count: 0
+                        anchors.top: curPlayingListView.bottom
+                        visible: (musicIntf.nextTrackCount > 0)
+
+                        text:qsTr("Play queue")
+                        collapsible: false
+                        MusicListModel {
+                            id: nextTwo
+                            type: MusicListModel.Editor
+                            urns: musicIntf.nextTracks
+                        }
+                        contents: FrontPanelMusicTrackListView{
+                            model: nextTwo
+                            onCountChanged: {
+                                playqueueItem.count = count
+                                //console.log("********nextTwo count changed: " + count)
+                            }
+                        }
+
+                    }
+                }
+
+
+            }
+
+            FrontPanelExpandableContent {
+                id: fpRecentMusic
+
+                visible: backSettingsModel.get(0).isVisible && (count > 0)
+                text: qsTr("Recently played")
+
+                property int count: 0;
+
+                contents: FrontPanelListView{
+                    model: musicRecentsModel
+                    width: parent.width
+                    height: { return count * (Math.round(width * 0.4) + 2); }
+
+                    onCountChanged: fpRecentMusic.count = count
+                    Component.onCompleted: fpRecentMusic.count = count
+
+                    delegate:  FrontPanelMusicPreviewContentItem{
+                        id: musicPreview
+                        imageSource: thumburi
+                        text: title
+                        imagePlayStatus: false //playstatus == 2
+                        onClicked:{
+                            spinnerContainer.startSpinner();
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playSong --app meego-app-music --cdata " + urn)
+                            container.notifyModel();
+                        }
+                        onPlayButtonClicked: {
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playSong --app meego-app-music --noraise --cdata " + urn )                            
+                        }
+
+                        //For the context Menu
+                        onPressAndHold:{
+                            var pos = musicPreview.mapToItem(scene, mouse.x, mouse.y);
+
+                            ctxMenuRecent.currentUrn=urn;
+                            ctxMenuRecent.currentUri=uri;
+                            ctxMenuRecent.mouseX = pos.x;
+                            ctxMenuRecent.mouseY= pos.y;
+                            ctxMenuRecent.visible= true
+                        }
+
+                    }
+                }
+            }
+
+            FrontPanelExpandableContent {
+                id: fpPlaylists
+                visible: backSettingsModel.get(1).isVisible && (count > 0)
+                anchors.top: fpRecentMusic.bottom
+                text: qsTr("Playlists")
+                property int count: 0
+
+                contents: FrontPanelListView{
+                    model: playlistsModel
+                    width: parent.width
+                    height: count * (panelSize.contentItemHeight + 2)
+                    onCountChanged: fpPlaylists.count = count
+                    Component.onCompleted: fpPlaylists.count = count
+                    delegate: FrontPanelIconTextItem {
+                        id:albumPreview
+                        text: title
+                        imageSource: thumburi
+                        fallBackImage: "image://theme/media/music_thumb_med"
+                        zoomImage: true
+
+                        onClicked:{
+                            spinnerContainer.startSpinner();
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playAlbum --app meego-app-music --cdata " + urn)
+                            container.notifyModel();
+                        }
+
+                        //For the context Menu                        
+                        onPressAndHold:{
+                            var pos = albumPreview.mapToItem(scene, mouse.x, mouse.y);
+
+                            ctxMenuAlbum.currentUrn = urn
+                            ctxMenuAlbum.mouseX = pos.x;
+                            ctxMenuAlbum.mouseY = pos.y;
+                            ctxMenuAlbum.visible= true
+                        }
+
+                    }
+                }
+            }
+        }
+    ]
+}
