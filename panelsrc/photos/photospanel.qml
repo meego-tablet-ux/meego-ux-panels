@@ -34,15 +34,23 @@ FlipPanel {
     ListModel{
         id: backSettingsModel
 
+        ListElement {
+            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+            settingsTitle: "Recently viewed"
+            custPropName: "RecentlyViewed"
+            isVisible: true
+        }
+        ListElement {
+            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+            settingsTitle: "Albums"
+            custPropName: "Albums"
+            isVisible: true
+        }
+
         //Get around i18n issues w/ the qsTr of the strings being in a different file
         Component.onCompleted: {
-            backSettingsModel.append({ "settingsTitle": qsTr("Recently viewed"),
-                                     "custPropName": "RecentlyViewed",
-                                             "isVisible": true });
-            backSettingsModel.append({ "settingsTitle": qsTr("Albums"),
-                                     "custPropName": "Albums",
-                                     "isVisible": true });
-
+            backSettingsModel.setProperty(0, "settingsTitle", qsTr("Recently viewed"));
+            backSettingsModel.setProperty(1, "settingsTitle", qsTr("Albums"));
         }
     }
 
@@ -67,7 +75,19 @@ FlipPanel {
 
     front: SimplePanel {
         panelTitle: qsTr("Photos")
-        panelComponent: (allPhotosListModel.count + allAlbumsListModel.count == 0 ? photoOOBE : photoFront)
+        panelComponent: {
+            var count = 0;
+            if (backSettingsModel.get(0).isVisible)
+                count = count + allPhotosListModel.count;
+            if (backSettingsModel.get(0).isVisible)
+                count = count + allAlbumsListModel.count;
+            if (count)
+                return photoFront;
+            else
+                return photoOOBE;
+//            (allPhotosListModel.count + allAlbumsListModel.count == 0 ? photoOOBE : photoFront)
+
+        }
         leftIconSource: "image://theme/panels/pnl_icn_photos"
     }
 

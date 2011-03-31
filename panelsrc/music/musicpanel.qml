@@ -30,15 +30,23 @@ FlipPanel {
     ListModel{
         id: backSettingsModel
 
+        ListElement {
+            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+            settingsTitle: "Recently played"
+            custPropName: "RecentlyPlayed"
+            isVisible: true
+        }
+        ListElement {
+            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+            settingsTitle: "Playlists"
+            custPropName: "Playlists"
+            isVisible: true
+        }
+
         //Get around i18n issues w/ the qsTr of the strings being in a different file
         Component.onCompleted: {
-            backSettingsModel.append({ "settingsTitle": qsTr("Recently played"),
-                                     "custPropName": "RecentlyPlayed",
-                                             "isVisible": true });
-            backSettingsModel.append({ "settingsTitle": qsTr("Playlists"),
-                                     "custPropName": "Playlists",
-                                     "isVisible": true });
-
+            backSettingsModel.setProperty(0, "settingsTitle", qsTr("Recently played"));
+            backSettingsModel.setProperty(1, "settingsTitle", qsTr("Playlists"));
         }
     }
 
