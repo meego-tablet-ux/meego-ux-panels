@@ -407,7 +407,7 @@ FlipPanel {
             Component {
                 id: serviceToggle
 
-                ToggleButton {
+                Ux.ToggleButton {
                     id: tbEnable
                     anchors.right: parent.right
                     on: panelManager.isServiceEnabled(upid)
