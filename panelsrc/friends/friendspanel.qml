@@ -323,7 +323,7 @@ FlipPanel {
                                 }
                             }
 
-                            CheckBox {
+                            Ux.CheckBox {
                                 id: ckBox
                                 isChecked: false
                                 anchors.left: parent.left
