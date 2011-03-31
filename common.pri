@@ -1,6 +1,7 @@
 VERSION = 0.2.3
 #CONFIG += debug
 
+
 PROJECT_NAME = meego-ux-panels
 BASEDIR = $$system(pwd)
 
