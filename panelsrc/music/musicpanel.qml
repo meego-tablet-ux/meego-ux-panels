@@ -11,6 +11,7 @@ import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
 import MeeGo.Sharing 0.1
 import MeeGo.Media 0.1
+import MeeGo.Components 0.1 as Ux
 
 FlipPanel {
     id: container
@@ -158,11 +159,11 @@ FlipPanel {
                     color: panelColors.textColor
                 }
 
-                Button {
+                Ux.Button {
                     id: btnOOBE
                     anchors.top:  textOOBE.bottom
                     anchors.topMargin: panelSize.contentTopMargin
-                    title: qsTr("Open Music!")
+                    text: qsTr("Open Music!")
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: {
                         spinnerContainer.startSpinner();

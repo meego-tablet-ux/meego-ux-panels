@@ -10,6 +10,7 @@ import Qt 4.7
 import MeeGo.Labs.Components 0.1
 import MeeGo.Content 1.0
 import MeeGo.Panels 0.1
+import MeeGo.Components 0.1 as Ux
 
 FlipPanel {
     id: fpContainer
@@ -96,11 +97,11 @@ FlipPanel {
                 color: panelColors.textColor
             }
 
-            Button {
+            Ux.Button {
                 id: btnOOBE
                 anchors.top:  textOOBE.bottom
                 anchors.topMargin: panelSize.contentTopMargin
-                title: qsTr("Tap here!")
+                text: qsTr("Tap here!")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
                     spinnerContainer.startSpinner();
@@ -354,12 +355,12 @@ FlipPanel {
                         }
                     }
 
-                    Button {
+                    Ux.Button {
                         id: btnModalClear
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: panelSize.contentTopMargin
-                        title: qsTr("Clear")
+                        text: qsTr("Clear")
                         onClicked: {
                             var x;
                             for (x in rectClearHist.svcsToClear) {
@@ -419,10 +420,10 @@ FlipPanel {
 
             Component {
                 id: serviceConfigBtn
-                Button {
+                Ux.Button {
                     id: btnConfigure
                     anchors.right: parent.right
-                    title: qsTr("Go to settings")
+                    text: qsTr("Go to settings")
                     onClicked: {
                         actions.performStandardAction("configure", name);
                     }

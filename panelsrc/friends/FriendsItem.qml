@@ -9,6 +9,7 @@
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
+import MeeGo.Components 0.1 as Ux
 
 FrontPanelContentItem {
     id: friendItemText
@@ -156,7 +157,7 @@ FrontPanelContentItem {
         }
 
 
-        Button {
+        Ux.Button {
             id: acceptBtn
             visible: (friendItemText.itemType == "request")
 //            bgSourceUp: "image://theme/panels/pnl_switch_pink_up"
@@ -166,14 +167,14 @@ FrontPanelContentItem {
             anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
             anchors.topMargin: panelSize.contentTopMargin
             anchors.left: contentText.left
-            title: qsTr("Accept")
+            text: qsTr("Accept")
             //color: theme_fontColorNormal
             onClicked: {
                 friendItemText.acceptClicked(itemID);
             }
         }
 
-        Button {
+        Ux.Button {
             id: rejectBtn
             visible: (friendItemText.itemType == "request")
 //            height: panelSize.oneTenth
@@ -182,7 +183,7 @@ FrontPanelContentItem {
             anchors.topMargin: panelSize.contentTopMargin
             anchors.left: acceptBtn.right
             anchors.leftMargin: panelSize.contentSideMargin
-            title: qsTr("Decline")
+            text: qsTr("Decline")
             //color: theme_fontColorNormal
             onClicked: {
                 friendItemText.rejectClicked(itemID);

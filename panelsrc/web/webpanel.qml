@@ -9,6 +9,7 @@
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
+import MeeGo.Components 0.1 as Ux
 
 FlipPanel {
     id: container
@@ -155,11 +156,11 @@ FlipPanel {
                     color: panelColors.textColor
                 }
 
-                Button {
+                Ux.Button {
                     id: btnOOBE
                     anchors.top:  textOOBE.bottom
                     anchors.topMargin: panelSize.contentTopMargin
-                    title: qsTr("Open Browser!")
+                    text: qsTr("Open Browser!")
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked: {
                         spinnerContainer.startSpinner();
