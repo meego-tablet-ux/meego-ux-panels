@@ -76,11 +76,11 @@ FlipPanel {
         }
     }
 
-
+/*  //2011-04-04, JEA: We don't have anything we can do with USB devices right now, so removing the functionality for the moment
     UDiskDeviceModel {
         id: pluggableDeviceModel
     }
-
+*/
 
 
     ListModel{
@@ -145,7 +145,7 @@ FlipPanel {
                 height: connDevSection.height + topAppSection.height + settingsSection.height
                 width: parent.width
 
-                FrontPanelExpandableContent{
+/*                FrontPanelExpandableContent{
                     id: connDevSection
                     anchors.top: parent.top
                     text: qsTr("Connected devices")
@@ -153,10 +153,11 @@ FlipPanel {
                     contents: connDevComp
                     visible: (pluggableDeviceModel.count > 0)
                 }
+*/
 
                 FrontPanelExpandableContent{
                     id: topAppSection
-                    anchors.top: connDevSection.bottom
+                    anchors.top: parent.top //connDevSection.bottom
                     text: qsTr("Top applications")
                     collapsible: false
                     contents: topAppComp
@@ -188,7 +189,7 @@ FlipPanel {
 
 
 
-    Component {
+/*    Component {
         id: connDevComp
 
          FrontPanelListView{
@@ -203,6 +204,7 @@ FlipPanel {
             }
 
     }
+*/
 
     Component {
         id: topAppComp
