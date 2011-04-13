@@ -142,7 +142,7 @@ FlipPanel {
 
             Item {
                 id: myContent
-                height: connDevSection.height + topAppSection.height + settingsSection.height
+                height: /*connDevSection.height +*/ topAppSection.height + settingsSection.height
                 width: parent.width
 
 /*                FrontPanelExpandableContent{
