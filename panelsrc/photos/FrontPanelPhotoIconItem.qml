@@ -23,6 +23,7 @@ FrontPanelContentItem {
         width: height
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
+        fillMode: Image.PreserveAspectCrop
         asynchronous: true
     }
 
