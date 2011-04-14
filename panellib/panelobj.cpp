@@ -198,11 +198,18 @@ bool PanelObj::readDesktopFile()
 
     mPath = dt.value("Path").toString();
 
-    QString LocalizedDisplayNameKey = m_DisplayNameKey + QString("[%1]").arg(QLocale::system().name());
+    //First we try to grab it by lang_COUNTRY, then by lang, then fallback to non-translated
+    QString locale = QLocale::system().name();
+    QString lang = locale.split("_").at(0);
+
+    QString LocalizedDisplayNameKey = m_DisplayNameKey + QString("[%1]").arg(locale);
     mDisplayName = dt.value(LocalizedDisplayNameKey).toString();
     if (mDisplayName.isEmpty()) {
-      mDisplayName = dt.value(m_DisplayNameKey, mUniqueName).toString();
+        LocalizedDisplayNameKey = m_DisplayNameKey + QString("[%1]").arg(lang);
+        mDisplayName = dt.value(LocalizedDisplayNameKey).toString();
     }
+    if (mDisplayName.isEmpty())
+        mDisplayName = dt.value(m_DisplayNameKey, mUniqueName).toString();
 
     mUniqueName = dt.value("UniqueName", mUniqueName).toString();
     mSettingsIcon = dt.value("SettingsIcon").toString();
