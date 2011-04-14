@@ -124,7 +124,7 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOOBE
             Item {
-                height: container.height
+                height: childrenRect.height
                 width: container.width
                 //anchors.left:  container.left
                 //anchors.left: parent.left

@@ -37,7 +37,7 @@ SimplePanel {
             //boundsBehavior: Flickable.StopAtBounds
 
             // lock all movement when contents don't need to scroll
-            interactive: (contentHeight > height)
+            interactive: (childrenRect.height > height)
             onInteractiveChanged: {
                 if (!interactive)
                     contentY = 0;
