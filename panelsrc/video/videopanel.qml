@@ -124,7 +124,7 @@ FlipPanel {
                 onTriggered: {
                     if (model[index] == qsTr("Play")) {
                         spinnerContainer.startSpinner();
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd video --app meego-app-video --fullscreen --cdata " + currentUrn )
+                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + currentUrn )
                         container.notifyModel()
                     } else if (model[index] == qsTr("Hide")){
                         panelObj.addHiddenItem(currentUrn)
@@ -166,7 +166,7 @@ FlipPanel {
 
                     onClicked: {
                         spinnerContainer.startSpinner();
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd video --app meego-app-video --fullscreen --cdata " + urn )
+                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + urn )
                         container.notifyModel()
                     }
 
