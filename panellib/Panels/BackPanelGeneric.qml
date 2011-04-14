@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as Ux
 import MeeGo.Panels 0.1
 
 
@@ -72,10 +73,10 @@ SimplePanel {
                 sourceComponent: bpContent
             }
 
-            Button {
+            Ux.Button {
                 id : bpClearButton
                 visible:backPanelGeneric.clearButtonVisible
-                title: qsTr("Clear history")
+                text: qsTr("Clear history")
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: panelSize.contentTopMargin
                 anchors.horizontalCenter: parent.horizontalCenter

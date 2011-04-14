@@ -233,9 +233,9 @@ Item {
                 color: panelColors.separatorColor
             }
 
-            Button {
+            Ux.Button {
                 id : wifiSettings
-                title: qsTr("Wi-Fi settings")
+                text: qsTr("Wi-Fi settings")
                 anchors.top: wifiRectangleborder2.bottom
                 anchors.topMargin: 5
                 anchors.leftMargin:5
