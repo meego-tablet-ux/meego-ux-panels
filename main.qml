@@ -20,6 +20,16 @@ Window {
     fullContent: true
     fullscreen: true
 
+    // Since this window is inside the meego-ux-daemon process, which
+    // managages multiple top level windows, we can't use the normal 
+    // orientation locking mechanism.  The following is a hack till
+    // a proper per-window orientation mechanism lands in MeeGo.Components
+    orientationLocked: true
+    Connections {
+        target: mainWindow
+        onOrientationChanged: scene.orientation = mainWindow.orientation
+    }
+
     Translator {
         catalog: "meego-ux-panels"
     }
