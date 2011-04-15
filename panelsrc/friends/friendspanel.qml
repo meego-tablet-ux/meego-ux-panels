@@ -230,18 +230,16 @@ FlipPanel {
             Connections {
                 target:  back
                 onClearHistClicked: {
-                    mdlClearHist.contentX = btnPos.x;
-                    mdlClearHist.contentY = btnPos.y - mdlClearHist.contentHeight;
-                    mdlClearHist.visible = true;
+                    mdlClearHist.show();
                 }
             }
 
-            ModalSurface {
+            Ux.ModalFog {
                 id: mdlClearHist
                 //contentHeight: 400  //TODO JEA999
                 //contentWidth: 350   //TODO JEA999
                 autoCenter: true
-                content: BorderImage {
+                modalSurface: BorderImage {
                     id: rectClearHist
                     source: "image://theme/notificationBox_bg"
                     border.top: 14
@@ -250,6 +248,7 @@ FlipPanel {
                     border.bottom: 20
                     width: panelSize.oneHalf
                     height: panelSize.baseSize
+                    anchors.centerIn: parent
 
                     property variant svcsToClear: []
 
@@ -366,7 +365,7 @@ FlipPanel {
                             for (x in rectClearHist.svcsToClear) {
                                 panelManager.clearHistory(rectClearHist.svcsToClear[x]);
                             }
-                            mdlClearHist.visible = false;
+                            mdlClearHist.hide();
                         }
                     }
                 }
