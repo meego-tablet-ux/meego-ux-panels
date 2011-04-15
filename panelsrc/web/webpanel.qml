@@ -104,7 +104,18 @@ FlipPanel {
     front: Panel {
         id: webPanel
         panelTitle: qsTr("Web")
-        panelContent: (fpecRecentSites.count + fpecBookmarks.count == 0 ? itemModelOOBE : itemModelOne)
+        panelContent: {
+            var count = 0;
+            if (backSettingsModel.get(0).isVisible)
+                count = count + fpecRecentSites.count;
+            if (backSettingsModel.get(1).isVisible)
+                count = count + fpecBookmarks.count;
+            if (count)
+                return itemModelOne;
+            else
+                return itemModelOOBE;
+//            (fpecRecentSites.count + fpecBookmarks.count == 0 ? itemModelOOBE : itemModelOne)
+        }
         leftIconSource: "image://theme/panels/pnl_icn_web"
     }
 

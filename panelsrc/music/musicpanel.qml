@@ -77,7 +77,20 @@ FlipPanel {
 
     front: Panel {
         panelTitle: qsTr("Music")
-        panelContent: (((playlistsModel.count + musicRecentsModel.count == 0) && (musicIntf.state != "playing" && musicIntf.state != "paused")) ? itemModelOOBE : itemModelOne)
+        panelContent: {
+            var count = 0;
+            if (musicIntf.state == "playing" || musicIntf.state == "paused")
+                count = count+1;
+            if (backSettingsModel.get(0).isVisible)
+                count = count + musicRecentsModel.count;
+            if (backSettingsModel.get(1).isVisible)
+                count = count + playlistsModel.count;
+            if (count)
+                return itemModelOne;
+            else
+                return itemModelOOBE;
+//            (((playlistsModel.count + musicRecentsModel.count == 0) && (musicIntf.state != "playing" && musicIntf.state != "paused")) ? itemModelOOBE : itemModelOne)
+        }
         leftIconSource: "image://theme/panels/pnl_icn_music"
     }
 
