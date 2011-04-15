@@ -57,47 +57,14 @@ FlipPanel {
     ]
 
 
-    property QtObject panelManager: null;
-    property bool reloadChildModels: false;
-
-
     Component.onCompleted: {
-        reloadModels();
-        if (!(panelManager.servicesConfigured && !panelManager.isEmpty))
-            refreshTimerModel.start();
-    }
-
-    function reloadModels() {
-        if (panelManager != null) {
-            if (panelManager.servicesConfigured && !panelManager.isEmpty) {
-                refreshTimerModel.stop();
-                return;
-            }
-        }
-        if (panelManager != null)
-            panelManager.destroy();
-        panelManager = pmComp.createObject(fpContainer);
         panelManager.initialize("friends");
-        fpContainer.reloadChildModels = true;
     }
 
-    Timer {
-        id: refreshTimerModel
-        //If we don't have content yet, refresh every 2 seconds, otherwise, every 5
-        interval: 2000
-        onTriggered: {
-            reloadModels();
-        }
-        repeat: false
-    }
-
-    Component {
-        id: pmComp
-        McaPanelManager {
-            id: pmObj
-            categories: ["social", "im", "email"]
-            servicesEnabledByDefault: true
-        }
+    McaPanelManager {
+        id: panelManager
+        categories: ["social", "im", "email"]
+        servicesEnabledByDefault: true
     }
 
 
@@ -114,13 +81,6 @@ FlipPanel {
         Item {
             height: fpContainer.height
             width: fpContainer.width
-            //anchors.left:  fpContainer.left
-            //anchors.left: parent.left
-
-            Component.onCompleted: {
-                refreshTimerModel.start();
-            }
-
 
             Text {
                 id: textOOBE
@@ -167,24 +127,14 @@ FlipPanel {
                         contentY = 0;
                 }
 
-//                Connections {
-//                    target: fpContainer
-//                    onReloadChildModelsChanged: {
-//                        if (fpContainer.relatedChildModels)
-//                            model = panelManager.feedModel;
-//                    }
-//                }
-
                 clip: true
                 onMovementStarted:  {
                     panelManager.frozen = true;
                     refreshTimer.stop()
-                    //console.log("Movement started!");
                 }
 
                 onMovementEnded: {
                     refreshTimer.restart()
-                    //console.log("Movement ended!");
                 }
             }
 
@@ -290,21 +240,8 @@ FlipPanel {
                 //contentHeight: 400  //TODO JEA999
                 //contentWidth: 350   //TODO JEA999
                 autoCenter: true
-//                contentX: {
-
-//                    var realXY = topItem.topItem.mapFromItem(bpClearHistBtn, bpClearHistBtn.x,
-//                                                             bpClearHistBtn.y);
-//                    contentY = realXY.y;
-//                    return realXY.x;
-//                }
-//                    contentY: 100
                 content: BorderImage {
-                    //anchors.fill: parent
                     id: rectClearHist
-//                    height: mdlClearHeader.height + lvServices.height + btnModalClear.height //mdlClearHist.contentHeight
-//                    width: mdlClearHist.contentWidth
-                    //color: "#1d1d1d"    //THEME - TODO JEA999
-                    //clip: true
                     source: "image://theme/notificationBox_bg"
                     border.top: 14
                     border.left: 20
@@ -419,8 +356,6 @@ FlipPanel {
 
                     Button {
                         id: btnModalClear
-//                        height: panelSize.oneTenth
-//                        width: panelSize.oneFourth
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: panelSize.contentTopMargin
