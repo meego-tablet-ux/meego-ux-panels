@@ -79,7 +79,7 @@ FlipPanel {
             var count = 0;
             if (backSettingsModel.get(0).isVisible)
                 count = count + allPhotosListModel.count;
-            if (backSettingsModel.get(0).isVisible)
+            if (backSettingsModel.get(1).isVisible)
                 count = count + allAlbumsListModel.count;
             if (count)
                 return photoFront;
