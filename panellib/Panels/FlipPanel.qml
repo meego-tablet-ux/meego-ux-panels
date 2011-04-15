@@ -101,7 +101,7 @@ Flipable {
             we need to change the z value of it's parent*/
             PropertyChanges { target: flipablePanel.parent; z:1000}
             PropertyChanges { target: flipablePanel; anchors.topMargin:20}
-            PropertyChanges { target: panelsContainerFlickable; interactive:false }
+            PropertyChanges { target: allPanels; interactive:false }
         }
     ]
     transitions: Transition {

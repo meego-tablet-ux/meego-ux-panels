@@ -23,13 +23,13 @@ function startDrag(mouse)
     middlePanelOffset = mouse.x - middlePanel;
 
 
-    scrollMarginSize = panelsContainerFlickable.width/10;
+    scrollMarginSize = allPanels.width/10;
     scrollMarginXL = scrollMarginSize;
-    scrollMarginXR = panelsContainerFlickable.width - scrollMarginSize;
+    scrollMarginXR = allPanels.width - scrollMarginSize;
     scrollAmount = scrollMarginSize/2;
 
 //    console.log("Dragging panel " + flipablePanel.parent.aDisplayName + ", curIdx: " + flipablePanel.parent.aIndex);
-    var mousePosInWin = panelsContainerFlickable.mapFromItem(flipablePanel, mouse.x, mouse.y);
+    var mousePosInWin = allPanels.mapFromItem(flipablePanel, mouse.x, mouse.y);
     //If we picked up the panel in the right 1/10th of the view, we initially
     //disable right-scrolling so we don't immediately scroll on pick-up
     if (mousePosInWin.x >= scrollMarginXR) {
@@ -43,7 +43,7 @@ function continueDrag(mouse)
 {
     var newPanelX = (mouse.x - startingMouse) + flipablePanel.x
 
-    var mousePosInWin = panelsContainerFlickable.mapFromItem(flipablePanel, mouse.x, mouse.y)
+    var mousePosInWin = allPanels.mapFromItem(flipablePanel, mouse.x, mouse.y)
 
 
     //If scroll-right was disabled, re-enable it after we have drug (dragged?)
@@ -51,11 +51,11 @@ function continueDrag(mouse)
     if ((!enableScrollRight) && (mousePosInWin.x < scrollMarginXR))
         enableScrollRight = true;
 
-    var newX = panelsContainerFlickable.contentX;
+    var newX = allPanels.contentX;
     if (mousePosInWin.x < scrollMarginXL){
         newX -=  scrollAmount;
     } else if (((mousePosInWin.x > scrollMarginXR) && (enableScrollRight)) ||
-               ((!enableScrollRight) && (mousePosInWin.x >= panelsContainerFlickable.width))) {
+               ((!enableScrollRight) && (mousePosInWin.x >= allPanels.width))) {
         //If the touch point has moved to > the right scroll margin, or
         //If right scroll was disabled (due to picking up the panel in the
         //right scroll margin), but the user has moved their touch beyond the
@@ -67,16 +67,16 @@ function continueDrag(mouse)
     //Don't scroll the content view < 0, or beyond the last panel + .5 panel
     if (newX < 0)
         newX = 0;
-    else if (newX > (panelsContainerFlickable.contentWidth - middlePanel)) {
-        newX = panelsContainerFlickable.contentWidth - middlePanel;
+    else if (newX > (allPanels.contentWidth - middlePanel)) {
+        newX = allPanels.contentWidth - middlePanel;
     }
     //If we're dragging the last panel, don't scroll beyond what is sane
     if ((flipablePanel.parent.aIndex >= (allPanels.count - 1)) &&
-            (newX > (panelsContainerFlickable.contentWidth - panelsContainerFlickable.width))) {
-        newX = panelsContainerFlickable.contentWidth - panelsContainerFlickable.width;
+            (newX > (allPanels.contentWidth - allPanels.width))) {
+        newX = allPanels.contentWidth - allPanels.width;
     }
 
-    panelsContainerFlickable.contentX = newX;
+    allPanels.contentX = newX;
 
     //console.log("starting newPanelX: " + newPanelX);
     //If the user is dragging left on the very first panel, don't allow it.
@@ -119,6 +119,6 @@ function endDrag(mouse)
 
     flipablePanel.draggingFinished(oldIndex, newIndex)
     if (newIndex >= allPanels.count-1)
-        panelsContainerFlickable.contentX = allPanels.contentWidth - panelsContainerFlickable.width
+        allPanels.contentX = allPanels.contentWidth - allPanels.width
 }
 

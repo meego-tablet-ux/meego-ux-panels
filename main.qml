@@ -205,7 +205,7 @@ Window {
             anchors.fill: parent
             anchors.topMargin: theme.statusBarHeight
 
-            Flickable{
+/*            Flickable{
                 id: panelsContainerFlickable
                 anchors.fill: parent
 
@@ -215,152 +215,92 @@ Window {
                 height: parent.height
 
                 contentWidth: allPanels.width
-                property int currentItemIndex: -1
+//                property int currentItemIndex: -1
 
                 Behavior on contentWidth {
                     NumberAnimation { duration:500 }
                 }
-
-                ListView {                    
-                    interactive: false
-                    width: contentWidth
-                    height: parent.height
-                    orientation: ListView.Horizontal
-                    spacing: panelSize.panelOuterSpacing
+*/
+                ListView {
                     id: allPanels
-                    //property int currentItemIndex: -1
+                    anchors.topMargin: panelSize.panelOuterSpacing
+                    anchors.fill: parent
+                    interactive: true
+                    cacheBuffer: count * panelSize.baseSize
+                    flickableDirection: Flickable.HorizontalFlick
+                    orientation: ListView.Horizontal
+                    snapMode: ListView.SnapToItem
+                    spacing: panelSize.panelOuterSpacing
                     property bool animationEnabled: true
                     model:panelsModel
-                        delegate: Loader {
-                            id: contentLoader
-                            source: path
+                    delegate: Loader {
+                        id: contentLoader
+                        source: path
 
-                            height: parent.height
-                            //width: 640
-                            property QtObject aPanelObj: panelObj
-                            property string aDisplayName: displayName
-                            property int aIndex: index
+                        height: parent.height
+                        //width: 640
+                        property QtObject aPanelObj: panelObj
+                        property string aDisplayName: displayName
+                        property int aIndex: index
 
-                            function amIVisible() {
-                                //console.log("amIVisiblePanel")
-                                var minX = panelsContainerFlickable.visibleArea.xPosition * panelsContainerFlickable.contentWidth;
-                                var maxX = minX + panelsContainerFlickable.width;
-                                var myMinX = index * (item.width + panelSize.panelOuterSpacing);
-                                var myMaxX = ((index+1) * (item.width + panelSize.panelOuterSpacing))-panelSize.panelOuterSpacing;
-                                //console.log("amIVisiblePanel? minX: ", minX, "maxX: ", maxX);
-                                //console.log("amIVisiblePanel? idx: ", index, "displayName: ", displayName, "myMinX: ", myMinX, "myMaxX: ", myMaxX);
-                                if ((myMinX < minX) || (myMaxX > maxX)) {
-                                    //console.log("amIVisiblePanel? false");
-                                    return false;
-                                }
-                                //console.log("amIVisiblePanel? true");
-                                return true;
+                        function amIVisible() {
+                            //console.log("amIVisiblePanel")
+                            var minX = panelsContainerFlickable.visibleArea.xPosition * panelsContainerFlickable.contentWidth;
+                            var maxX = minX + panelsContainerFlickable.width;
+                            var myMinX = index * (item.width + panelSize.panelOuterSpacing);
+                            var myMaxX = ((index+1) * (item.width + panelSize.panelOuterSpacing))-panelSize.panelOuterSpacing;
+                            //console.log("amIVisiblePanel? minX: ", minX, "maxX: ", maxX);
+                            //console.log("amIVisiblePanel? idx: ", index, "displayName: ", displayName, "myMinX: ", myMinX, "myMaxX: ", myMaxX);
+                            if ((myMinX < minX) || (myMaxX > maxX)) {
+                                //console.log("amIVisiblePanel? false");
+                                return false;
                             }
-
-                            Component.onCompleted: {
-                                console.log("displayName: " + displayName + ", index: " + index)
-                            }
-
-
-                            Behavior on opacity{
-                                NumberAnimation { duration:250 }
-                            }
-
-                            Behavior on x {
-				id:moveSlowly
-				enabled: allPanels.animationEnabled 
-                                NumberAnimation { duration: 250}
-                            }
-
-                            Behavior on width {
-                                NumberAnimation { duration:250 }
-                            }
-
-                            onOpacityChanged :{
-                                if ( opacity == 0 )
-                                {
-                                    panelsModel.remove(index)
-                                    panelsContainerFlickable.contentWidth
-                                    = panelsContainerFlickable.contentWidth -(item.width + panelView.spacing)
-                                }
-
-                            }
-
-                            onLoaded:{
-                                //contentLoader.item.panelObj = panelObj
-                            }
-
-
-                            Connections {
-                                target: contentLoader.item
-                                onVisibleOptionClicked:{
-                                    if (allowHide) {
-                                        panelObj.IsVisible = false;
-                                    }
-                                }
-
-                                /*
-                                onStartDrag: {
-                                    allPanels.currentItemIndex = index
-                                }*/
-
-/*
-                                onWidthDistanceDragged: {
-
-                                    if (item.moveDirection )
-                                    {
-                                        panelView.children[allPanels.currentItemIndex].x=
-                                                panelView.children[allPanels.currentItemIndex].x
-                                        - ( panelView.children[allPanels.currentItemIndex].width
-                                            + panelView.spacing )
-
-                                        allPanels.currentItemIndex= allPanels.currentItemIndex+1
-                                    }
-                                    else{
-
-                                        panelView.children[allPanels.currentItemIndex-1].x=
-                                                panelView.children[allPanels.currentItemIndex-1].x +
-                                                panelView.children[allPanels.currentItemIndex-1].width + panelView.spacing
-                                        allPanels.currentItemIndex= allPanels.currentItemIndex-1
-                                    }
-                                }
-*/
-                                onDraggingFinished:{
-
-                                    console.log("------------oldIdx: " + oldIndex + ", newIdx: " + newIndex)
-                                    panelsModel.move(oldIndex, newIndex)
-//                                    var x;
-//                                    for (x in panelView.children) {
-//                                        panelView.children[x].x = x * (panelView.spacing + panelView.children[x].width)
-//                                    }
-
-//                                    var moveIndex=allPanels.currentItemIndex
-//                                    if (index == allPanels.currentItemIndex)
-//                                    {
-//                                    return;
-//                                    }
-//                                    else if (index < allPanels.currentItemIndex)
-//                                    {
-//                                     moveIndex=allPanels.currentItemIndex-1
-//                                    }
-//                                    else
-//                                    {
-//                                     moveIndex=allPanels.currentItemIndex
-//                                    }
-
-//                                    allPanels.animationEnabled=false
-//                                     panelView.children[index].x=
-//                                    allPanels.currentItemIndex * (panelView.spacing
-//                                    +panelView.children[allPanels.currentItemIndex].width)
-//                                    allPanels.animationEnabled=true
-
-                                } //onDraggingFinished
-                            }
+                            //console.log("amIVisiblePanel? true");
+                            return true;
                         }
-                    } //ListView/Repeater
-                //} //Row
 
-            }
+                        Component.onCompleted: {
+                            console.log("displayName: " + displayName + ", index: " + index)
+                        }
+
+                        Behavior on opacity {
+                            NumberAnimation { duration:250 }
+                        }
+
+                        Behavior on x {
+                            id:moveSlowly
+                            enabled: allPanels.animationEnabled 
+                            NumberAnimation { duration: 250}
+                        }
+
+                        Behavior on width {
+                            NumberAnimation { duration:250 }
+                        }
+
+                        onOpacityChanged: {
+                            if (opacity == 0) {
+                            panelsModel.remove(index)
+//                                    panelsContainerFlickable.contentWidth
+//                                    = panelsContainerFlickable.contentWidth -(item.width + panelView.spacing)
+                            }
+
+                        }
+
+                        Connections {
+                            target: contentLoader.item
+                            onVisibleOptionClicked:{
+                                if (allowHide) {
+                                    panelObj.IsVisible = false;
+                                }
+                            }
+
+                            onDraggingFinished:{
+                                console.log("------------oldIdx: " + oldIndex + ", newIdx: " + newIndex)
+                                panelsModel.move(oldIndex, newIndex)
+                            } //onDraggingFinished
+                        }
+                    } //Delegate - panel loader
+                }
         }
     }
 }
