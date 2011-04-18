@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as Ux
 import MeeGo.Settings 0.1
 
 import MeeGo.Panels 0.1
@@ -37,7 +38,7 @@ FlipPanel {
         parent: topItem.topItem
     }
 
-    TopItem {
+    Ux.TopItem {
         id:  topItem
     }
 

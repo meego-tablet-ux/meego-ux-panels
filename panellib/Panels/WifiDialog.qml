@@ -24,7 +24,7 @@ Item {
         networkListModel.initWifi()
     }
 
-    TopItem {
+    Ux.TopItem {
         id: topItem
     }
 

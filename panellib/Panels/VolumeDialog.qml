@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Labs.Components 0.1
+import MeeGo.Components 0.1 as Ux
 import MeeGo.Panels 0.1
 
 Item{
@@ -19,7 +20,7 @@ Item{
     property alias dlgY: bubble.y
     property alias offset: bubble.offset
 
-    TopItem {
+    Ux.TopItem {
         id: topItem
     }
 

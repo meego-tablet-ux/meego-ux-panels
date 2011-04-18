@@ -41,7 +41,7 @@ FlipPanel {
         refreshTimer.stop();
     }
 
-    TopItem {
+    Ux.TopItem {
         id: topItem
         parent: fpContainer
     }

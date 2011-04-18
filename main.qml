@@ -45,7 +45,7 @@ Window {
         anchors.fill: scene.content
         property variant overlay: null
 
-        TopItem {
+        Ux.TopItem {
             id: topItem
         }
 
