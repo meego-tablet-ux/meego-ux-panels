@@ -113,35 +113,37 @@ FlipPanel {
         id: videoFront
         Item {
 
-            ContextMenu {
+            Ux.ModalContextMenu {
                 id: ctxMenu
                 property string currentUrn
                 property string currentUri
 
-                model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
+                content: Ux.ActionMenu {
+                    model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
 
 
-                onTriggered: {
-                    if (model[index] == qsTr("Play")) {
-                        spinnerContainer.startSpinner();
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + currentUrn )
-                        container.notifyModel()
-                    } else if (model[index] == qsTr("Hide")){
-                        panelObj.addHiddenItem(currentUrn)
-                        recentlyViewed.hideItemByURN(currentUrn)
-                    }
-                    else if (model[index] == qsTr("Share"))
-                    {
-                        shareObj.clearItems();
-                        shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
-                        shareObj.addItem(currentUri);
-                        shareObj.showContextTypes(mouseX, mouseY);
-                    }
-                    else {
-                        console.log("Unhandled context action in Photos: " + model[index]);
+                    onTriggered: {
+                        if (model[index] == qsTr("Play")) {
+                            spinnerContainer.startSpinner();
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
+                            container.notifyModel()
+                        } else if (model[index] == qsTr("Hide")){
+                            panelObj.addHiddenItem(ctxMenu.currentUrn)
+                            recentlyViewed.hideItemByURN(ctxMenu.currentUrn)
+                        }
+                        else if (model[index] == qsTr("Share"))
+                        {
+                            shareObj.clearItems();
+                            shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
+                            shareObj.addItem(ctxMenu.currentUri);
+                            shareObj.showContextTypes(mouseX, mouseY);
+                        }
+                        else {
+                            console.log("Unhandled context action in Photos: " + model[index]);
+                        }
+                        ctxMenu.hide();
                     }
                 }
-
 
             }
 
@@ -176,9 +178,8 @@ FlipPanel {
                         var pos = previewItem.mapToItem(scene, mouse.x, mouse.y);
                         ctxMenu.currentUrn=urn;
                         ctxMenu.currentUri=uri;
-                        ctxMenu.mouseX = pos.x;
-                        ctxMenu.mouseY = pos.y;
-                        ctxMenu.visible= true
+                        ctxMenu.setPosition(pos.x, pos.y);
+                        ctxMenu.show();
 
                     }
                 }
