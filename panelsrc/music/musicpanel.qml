@@ -176,62 +176,7 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOne
 
-            ContextMenu {
-                id: ctxMenuRecent
-                property string currentUrn
-                property string currentUri
-                model:[ qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
-                onTriggered: {
-                    if (model[index] == qsTr("Open")) {
-                        spinnerContainer.startSpinner();
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --cdata " + currentUrn)
-                        container.notifyModel();
-                    } else if (model[index] == qsTr("Play")){
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --noraise --cdata " + currentUrn )
-                        //container.notifyModel();
-                    }
-                    else if(model[index] == qsTr("Share"))
-                    {
-                        shareObj.clearItems();
-                        shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
-                        shareObj.addItem(currentUri);
-                        shareObj.showContextTypes(mouseX, mouseY);
-                    }
-                    else if (model[index] == qsTr("Hide"))
-                    {
-                        panelObj.addHiddenItem(currentUrn)
-                        musicRecentsModel.hideItemByURN(currentUrn)
-                    }
-                    else {
-                        console.log("Unhandled context action in Photos: " + model[index]);
-                    }
-                }
 
-
-            }
-
-
-            ContextMenu {
-                id: ctxMenuAlbum
-                property string currentUrn
-                model:[ qsTr("Play"), qsTr("Hide")]
-
-                onTriggered: {
-                    if (model[index] == qsTr("Play")) {
-                        spinnerContainer.startSpinner();
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playAlbum --app meego-app-music --cdata " + currentUrn)
-                        container.notifyModel();
-                    } else if (model[index] == qsTr("Hide"))
-                    {
-                        panelObj.addHiddenItem(currentUrn)
-                        playlistsModel.hideItemByURN(currentUrn)
-                    }
-                    else {
-                        console.log("Unhandled context action in Photos: " + model[index]);
-                    }
-                }
-
-            }
 
             FrontPanelExpandableContent {
 
@@ -311,6 +256,43 @@ FlipPanel {
 
                 property int count: 0;
 
+                Ux.ModalContextMenu {
+                    id: ctxMenuRecent
+                    property string currentUrn
+                    property string currentUri
+
+                    content: Ux.ActionMenu {
+                        model:[qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
+                        onTriggered: {
+                            if (model[index] == qsTr("Open")) {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --cdata " + ctxMenuRecent.currentUrn)
+                                container.notifyModel();
+                            } else if (model[index] == qsTr("Play")){
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --noraise --cdata " + ctxMenuRecent.currentUrn )
+                                //container.notifyModel();
+                            }
+                            else if(model[index] == qsTr("Share"))
+                            {
+                                shareObj.clearItems();
+                                shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
+                                shareObj.addItem(ctxMenuRecent.currentUri);
+                                shareObj.showContextTypes(mouseX, mouseY);
+                            }
+                            else if (model[index] == qsTr("Hide"))
+                            {
+                                panelObj.addHiddenItem(ctxMenuRecent.currentUrn)
+                                musicRecentsModel.hideItemByURN(ctxMenuRecent.currentUrn)
+                            }
+                            else {
+                                console.log("Unhandled context action in Photos: " + model[index]);
+                            }
+                            ctxMenuRecent.hide();
+                        }
+                    }
+
+                }
+
                 contents: FrontPanelListView{
                     model: musicRecentsModel
                     width: parent.width
@@ -339,9 +321,8 @@ FlipPanel {
 
                             ctxMenuRecent.currentUrn=urn;
                             ctxMenuRecent.currentUri=uri;
-                            ctxMenuRecent.mouseX = pos.x;
-                            ctxMenuRecent.mouseY= pos.y;
-                            ctxMenuRecent.visible= true
+                            ctxMenuRecent.setPosition(pos.x, pos.y);
+                            ctxMenuRecent.show();
                         }
 
                     }
@@ -354,6 +335,30 @@ FlipPanel {
                 anchors.top: fpRecentMusic.bottom
                 text: qsTr("Playlists")
                 property int count: 0
+
+                Ux.ModalContextMenu {
+                    id: ctxMenuAlbum
+                    property string currentUrn
+                    content: Ux.ActionMenu {
+                        model:[ qsTr("Play"), qsTr("Hide")]
+
+                        onTriggered: {
+                            if (model[index] == qsTr("Play")) {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playAlbum --app meego-app-music --cdata " + ctxMenuAlbum.currentUrn)
+                                container.notifyModel();
+                            } else if (model[index] == qsTr("Hide"))
+                            {
+                                panelObj.addHiddenItem(ctxMenuAlbum.currentUrn)
+                                playlistsModel.hideItemByURN(ctxMenuAlbum.currentUrn)
+                            }
+                            else {
+                                console.log("Unhandled context action in Photos: " + model[index]);
+                            }
+                            ctxMenuAlbum.hide();
+                        }
+                    }
+                }
 
                 contents: FrontPanelListView{
                     model: playlistsModel
@@ -379,9 +384,8 @@ FlipPanel {
                             var pos = albumPreview.mapToItem(scene, mouse.x, mouse.y);
 
                             ctxMenuAlbum.currentUrn = urn
-                            ctxMenuAlbum.mouseX = pos.x;
-                            ctxMenuAlbum.mouseY = pos.y;
-                            ctxMenuAlbum.visible= true
+                            ctxMenuAlbum.setPosition(pos.x, pos.y);
+                            ctxMenuAlbum.show();
                         }
 
                     }
