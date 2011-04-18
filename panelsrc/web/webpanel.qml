@@ -173,47 +173,6 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOne
 
-            ContextMenu {
-                id: ctxMenuRecent
-                property variant currentUrl
-                property variant currentId
-                model:[ qsTr("View"), qsTr("Hide")]
-
-                onTriggered: {
-                    if (model[index] == qsTr("View")) {
-                        spinnerContainer.startSpinner();
-                        recentpagemodel.viewItem(currentUrl);
-                        container.notifyModel();
-                    } else if (model[index] == qsTr("Hide")){
-                        recentpagemodel.destroyItem(currentId)
-                    } else {
-                        console.log("Unhandled context action in Web: " + model[index]);
-                    }
-                }
-
-            }
-
-            ContextMenu {
-                id: ctxMenuBookMark
-                model:[ qsTr("View"), qsTr("Delete")]
-                property variant currentUrl
-                property int currentId
-
-                onTriggered: {
-                    if (model[index] == qsTr("View")) {
-                        spinnerContainer.startSpinner();
-                        bookmarkmodel.viewItem(currentUrl);
-                        container.notifyModel();
-                    } else if (model[index] == qsTr("Delete")){
-                        console.log("Delete")
-                        bookmarkmodel.destroyItem(currentId);
-                    } else {
-                        console.log("Unhandled context action in Web: " + model[index]);
-                    }
-                }
-
-            }
-
 
             FrontPanelExpandableContent {
                 id: fpecRecentSites
@@ -221,6 +180,29 @@ FlipPanel {
                 collapsible:false
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
+
+                Ux.ModalContextMenu {
+                    id: ctxMenuRecent
+                    property variant currentUrl
+                    property variant currentId
+                    content: Ux.ActionMenu {
+                        model:[ qsTr("View"), qsTr("Hide")]
+
+                        onTriggered: {
+                            if (model[index] == qsTr("View")) {
+                                spinnerContainer.startSpinner();
+                                recentpagemodel.viewItem(ctxMenuRecent.currentUrl);
+                                container.notifyModel();
+                            } else if (model[index] == qsTr("Hide")){
+                                recentpagemodel.destroyItem(ctxMenuRecent.currentId)
+                            } else {
+                                console.log("Unhandled context action in Web: " + model[index]);
+                            }
+                            ctxMenuRecent.hide();
+                        }
+                    }
+
+                }
 
                 contents:FrontPanelListView{
                     height: count * (((width/16)*9)+2)
@@ -241,13 +223,11 @@ FlipPanel {
                         }
 
                         onPressAndHold:{
-
                             var pos = webPreviewItem.mapToItem(scene, mouse.x, mouse.y);
                             ctxMenuRecent.currentUrl = url
                             ctxMenuRecent.currentId = id
-                            ctxMenuRecent.mouseX = pos.x;
-                            ctxMenuRecent.mouseY= pos.y;
-                            ctxMenuRecent.visible= true
+                            ctxMenuRecent.setPosition(pos.x, pos.y);
+                            ctxMenuRecent.show();
                         }
 
                     }
@@ -261,6 +241,28 @@ FlipPanel {
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
                 property int count: 0
 
+                Ux.ModalContextMenu {
+                    id: ctxMenuBookMark
+                    property variant currentUrl
+                    property int currentId
+
+                    content: Ux.ActionMenu {
+                        model:[ qsTr("View"), qsTr("Delete")]
+                        onTriggered: {
+                            if (model[index] == qsTr("View")) {
+                                spinnerContainer.startSpinner();
+                                bookmarkmodel.viewItem(ctxMenuBookMark.currentUrl);
+                                container.notifyModel();
+                            } else if (model[index] == qsTr("Delete")){
+                                console.log("Delete")
+                                bookmarkmodel.destroyItem(ctxMenuBookMark.currentId);
+                            } else {
+                                console.log("Unhandled context action in Web: " + model[index]);
+                            }
+                            ctxMenuBookMark.hide();
+                        }
+                    }
+                }
                 contents:FrontPanelListView {
                     height: (panelSize.contentItemHeight + 2) * count
                     model:bookmarkmodel
@@ -275,14 +277,14 @@ FlipPanel {
                             bookmarkmodel.viewItem(url);
                             container.notifyModel();
                         }
+
                         onPressAndHold:{
 
                             var pos = bookmarkPreview.mapToItem(scene, mouse.x, mouse.y);
                             ctxMenuBookMark.currentUrl = url
                             ctxMenuBookMark.currentId= id
-                            ctxMenuBookMark.mouseX = pos.x;
-                            ctxMenuBookMark.mouseY= pos.y;
-                            ctxMenuBookMark.visible= true
+                            ctxMenuBookMark.setPosition(pos.x, pos.y);
+                            ctxMenuBookMark.show();
                         }
 
                     }
