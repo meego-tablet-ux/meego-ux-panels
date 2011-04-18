@@ -140,20 +140,25 @@ FlipPanel {
             }
 
 
-            ContextMenu {
+            Ux.ModalContextMenu {
                 id: ctxMenu
-                mouseX: 50
-                mouseY: 50
+                property alias ctxModel: ctxActionMenu.model
+                property alias ctxPayload: ctxActionMenu.payload
 
-                onTriggered: {
-                    panelManager.frozen = false;
-                    if (model[index] == qsTr("View")) {
-                        spinnerContainer.startSpinner();
-                        payload[0].performStandardAction("default", payload[1]);
-                    } else if (model[index] == qsTr("Hide")) {
-                        payload[0].performStandardAction("hide", payload[1]);
-                    } else {
-                        console.log("Unhandled context action in Friends: " + model[index]);
+                content: Ux.ActionMenu {
+                    id: ctxActionMenu
+
+                    onTriggered: {
+                        panelManager.frozen = false;
+                        if (model[index] == qsTr("View")) {
+                            spinnerContainer.startSpinner();
+                            payload[0].performStandardAction("default", payload[1]);
+                        } else if (model[index] == qsTr("Hide")) {
+                            payload[0].performStandardAction("hide", payload[1]);
+                        } else {
+                            console.log("Unhandled context action in Friends: " + model[index]);
+                        }
+                        ctxMenu.hide();
                     }
                 }
             }
@@ -182,16 +187,15 @@ FlipPanel {
                         onPressAndHold: {
                             //console.log("got to onPressAndHold! Yay!" + myID);
                             if (type == "request")
-                                ctxMenu.model = [qsTr("Hide")];
+                                ctxMenu.ctxModel = [qsTr("Hide")];
                             else
-                                ctxMenu.model = [qsTr("View"), qsTr("Hide")]
-                            ctxMenu.payload = [actions, myID];
+                                ctxMenu.ctxModel = [qsTr("View"), qsTr("Hide")]
+                            ctxMenu.ctxPayload = [actions, myID];
 
                             var mousePos = friendsItemDel.mapToItem(topItem.topItem, mouse.x, mouse.y);
 
-                            ctxMenu.mouseX = mousePos.x;
-                            ctxMenu.mouseY = mousePos.y;
-                            ctxMenu.visible = true;
+                            ctxMenu.setPosition(mousePos.x, mousePos.y);
+                            ctxMenu.show();
                         }
                         onClicked: {
                             //console.log("got to onClicked! Yay!" + myID);
