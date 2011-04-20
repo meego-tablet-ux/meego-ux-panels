@@ -50,35 +50,13 @@ Flipable {
         target: front
         //onWheelIconPressed: state = 'back'
         onTitleClicked: {state = 'back'; flipablePanel.flipped();}
-        onReleased:{ globalX=front.globalX
-            localMousePosition= front.localMousePosition
-            originalGlobalPosition=front.originalGlobalPosition
-            flipablePanel.released()
-        }
-
-
-        onRightIconPressed:{
-            flipablePanel.state ="draggingMode"
-            Code.startDrag(mouse)
-
-        }
-
-        onRightIconPositionChanged:{
-                Code.continueDrag(mouse)
-        }
-
-        onRightIconReleased:{
-
-            Code.endDrag(mouse)
-            flipablePanel.state =""
-        }
-
+        onRightIconClicked: {state = 'back'; flipablePanel.flipped();}
     }
     Connections {
         target: back
         //onRightIconPressed: { state = ''; flipablePanel.flipToFront(); }
         onTitleClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
-        onReleased:{  flipablePanel.released() }
+        onRightIconClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
     }
 
     anchors { bottom: parent.bottom; top: parent.top }

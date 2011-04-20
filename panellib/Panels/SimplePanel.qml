@@ -25,9 +25,7 @@ Item {
     signal titleClicked
     signal titlePressAndHold
     signal wheelIconPressed
-    signal rightIconPressed(variant mouse)
-    signal rightIconPositionChanged(variant mouse)
-    signal rightIconReleased(variant mouse)
+    signal rightIconClicked
     signal released
 
     width: panelBG.width + panelDSL.width + panelDSR.width
@@ -100,6 +98,8 @@ Item {
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconReleased(mappedMouse)
                    }
+
+                   onClicked: simplePanel.rightIconClicked()
                }
             }
         }
