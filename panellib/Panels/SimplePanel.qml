@@ -28,7 +28,7 @@ Item {
     signal rightIconClicked
     signal released
 
-    width: panelBG.width + panelDSL.width + panelDSR.width
+    width: panelBG.width
     height: parent.height
     anchors.top: parent.top
     anchors.bottom: parent.bottom
@@ -112,21 +112,10 @@ Item {
     }
 
     Image {
-        id: panelDSL
-        source: "image://themedimage/images/panels/pnl_shadow_left"
-        width: sourceSize.width
-        height: parent.height
-        anchors.left: parent.left
-        anchors.top: panelHeader.bottom
-        anchors.bottom: parent.bottom
-        fillMode: Image.TileVertically
-    }
-
-    Image {
         id: panelBG
-        source: "image://themedimage/images/panels/pnl_bg" + (isBackPanel ? "_setting" : "")
+        source: "image://meegotheme/widgets/apps/panels/panel-background"
         width: sourceSize.width
-        anchors.left:  panelDSL.right
+        anchors.left:  parent.left
         height: parent.height
         anchors.bottom: parent.bottom
         anchors.top: panelHeader.top
@@ -141,16 +130,5 @@ Item {
         anchors.left: panelBG.left
         anchors.top: panelHeader.bottom
         anchors.bottom: parent.bottom
-    }
-
-    Image {
-        id: panelDSR
-        source: "image://themedimage/images/panels/pnl_shadow_right"
-        width: sourceSize.width
-        height: parent.height
-        anchors.left: panelBG.right
-        anchors.top: panelHeader.bottom
-        anchors.bottom: parent.bottom
-        fillMode: Image.TileVertically
     }
 }

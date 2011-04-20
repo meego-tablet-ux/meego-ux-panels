@@ -112,7 +112,7 @@ Window {
 
     Image {
         opacity: 0
-        source: "image://themedimage/images/panels/pnl_bg"
+        source: "image://meegotheme/widgets/apps/panels/panel-background"
         width: sourceSize.width
         height: sourceSize.height
         asynchronous: false
