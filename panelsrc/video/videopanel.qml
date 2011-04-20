@@ -117,6 +117,7 @@ FlipPanel {
                 id: ctxMenu
                 property string currentUrn
                 property string currentUri
+                property variant menuPos
 
                 content: Ux.ActionMenu {
                     model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
@@ -136,7 +137,8 @@ FlipPanel {
                             shareObj.clearItems();
                             shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
                             shareObj.addItem(ctxMenu.currentUri);
-                            shareObj.showContextTypes(mouseX, mouseY);
+                            ctxMenu.hide()
+                            shareObj.showContextTypes(ctxMenu.menuPos.x, ctxMenu.menuPos.y);
                         }
                         else {
                             console.log("Unhandled context action in Photos: " + model[index]);
@@ -178,6 +180,7 @@ FlipPanel {
                         var pos = previewItem.mapToItem(scene, mouse.x, mouse.y);
                         ctxMenu.currentUrn=urn;
                         ctxMenu.currentUri=uri;
+                        ctxMenu.menuPos = pos;
                         ctxMenu.setPosition(pos.x, pos.y);
                         ctxMenu.show();
 

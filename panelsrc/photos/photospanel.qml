@@ -151,6 +151,7 @@ FlipPanel {
                 id: ctxMenuPhoto
                 property string currentUrn
                 property string currentUri
+                property variant menuPos
                 content: Ux.ActionMenu {
                     model:[qsTr("Open"), qsTr("Share") ,qsTr("Hide"), qsTr("Set as background")]
                     onTriggered: {
@@ -166,7 +167,8 @@ FlipPanel {
                             shareObj.clearItems();
                             shareObj.addItem(ctxMenuPhoto.currentUri);
                             shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeImage
-                            shareObj.showContextTypes(mouseX, mouseY);
+                            ctxMenuPhoto.hide()
+                            shareObj.showContextTypes(ctxMenuPhoto.menuPos.x, ctxMenuPhoto.menuPos.y);
                         }
                         else {
                             backgroundModel.activeWallpaper = ctxMenuPhoto.currentUri;
@@ -245,6 +247,7 @@ FlipPanel {
 
                             ctxMenuPhoto.currentUrn= urn
                             ctxMenuPhoto.currentUri=uri;
+                            ctxMenuPhoto.menuPos = pos;
                             ctxMenuPhoto.setPosition(pos.x, pos.y);
                             ctxMenuPhoto.show();
                         }

@@ -260,6 +260,7 @@ FlipPanel {
                     id: ctxMenuRecent
                     property string currentUrn
                     property string currentUri
+                    property variant menuPos
 
                     content: Ux.ActionMenu {
                         model:[qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
@@ -277,7 +278,8 @@ FlipPanel {
                                 shareObj.clearItems();
                                 shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
                                 shareObj.addItem(ctxMenuRecent.currentUri);
-                                shareObj.showContextTypes(mouseX, mouseY);
+                                ctxMenuRecent.hide()
+                                shareObj.showContextTypes(ctxMenuRecent.menuPos.x, ctxMenuRecent.menuPos.y);
                             }
                             else if (model[index] == qsTr("Hide"))
                             {
@@ -321,6 +323,7 @@ FlipPanel {
 
                             ctxMenuRecent.currentUrn=urn;
                             ctxMenuRecent.currentUri=uri;
+                            ctxMenuRecent.menuPos = pos;
                             ctxMenuRecent.setPosition(pos.x, pos.y);
                             ctxMenuRecent.show();
                         }
