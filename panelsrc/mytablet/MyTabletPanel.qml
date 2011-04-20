@@ -240,25 +240,25 @@ FlipPanel {
             }
 
 
-            ListView {
+            Column {
                 id:fplvTopApps
-                model:favoriteApplicationsItems
                 anchors.top:fpGridTopApps.bottom
                 width:parent.width
-                height:contentHeight
-                interactive:false
-                delegate: FrontPanelIconTextItem {
-                    text: qsTr(title)
-                    onClicked: {
-                        spinnerContainer.startSpinner();
-                        if( actionType == "javaScript" )
-                            eval(action)
-                        else if ( actionType == "launchDesktop")
-                        {
-                            appsModel.favorites.append(action);
-                            qApp.launchDesktopByName(action);
-                        } else if (actionType == "appStore") {
-                            qApp.showAppStore();
+                Repeater {
+                    model:favoriteApplicationsItems
+                    delegate: FrontPanelIconTextItem {
+                        text: qsTr(title)
+                        onClicked: {
+                            spinnerContainer.startSpinner();
+                            if( actionType == "javaScript" )
+                                eval(action)
+                            else if ( actionType == "launchDesktop")
+                            {
+                                appsModel.favorites.append(action);
+                                qApp.launchDesktopByName(action);
+                            } else if (actionType == "appStore") {
+                                qApp.showAppStore();
+                            }
                         }
                     }
                 }
@@ -272,32 +272,32 @@ FlipPanel {
         Item {
             width: parent.width
             height: lvSettings.height
-            ListView {
+            Column {
                 id: lvSettings
                 width: parent.width
-                height: contentHeight
-                model: settingsModel
-                interactive: false
-                delegate: FrontPanelIconTextItem {
-                    id:fpPanelIconTextItem
-                    text: qsTr(title)
-                    imageSource: icon
-                    zoomImage: false
+                Repeater {
+                    model: settingsModel
+                    delegate: FrontPanelIconTextItem {
+                        id:fpPanelIconTextItem
+                        text: qsTr(title)
+                        imageSource: icon
+                        zoomImage: false
 
-                    onClicked: {
-                        var posInWindow = fpPanelIconTextItem.mapToItem(topItem.topItem, mouse.x, mouse.y)
-                        if (type == "wifi") {
-                            wifiDialog.dlgX = posInWindow.x;
-                            wifiDialog.dlgY = posInWindow.y;
-                            wifiDialog.visible = true;
-                        } else if (type == "sound") {
-                            volumeDialog.dlgX = posInWindow.x;
-                            volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
-                            volumeDialog.visible = true;
-                        } else if (type == "launchDesktop") {
-                            spinnerContainer.startSpinner();
-                            appsModel.favorites.append(launchName);
-                            qApp.launchDesktopByName(launchName);
+                        onClicked: {
+                            var posInWindow = fpPanelIconTextItem.mapToItem(topItem.topItem, mouse.x, mouse.y)
+                            if (type == "wifi") {
+                                wifiDialog.dlgX = posInWindow.x;
+                                wifiDialog.dlgY = posInWindow.y;
+                                wifiDialog.visible = true;
+                            } else if (type == "sound") {
+                                volumeDialog.dlgX = posInWindow.x;
+                                volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
+                                volumeDialog.visible = true;
+                            } else if (type == "launchDesktop") {
+                                spinnerContainer.startSpinner();
+                                appsModel.favorites.append(launchName);
+                                qApp.launchDesktopByName(launchName);
+                            }
                         }
                     }
                 }
