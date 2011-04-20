@@ -79,7 +79,6 @@ Item {
                source: "image://meegotheme/widgets/apps/panels/flip-panel"
                width: sourceSize.width
                height: sourceSize.height
-               visible: !isBackPanel
 
                MouseArea {
                    anchors.fill: parent
