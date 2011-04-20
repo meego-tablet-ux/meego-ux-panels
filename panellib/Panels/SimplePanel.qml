@@ -53,13 +53,12 @@ Item {
             anchors.left: parent.left
             height: sourceSize.height
             width: sourceSize.width
-            source: (panelObj.Color == "" ? "image://themedimage/images/panels/pnl_titlebar" :
-                     "image://themedimage/images/panels/pnl_titlebar_" + panelObj.Color)
+            source: "image://meegotheme/widgets/apps/panels/panel-header-" + panelObj.UniqueName
 
             onStatusChanged: {
                 if (status == Image.Error) {
                     //If we can't load the colored titlebar, fall back to default
-                    source = "image://themedimage/images/panels/pnl_titlebar"
+                    source = "image://meegotheme/widgets/apps/panels/panel-header"
                 }
             }
 
