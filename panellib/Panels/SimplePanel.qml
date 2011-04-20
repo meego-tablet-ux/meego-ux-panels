@@ -78,7 +78,7 @@ Item {
                anchors.rightMargin: panelSize.contentSideMargin
                anchors.right: parent.right
                anchors.verticalCenter: parent.verticalCenter
-               source: "image://themedimage/images/panels/" + (isBackPanel ? "pnl_icn_flip_up" : "pnl_grip_up")
+               source: "image://meegotheme/widgets/apps/panels/flip-panel"
                width: sourceSize.width
                height: sourceSize.height
                visible: !isBackPanel
@@ -86,7 +86,7 @@ Item {
                MouseArea {
                    anchors.fill: parent
                    onPressed: {
-                       rightIcon.source = "image://themedimage/images/panels/" + (isBackPanel ? "pnl_icn_flip_dn" : "pnl_grip_dn")
+                       rightIcon.source = "image://meegotheme/widgets/apps/panels/flip-panel-active"
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconPressed(mappedMouse)
                    }
@@ -96,7 +96,7 @@ Item {
                    }
 
                    onReleased: {
-                       rightIcon.source = "image://themedimage/images/panels/" + (isBackPanel ? "pnl_icn_flip_up" : "pnl_grip_up")
+                       rightIcon.source = "image://meegotheme/widgets/apps/panels/flip-panel"
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconReleased(mappedMouse)
                    }
