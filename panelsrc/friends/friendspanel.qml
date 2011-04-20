@@ -26,7 +26,6 @@ FlipPanel {
         id: frontPanel
         panelTitle: qsTr("Friends")
         panelComponent: frontPanelContent
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_friends"
     }
 
     back: BackPanelGeneric {
@@ -35,7 +34,6 @@ FlipPanel {
         subheaderText: qsTr("Friends panel content")
         bpContent: backPanelContent
         isBackPanel: true
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_friends"
     }
 
     onFlipToFront: {

@@ -187,7 +187,6 @@ FlipPanel {
         subheaderText: qsTr("My Tablet content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_tablet"
 
         clearButtonVisible:false
     }

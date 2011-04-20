@@ -91,7 +91,6 @@ FlipPanel {
                 return itemModelOOBE;
 //            (((playlistsModel.count + musicRecentsModel.count == 0) && (musicIntf.state != "playing" && musicIntf.state != "paused")) ? itemModelOOBE : itemModelOne)
         }
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_music"
     }
 
     back: BackPanelStandard {
@@ -100,7 +99,6 @@ FlipPanel {
         //panelContent: itemModelSizes
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_music"
 
         onClearHistClicked:{
             musicRecentsModel.clear()

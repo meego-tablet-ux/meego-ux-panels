@@ -89,7 +89,6 @@ FlipPanel {
 //            (allPhotosListModel.count + allAlbumsListModel.count == 0 ? photoOOBE : photoFront)
 
         }
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_photos"
     }
 
     back: BackPanelStandard {
@@ -97,8 +96,6 @@ FlipPanel {
         subheaderText: qsTr("Photos panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_photos"
-
 
         onClearHistClicked:{
            allPhotosListModel.clear()

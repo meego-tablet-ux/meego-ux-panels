@@ -117,7 +117,6 @@ FlipPanel {
                 return itemModelOOBE;
 //            (fpecRecentSites.count + fpecBookmarks.count == 0 ? itemModelOOBE : itemModelOne)
         }
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_web"
     }
 
     back: BackPanelStandard {
@@ -125,7 +124,6 @@ FlipPanel {
         subheaderText: qsTr("Web panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_web"
 
         onClearHistClicked:{
            recentpagemodel.clearAllItems()

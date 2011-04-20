@@ -55,7 +55,6 @@ FlipPanel {
     front: SimplePanel {
         panelTitle: qsTr("Video")
         panelComponent: (recentlyViewed.count == 0 ? videoOOBE : videoFront)
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_video"
     }
 
     back: BackPanelStandard {
@@ -63,8 +62,6 @@ FlipPanel {
         subheaderText: qsTr("Video panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_video"
-
 
         onClearHistClicked:{
             recentlyViewed.clear()

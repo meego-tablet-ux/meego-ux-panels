@@ -17,7 +17,6 @@ Item {
     id: simplePanel
 
     property alias panelTitle: titleText.text
-    property alias leftIconSource: leftIcon.source
 
     property bool isBackPanel: false
     property Component panelComponent //Set this to a Component with the contents
@@ -26,9 +25,6 @@ Item {
     signal titleClicked
     signal titlePressAndHold
     signal wheelIconPressed
-    signal leftIconPressed(variant mouse)
-    signal leftIconReleased(variant mouse)
-    signal leftIconMousePositionChanged(variant mouse)
     signal rightIconPressed(variant mouse)
     signal rightIconPositionChanged(variant mouse)
     signal rightIconReleased(variant mouse)
@@ -75,16 +71,6 @@ Item {
                 color: panelColors.textColor
                 font.pixelSize: theme.fontPixelSizeLarge
                 text: panelTitle
-            }
-
-            Image {
-                id: leftIcon
-                anchors.left: parent.left
-                anchors.leftMargin: panelSize.contentSideMargin
-                anchors.verticalCenter: parent.verticalCenter
-                width: sourceSize.width
-                height: sourceSize.height
-
             }
 
             Image {
