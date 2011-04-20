@@ -47,7 +47,9 @@ Item {
             anchors.left: parent.left
             height: sourceSize.height
             width: sourceSize.width
-            source: "image://meegotheme/widgets/apps/panels/panel-header-" + panelObj.UniqueName
+            source: simplePanel.isBackPanel ?
+                    "image://meegotheme/widgets/apps/panels/panel-header-reverse" :
+                    "image://meegotheme/widgets/apps/panels/panel-header-" + panelObj.UniqueName
 
             onStatusChanged: {
                 if (status == Image.Error) {
