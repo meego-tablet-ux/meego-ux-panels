@@ -261,16 +261,17 @@ FlipPanel {
                     property string currentUrn
                     property string currentUri
                     property variant menuPos
+                    property string playCommand
 
                     content: Ux.ActionMenu {
                         model:[qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
                         onTriggered: {
                             if (model[index] == qsTr("Open")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --cdata " + ctxMenuRecent.currentUrn)
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --cdata " + ctxMenuRecent.currentUrn)
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Play")){
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd playSong --app meego-app-music --noraise --cdata " + ctxMenuRecent.currentUrn )
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuRecent.currentUrn )
                                 //container.notifyModel();
                             }
                             else if(model[index] == qsTr("Share"))
@@ -310,11 +311,31 @@ FlipPanel {
                         imagePlayStatus: false //playstatus == 2
                         onClicked:{
                             spinnerContainer.startSpinner();
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playSong --app meego-app-music --cdata " + urn)
+                            var playCommand = "playSong";
+                            if (mitemtype == MediaItem.SongItem)
+                                playCommand = "playSong";
+                            else if (mitemtype == MediaItem.MusicArtistItem)
+                                playCommand = "playArtist";
+                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                                playCommand = "playAlbum";
+                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                                playCommand = "playPlaylist";
+
+                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
                             container.notifyModel();
                         }
                         onPlayButtonClicked: {
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playSong --app meego-app-music --noraise --cdata " + urn )                            
+                            var playCommand = "playSong";
+                            if (mitemtype == MediaItem.SongItem)
+                                playCommand = "playSong";
+                            else if (mitemtype == MediaItem.MusicArtistItem)
+                                playCommand = "playArtist";
+                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                                playCommand = "playAlbum";
+                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                                playCommand = "playPlaylist";
+
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --noraise --cdata " + urn)
                         }
 
                         //For the context Menu
@@ -323,6 +344,18 @@ FlipPanel {
 
                             ctxMenuRecent.currentUrn=urn;
                             ctxMenuRecent.currentUri=uri;
+
+                            var playCommand = "playSong";
+                            if (mitemtype == MediaItem.SongItem)
+                                playCommand = "playSong";
+                            else if (mitemtype == MediaItem.MusicArtistItem)
+                                playCommand = "playArtist";
+                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                                playCommand = "playAlbum";
+                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                                playCommand = "playPlaylist";
+
+                            ctxMenuRecent.playCommand = playCommand
                             ctxMenuRecent.menuPos = pos;
                             ctxMenuRecent.setPosition(pos.x, pos.y);
                             ctxMenuRecent.show();
