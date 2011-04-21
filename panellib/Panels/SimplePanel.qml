@@ -128,8 +128,8 @@ Item {
     Loader {
         id: contentLoader
         sourceComponent: panelComponent
-        anchors.left: panelBG.left
-        anchors.right: panelBG.right
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.leftMargin: 7
         anchors.rightMargin: 8
         anchors.top: panelHeader.bottom
