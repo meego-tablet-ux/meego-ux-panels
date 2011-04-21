@@ -107,7 +107,9 @@ Item {
     }
     Image {
         id: fpTitleDropShadow
-        source: "image://themedimage/images/panels/pnl_titlebar_shadow"
+        source: simplePanel.isBackPanel ?
+                "image://meegotheme/widgets/apps/panels/panel-header-reverse-shadow" :
+                "image://meegotheme/widgets/apps/panels/panel-header-shadow"
         width: panelHeader.width
         anchors.top: panelHeader.bottom
         z: panelHeader.z
