@@ -122,16 +122,16 @@ Item {
         anchors.left:  parent.left
         height: parent.height
         anchors.bottom: parent.bottom
-        anchors.top: panelHeader.top
-        anchors.topMargin: 6
-
+        anchors.top: panelHeader.bottom
     }
 
     Loader {
         id: contentLoader
         sourceComponent: panelComponent
-        width: panelBG.width
         anchors.left: panelBG.left
+        anchors.right: panelBG.right
+        anchors.leftMargin: 7
+        anchors.rightMargin: 8
         anchors.top: panelHeader.bottom
         anchors.bottom: parent.bottom
     }
