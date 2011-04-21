@@ -67,7 +67,8 @@ Item {
             Text {
                 id: titleText
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: panelSize.contentSideMargin
                 color: panelColors.textColor
                 font.pixelSize: theme.fontPixelSizeLarge
                 text: panelTitle
