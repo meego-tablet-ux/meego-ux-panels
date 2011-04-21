@@ -348,7 +348,7 @@ FlipPanel {
                         onTriggered: {
                             if (model[index] == qsTr("Play")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playAlbum --app meego-app-music --cdata " + ctxMenuAlbum.currentUrn)
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playPlaylist --app meego-app-music --cdata " + ctxMenuAlbum.currentUrn)
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Hide"))
                             {
@@ -378,7 +378,7 @@ FlipPanel {
 
                         onClicked:{
                             spinnerContainer.startSpinner();
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playAlbum --app meego-app-music --cdata " + urn)
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playPlaylist --app meego-app-music --cdata " + urn)
                             container.notifyModel();
                         }
 
