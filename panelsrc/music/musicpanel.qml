@@ -396,10 +396,9 @@ FlipPanel {
                     }
                 }
 
-                contents: FrontPanelListView{
+                contents: FrontPanelColumnView{
                     model: playlistsModel
                     width: parent.width
-                    height: count * (panelSize.contentItemHeight + 2)
                     onCountChanged: fpPlaylists.count = count
                     Component.onCompleted: fpPlaylists.count = count
                     delegate: FrontPanelIconTextItem {

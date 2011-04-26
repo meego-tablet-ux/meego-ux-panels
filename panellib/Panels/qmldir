@@ -16,6 +16,7 @@ FrontPanelGridImageItem 0.1 FrontPanelGridImageItem.qml
 FrontPanelGridView 0.1 FrontPanelGridView.qml
 FrontPanelIconTextItem 0.1 FrontPanelIconTextItem.qml
 FrontPanelListView 0.1 FrontPanelListView.qml
+FrontPanelColumnView 0.1 FrontPanelColumnView.qml
 FrontPanelSubHeader 0.1 FrontPanelSubHeader.qml
 PanelComposition 0.1 PanelComposition.qml
 Panel 0.1 Panel.qml

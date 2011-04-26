@@ -9,11 +9,10 @@
 import Qt 4.7
 import MeeGo.Panels 0.1
 
-FrontPanelListView {
+FrontPanelColumnView {
 
     id: fpMusicTrackListView
     width: parent.width
-    height: count * (panelSize.contentItemHeight + 2)
     delegate: trackComponent
 
     Component {
