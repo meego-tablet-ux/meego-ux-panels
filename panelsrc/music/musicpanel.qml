@@ -229,6 +229,45 @@ FlipPanel {
 
                         text:qsTr("Play queue")
                         collapsible: false
+                        Ux.ModalContextMenu {
+                            id: ctxMenuQueue
+                            property string currentUrn
+                            property string currentUri
+                            property variant menuPos
+                            property string playCommand
+
+                            content: Ux.ActionMenu {
+                                model:[qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
+                                onTriggered: {
+                                    if (model[index] == qsTr("Open")) {
+                                        spinnerContainer.startSpinner();
+                                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --cdata " + ctxMenuQueue.currentUrn)
+                                        container.notifyModel();
+                                    } else if (model[index] == qsTr("Play")){
+                                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
+                                        //container.notifyModel();
+                                    }
+                                    else if(model[index] == qsTr("Share"))
+                                    {
+                                        shareObj.clearItems();
+                                        shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
+                                        shareObj.addItem(ctxMenuQueue.currentUri);
+                                        ctxMenuQueue.hide()
+                                        shareObj.showContextTypes(ctxMenuQueue.menuPos.x, ctxMenuQueue.menuPos.y);
+                                    }
+                                    else if (model[index] == qsTr("Hide"))
+                                    {
+                                        panelObj.addHiddenItem(ctxMenuQueue.currentUrn)
+                                        musicRecentsModel.hideItemByURN(ctxMenuQueue.currentUrn)
+                                    }
+                                    else {
+                                        console.log("Unhandled context action in Photos: " + model[index]);
+                                    }
+                                    ctxMenuQueue.hide();
+                                }
+                            }
+
+                        }
                         MusicListModel {
                             id: nextTwo
                             type: MusicListModel.Editor
@@ -236,12 +275,12 @@ FlipPanel {
                         }
                         contents: FrontPanelMusicTrackListView{
                             model: nextTwo
+                            contextMenu: ctxMenuQueue
                             onCountChanged: {
                                 playqueueItem.count = count
                                 //console.log("********nextTwo count changed: " + count)
                             }
                         }
-
                     }
                 }
 
