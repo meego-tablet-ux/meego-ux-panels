@@ -351,13 +351,13 @@ FlipPanel {
                         onClicked:{
                             spinnerContainer.startSpinner();
                             var playCommand = "playSong";
-                            if (mitemtype == MediaItem.SongItem)
+                            if (itemtype == MediaItem.SongItem)
                                 playCommand = "playSong";
-                            else if (mitemtype == MediaItem.MusicArtistItem)
+                            else if (itemtype == MediaItem.MusicArtistItem)
                                 playCommand = "playArtist";
-                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                            else if (itemtype == MediaItem.MusicAlbumItem)
                                 playCommand = "playAlbum";
-                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                            else if (itemtype == MediaItem.MusicPlaylistItem)
                                 playCommand = "playPlaylist";
 
                             appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
@@ -365,13 +365,13 @@ FlipPanel {
                         }
                         onPlayButtonClicked: {
                             var playCommand = "playSong";
-                            if (mitemtype == MediaItem.SongItem)
+                            if (itemtype == MediaItem.SongItem)
                                 playCommand = "playSong";
-                            else if (mitemtype == MediaItem.MusicArtistItem)
+                            else if (itemtype == MediaItem.MusicArtistItem)
                                 playCommand = "playArtist";
-                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                            else if (itemtype == MediaItem.MusicAlbumItem)
                                 playCommand = "playAlbum";
-                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                            else if (itemtype == MediaItem.MusicPlaylistItem)
                                 playCommand = "playPlaylist";
 
                             appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --noraise --cdata " + urn)
@@ -385,13 +385,13 @@ FlipPanel {
                             ctxMenuRecent.currentUri=uri;
 
                             var playCommand = "playSong";
-                            if (mitemtype == MediaItem.SongItem)
+                            if (itemtype == MediaItem.SongItem)
                                 playCommand = "playSong";
-                            else if (mitemtype == MediaItem.MusicArtistItem)
+                            else if (itemtype == MediaItem.MusicArtistItem)
                                 playCommand = "playArtist";
-                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                            else if (itemtype == MediaItem.MusicAlbumItem)
                                 playCommand = "playAlbum";
-                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                            else if (itemtype == MediaItem.MusicPlaylistItem)
                                 playCommand = "playPlaylist";
 
                             ctxMenuRecent.playCommand = playCommand
