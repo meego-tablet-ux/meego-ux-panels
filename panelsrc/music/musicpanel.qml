@@ -229,6 +229,40 @@ FlipPanel {
 
                         text:qsTr("Play queue")
                         collapsible: false
+                        Ux.ModalContextMenu {
+                            id: ctxMenuQueue
+                            property string currentUrn
+                            property string currentUri
+                            property variant menuPos
+                            property string playCommand
+
+                            content: Ux.ActionMenu {
+                                model:[qsTr("Open"), qsTr("Play"), qsTr("Share")]
+                                onTriggered: {
+                                    if (model[index] == qsTr("Open")) {
+                                        spinnerContainer.startSpinner();
+                                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --cdata " + ctxMenuQueue.currentUrn)
+                                        container.notifyModel();
+                                    } else if (model[index] == qsTr("Play")){
+                                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
+                                        //container.notifyModel();
+                                    }
+                                    else if(model[index] == qsTr("Share"))
+                                    {
+                                        shareObj.clearItems();
+                                        shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
+                                        shareObj.addItem(ctxMenuQueue.currentUri);
+                                        ctxMenuQueue.hide()
+                                        shareObj.showContextTypes(ctxMenuQueue.menuPos.x, ctxMenuQueue.menuPos.y);
+                                    }
+                                    else {
+                                        console.log("Unhandled context action in Photos: " + model[index]);
+                                    }
+                                    ctxMenuQueue.hide();
+                                }
+                            }
+
+                        }
                         MusicListModel {
                             id: nextTwo
                             type: MusicListModel.Editor
@@ -236,12 +270,12 @@ FlipPanel {
                         }
                         contents: FrontPanelMusicTrackListView{
                             model: nextTwo
+                            contextMenu: ctxMenuQueue
                             onCountChanged: {
                                 playqueueItem.count = count
                                 //console.log("********nextTwo count changed: " + count)
                             }
                         }
-
                     }
                 }
 
@@ -312,13 +346,13 @@ FlipPanel {
                         onClicked:{
                             spinnerContainer.startSpinner();
                             var playCommand = "playSong";
-                            if (mitemtype == MediaItem.SongItem)
+                            if (itemtype == MediaItem.SongItem)
                                 playCommand = "playSong";
-                            else if (mitemtype == MediaItem.MusicArtistItem)
+                            else if (itemtype == MediaItem.MusicArtistItem)
                                 playCommand = "playArtist";
-                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                            else if (itemtype == MediaItem.MusicAlbumItem)
                                 playCommand = "playAlbum";
-                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                            else if (itemtype == MediaItem.MusicPlaylistItem)
                                 playCommand = "playPlaylist";
 
                             appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
@@ -326,13 +360,13 @@ FlipPanel {
                         }
                         onPlayButtonClicked: {
                             var playCommand = "playSong";
-                            if (mitemtype == MediaItem.SongItem)
+                            if (itemtype == MediaItem.SongItem)
                                 playCommand = "playSong";
-                            else if (mitemtype == MediaItem.MusicArtistItem)
+                            else if (itemtype == MediaItem.MusicArtistItem)
                                 playCommand = "playArtist";
-                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                            else if (itemtype == MediaItem.MusicAlbumItem)
                                 playCommand = "playAlbum";
-                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                            else if (itemtype == MediaItem.MusicPlaylistItem)
                                 playCommand = "playPlaylist";
 
                             appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --noraise --cdata " + urn)
@@ -346,13 +380,13 @@ FlipPanel {
                             ctxMenuRecent.currentUri=uri;
 
                             var playCommand = "playSong";
-                            if (mitemtype == MediaItem.SongItem)
+                            if (itemtype == MediaItem.SongItem)
                                 playCommand = "playSong";
-                            else if (mitemtype == MediaItem.MusicArtistItem)
+                            else if (itemtype == MediaItem.MusicArtistItem)
                                 playCommand = "playArtist";
-                            else if (mitemtype == MediaItem.MusicAlbumItem)
+                            else if (itemtype == MediaItem.MusicAlbumItem)
                                 playCommand = "playAlbum";
-                            else if (mitemtype == MediaItem.MusicPlaylistItem)
+                            else if (itemtype == MediaItem.MusicPlaylistItem)
                                 playCommand = "playPlaylist";
 
                             ctxMenuRecent.playCommand = playCommand
