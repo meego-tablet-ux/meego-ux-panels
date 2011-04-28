@@ -7,14 +7,14 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Panels 0.1
 
 import MeeGo.Sharing 0.1
 
 
-Window {
+Labs.Window {
     id: scene
     anchors.centerIn: parent
     showtoolbar: false
@@ -45,7 +45,7 @@ Window {
         anchors.fill: scene.content
         property variant overlay: null
 
-        Ux.TopItem {
+        TopItem {
             id: topItem
         }
 
@@ -67,7 +67,7 @@ Window {
                     color: "black"
                     opacity: 0.7
                 }
-                Spinner {
+                Labs.Spinner {
                     anchors.centerIn: parent
                     spinning: true
                     onSpinningChanged: {
@@ -103,12 +103,12 @@ Window {
         sortType: PanelProxyModel.SortTypeIndex
     }
 
-    ApplicationsModel {
+    Labs.ApplicationsModel {
         id: appsModel
         directories: [ "/usr/share/meego-ux-appgrid/applications", "/usr/share/applications", "~/.local/share/applications" ]
     }
 
-    WindowModel {
+    Labs.WindowModel {
         id: windowModel
     }
 
@@ -169,7 +169,7 @@ Window {
         height: parent.height
         clip: true
 
-        ShareObj {
+        Labs.ShareObj {
             id: shareObj
         }
 
@@ -178,7 +178,7 @@ Window {
             anchors.fill: parent
             color: "black"
             property variant backgroundImage: null
-            BackgroundModel {
+            Labs.BackgroundModel {
                 id: backgroundModel
                 Component.onCompleted: {
                     background.backgroundImage = backgroundImageComponent.createObject(background);
@@ -200,7 +200,7 @@ Window {
                 }
             }
         }
-        Ux.StatusBar {
+        StatusBar {
             anchors.top: parent.top
             width: parent.width
             height: theme_statusBarHeight
