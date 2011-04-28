@@ -7,9 +7,8 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Components 0.1
 
 FrontPanelContentItem {
     id: friendItemText
@@ -157,7 +156,7 @@ FrontPanelContentItem {
         }
 
 
-        Ux.Button {
+        Button {
             id: acceptBtn
             visible: (friendItemText.itemType == "request")
 //            bgSourceUp: "image://theme/panels/pnl_switch_pink_up"
@@ -174,7 +173,7 @@ FrontPanelContentItem {
             }
         }
 
-        Ux.Button {
+        Button {
             id: rejectBtn
             visible: (friendItemText.itemType == "request")
 //            height: panelSize.oneTenth

@@ -7,10 +7,9 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Content 1.0
 import MeeGo.Panels 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Components 0.1
 
 FlipPanel {
     id: fpContainer
@@ -41,7 +40,7 @@ FlipPanel {
         refreshTimer.stop();
     }
 
-    Ux.TopItem {
+    TopItem {
         id: topItem
         parent: fpContainer
     }
@@ -97,7 +96,7 @@ FlipPanel {
                 color: panelColors.textColor
             }
 
-            Ux.Button {
+            Button {
                 id: btnOOBE
                 anchors.top:  textOOBE.bottom
                 anchors.topMargin: panelSize.contentTopMargin
@@ -140,12 +139,12 @@ FlipPanel {
             }
 
 
-            Ux.ModalContextMenu {
+            ModalContextMenu {
                 id: ctxMenu
                 property alias ctxModel: ctxActionMenu.model
                 property alias ctxPayload: ctxActionMenu.payload
 
-                content: Ux.ActionMenu {
+                content: ActionMenu {
                     id: ctxActionMenu
 
                     onTriggered: {
@@ -238,10 +237,8 @@ FlipPanel {
                 }
             }
 
-            Ux.ModalFog {
+            ModalFog {
                 id: mdlClearHist
-                //contentHeight: 400  //TODO JEA999
-                //contentWidth: 350   //TODO JEA999
                 autoCenter: true
                 modalSurface: BorderImage {
                     id: rectClearHist
@@ -326,7 +323,7 @@ FlipPanel {
                                 }
                             }
 
-                            Ux.CheckBox {
+                            CheckBox {
                                 id: ckBox
                                 isChecked: false
                                 anchors.left: parent.left
@@ -358,7 +355,7 @@ FlipPanel {
                         }
                     }
 
-                    Ux.Button {
+                    Button {
                         id: btnModalClear
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
@@ -410,7 +407,7 @@ FlipPanel {
             Component {
                 id: serviceToggle
 
-                Ux.ToggleButton {
+                ToggleButton {
                     id: tbEnable
                     anchors.right: parent.right
                     on: panelManager.isServiceEnabled(upid)
@@ -423,7 +420,7 @@ FlipPanel {
 
             Component {
                 id: serviceConfigBtn
-                Ux.Button {
+                Button {
                     id: btnConfigure
                     anchors.right: parent.right
                     text: qsTr("Go to settings")
