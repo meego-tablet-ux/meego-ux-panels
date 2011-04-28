@@ -7,17 +7,17 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 
 import MeeGo.Panels 0.1
 import MeeGo.Sharing 0.1
 import MeeGo.Media 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Components 0.1
 
 FlipPanel {
     id: container
 
-    BackgroundModel {
+    Labs.BackgroundModel {
         id: backgroundModel
     }
 
@@ -128,7 +128,7 @@ FlipPanel {
                 color: panelColors.textColor
             }
 
-            Ux.Button {
+            Button {
                 id: btnOOBE
                 anchors.top:  textOOBE.bottom
                 anchors.topMargin: panelSize.contentTopMargin
@@ -147,12 +147,12 @@ FlipPanel {
 
         Flickable{
 
-            Ux.ModalContextMenu {
+            ModalContextMenu {
                 id: ctxMenuPhoto
                 property string currentUrn
                 property string currentUri
                 property variant menuPos
-                content: Ux.ActionMenu {
+                content: ActionMenu {
                     model:[qsTr("Open"), qsTr("Share") ,qsTr("Hide"), qsTr("Set as background")]
                     onTriggered: {
                         if (model[index] == qsTr("Open")) {
@@ -178,12 +178,12 @@ FlipPanel {
                 }
             }
 
-            Ux.ModalContextMenu {
+            ModalContextMenu {
                 id: ctxMenuAlbum
                 property string currentUrn
 
 
-                content: Ux.ActionMenu {
+                content: ActionMenu {
                     model:[qsTr("Open"),qsTr("Hide")]
 
                     onTriggered: {
