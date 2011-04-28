@@ -77,6 +77,9 @@ FrontPanelContentItem {
 
             MouseArea {
                 anchors.fill: parent
+                onPressAndHold: {
+                    fpMusicPreview.pressAndHold(mouse)
+                }
                 onClicked: {
                     fpMusicPreview.playButtonClicked();
                 }
