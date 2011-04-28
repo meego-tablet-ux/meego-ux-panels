@@ -7,11 +7,10 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
 import MeeGo.Sharing 0.1
 import MeeGo.Media 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Components 0.1
 
 FlipPanel {
     id: container
@@ -159,7 +158,7 @@ FlipPanel {
                     color: panelColors.textColor
                 }
 
-                Ux.Button {
+                Button {
                     id: btnOOBE
                     anchors.top:  textOOBE.bottom
                     anchors.topMargin: panelSize.contentTopMargin
@@ -229,14 +228,14 @@ FlipPanel {
 
                         text:qsTr("Play queue")
                         collapsible: false
-                        Ux.ModalContextMenu {
+                        ModalContextMenu {
                             id: ctxMenuQueue
                             property string currentUrn
                             property string currentUri
                             property variant menuPos
                             property string playCommand
 
-                            content: Ux.ActionMenu {
+                            content: ActionMenu {
                                 model:[qsTr("Open"), qsTr("Play"), qsTr("Share")]
                                 onTriggered: {
                                     if (model[index] == qsTr("Open")) {
@@ -290,14 +289,14 @@ FlipPanel {
 
                 property int count: 0;
 
-                Ux.ModalContextMenu {
+                ModalContextMenu {
                     id: ctxMenuRecent
                     property string currentUrn
                     property string currentUri
                     property variant menuPos
                     property string playCommand
 
-                    content: Ux.ActionMenu {
+                    content: ActionMenu {
                         model:[qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
                         onTriggered: {
                             if (model[index] == qsTr("Open")) {
@@ -406,10 +405,10 @@ FlipPanel {
                 text: qsTr("Playlists")
                 property int count: 0
 
-                Ux.ModalContextMenu {
+                ModalContextMenu {
                     id: ctxMenuAlbum
                     property string currentUrn
-                    content: Ux.ActionMenu {
+                    content: ActionMenu {
                         model:[ qsTr("Play"), qsTr("Hide")]
 
                         onTriggered: {
