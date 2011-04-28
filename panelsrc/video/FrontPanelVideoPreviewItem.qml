@@ -7,7 +7,6 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
 
 //FrontPanelVideoPreviewItem - class for standard Video content items in the

@@ -7,11 +7,10 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 import MeeGo.Panels 0.1
 import MeeGo.Sharing 0.1
 import MeeGo.Media 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Components 0.1
 
 FlipPanel {
     id: container
@@ -95,7 +94,7 @@ FlipPanel {
                 color: panelColors.textColor
             }
 
-            Ux.Button {
+            Button {
                 id: btnOOBE
                 anchors.top:  textOOBE.bottom
                 anchors.topMargin: panelSize.contentTopMargin
@@ -113,13 +112,13 @@ FlipPanel {
         id: videoFront
         Item {
 
-            Ux.ModalContextMenu {
+            ModalContextMenu {
                 id: ctxMenu
                 property string currentUrn
                 property string currentUri
                 property variant menuPos
 
-                content: Ux.ActionMenu {
+                content: ActionMenu {
                     model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
 
 
@@ -161,9 +160,7 @@ FlipPanel {
                     if (!interactive)
                         contentY = 0;
                 }
-                delegate:
-                        FrontPanelVideoPreviewItem {
-
+                delegate: FrontPanelVideoPreviewItem {
                     id:previewItem
                     imageSource:thumburi
                     text:qsTr(title)
