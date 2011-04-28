@@ -7,9 +7,9 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
+import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Panels 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Components 0.1
 
 FlipPanel {
     id: container
@@ -83,21 +83,21 @@ FlipPanel {
 
     Component {
         id: rcpComp
-        BrowserItemListModel
+        Labs.BrowserItemListModel
         {
-            id:rcpModel
-            type:BrowserItemListModel.ListofRecentVisited
-            sortType:BrowserItemListModel.SortByDefault
+            id: rcpModel
+            type: Labs.BrowserItemListModel.ListofRecentVisited
+            sortType: Labs.BrowserItemListModel.SortByDefault
         }
     }
 
     Component {
         id: bmComp
-        BrowserItemListModel
+        Labs.BrowserItemListModel
         {
-            id:bmModel
-            type:BrowserItemListModel.ListofBookmarks
-            sortType:BrowserItemListModel.SortByDefault
+            id: bmModel
+            type: Labs.BrowserItemListModel.ListofBookmarks
+            sortType: Labs.BrowserItemListModel.SortByDefault
         }
     }
 
@@ -156,7 +156,7 @@ FlipPanel {
                     color: panelColors.textColor
                 }
 
-                Ux.Button {
+                Button {
                     id: btnOOBE
                     anchors.top:  textOOBE.bottom
                     anchors.topMargin: panelSize.contentTopMargin
@@ -181,11 +181,11 @@ FlipPanel {
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
 
-                Ux.ModalContextMenu {
+                ModalContextMenu {
                     id: ctxMenuRecent
                     property variant currentUrl
                     property variant currentId
-                    content: Ux.ActionMenu {
+                    content: ActionMenu {
                         model:[ qsTr("View"), qsTr("Hide")]
 
                         onTriggered: {
@@ -241,12 +241,12 @@ FlipPanel {
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
                 property int count: 0
 
-                Ux.ModalContextMenu {
+                ModalContextMenu {
                     id: ctxMenuBookMark
                     property variant currentUrl
                     property int currentId
 
-                    content: Ux.ActionMenu {
+                    content: ActionMenu {
                         model:[ qsTr("View"), qsTr("Delete")]
                         onTriggered: {
                             if (model[index] == qsTr("View")) {
