@@ -237,7 +237,7 @@ FlipPanel {
                             property string playCommand
 
                             content: Ux.ActionMenu {
-                                model:[qsTr("Open"), qsTr("Play"), qsTr("Share"), qsTr("Hide")]
+                                model:[qsTr("Open"), qsTr("Play"), qsTr("Share")]
                                 onTriggered: {
                                     if (model[index] == qsTr("Open")) {
                                         spinnerContainer.startSpinner();
@@ -254,11 +254,6 @@ FlipPanel {
                                         shareObj.addItem(ctxMenuQueue.currentUri);
                                         ctxMenuQueue.hide()
                                         shareObj.showContextTypes(ctxMenuQueue.menuPos.x, ctxMenuQueue.menuPos.y);
-                                    }
-                                    else if (model[index] == qsTr("Hide"))
-                                    {
-                                        panelObj.addHiddenItem(ctxMenuQueue.currentUrn)
-                                        musicRecentsModel.hideItemByURN(ctxMenuQueue.currentUrn)
                                     }
                                     else {
                                         console.log("Unhandled context action in Photos: " + model[index]);
