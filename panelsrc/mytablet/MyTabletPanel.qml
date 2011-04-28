@@ -7,8 +7,8 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 
 import MeeGo.Panels 0.1
@@ -42,12 +42,12 @@ FlipPanel {
         parent: topItem.topItem
     }
 
-    Ux.TopItem {
+    TopItem {
         id:  topItem
     }
 
 
-    ApplicationsModel {
+    Labs.ApplicationsModel {
 
         id: appsModel
         directories: [ "/usr/share/meego-ux-appgrid/applications",
@@ -133,7 +133,7 @@ FlipPanel {
 
         panelTitle: qsTr("My Tablet")
         leftIconSource: "image://theme/panels/pnl_icn_tablet"
-        panelComponent:Flickable{
+        panelComponent: Flickable {
             anchors.fill: parent
             interactive: (height < contentHeight)
             onInteractiveChanged: {
