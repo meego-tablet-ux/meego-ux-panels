@@ -7,8 +7,8 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 import MeeGo.Panels 0.1
 
@@ -24,7 +24,7 @@ Item {
         networkListModel.initWifi()
     }
 
-    Ux.TopItem {
+    TopItem {
         id: topItem
     }
 
@@ -125,7 +125,7 @@ Item {
         }
         visible: bubbleContainer.visible
 
-        RectangularBubble {
+        Labs.RectangularBubble {
             id: rectangularBubble
 
             width: childrenRect.width+15
@@ -185,7 +185,7 @@ Item {
                     width: paintedWidth
                 }
 
-                Ux.ToggleButton{
+                ToggleButton{
                     id: wifiToggle
 
                     anchors.right: parent.right
@@ -233,7 +233,7 @@ Item {
                 color: panelColors.separatorColor
             }
 
-            Ux.Button {
+            Button {
                 id : wifiSettings
                 text: qsTr("Wi-Fi settings")
                 anchors.top: wifiRectangleborder2.bottom

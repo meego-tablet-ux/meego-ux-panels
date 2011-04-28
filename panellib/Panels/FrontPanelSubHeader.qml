@@ -7,7 +7,6 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 
 //FrontPanelSubHeader - base class for standard headers in the
 //Front panel - this contains standard visual properties that are common

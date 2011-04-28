@@ -7,8 +7,8 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
-import MeeGo.Components 0.1 as Ux
+import MeeGo.Labs.Components 0.1 as Labs
+import MeeGo.Components 0.1
 import MeeGo.Panels 0.1
 
 Item{
@@ -20,7 +20,7 @@ Item{
     property alias dlgY: bubble.y
     property alias offset: bubble.offset
 
-    Ux.TopItem {
+    TopItem {
         id: topItem
     }
 
@@ -32,11 +32,11 @@ Item{
             bubbleContainer.visible = false;
         }
         visible: bubbleContainer.visible
-        VolumeControl {
+        Labs.VolumeControl {
             id: volCon
         }
 
-        RectangularBubble {
+        Labs.RectangularBubble {
             id: bubble
             offset: 0
             width: volCtrl.controllerWidth + 4
@@ -44,7 +44,7 @@ Item{
             Item {
                 anchors.margins: 2
                 anchors.fill: parent
-                VolumeController {
+                Labs.VolumeController {
                     id: volCtrl
                     volumeControl: volCon
                     onClose: bubbleContainer.visible = false

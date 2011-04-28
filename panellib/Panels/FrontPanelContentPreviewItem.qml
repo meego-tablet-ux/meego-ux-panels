@@ -7,7 +7,6 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1
 
 //FrontPanelContentPreviewItem - class for standard preview content items in the
 //front panel - this contains standard visual properties that are common
