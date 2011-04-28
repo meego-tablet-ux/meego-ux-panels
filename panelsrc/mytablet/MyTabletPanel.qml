@@ -19,6 +19,10 @@ FlipPanel {
     property int optionClicked
     property int insertionIndex: 2
 
+    Item {
+        id: privateData
+        property int topApplicationsLimit: 3
+    }
 
     Translator {
         catalog: "meego-ux-panels-mytablet"
@@ -211,30 +215,24 @@ FlipPanel {
         id: topAppComp
         Item {
             width:parent.width
-            height: fpGridTopApps.height +
+            height: fpListTopApps.height +
                     fplvTopApps.height
 
-            FrontPanelGridView{
-                id:fpGridTopApps
+            FrontPanelColumnView{
+                id:fpListTopApps
                 width: parent.width
                 anchors.top: parent.top
-                colCount: 3
                 model: appsModelFavorite
-                delegate: Item {
-                    width: { return Math.floor(fpGridTopApps.width/fpGridTopApps.colCount); }
-                    height: width
-                    FrontPanelGridImageItem {
-                        imageSource: icon
-                        fallbackImageSource: "image://meegotheme/icons/launchers/meego-app-widgets"
-                        width: 100
-                        height: width
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        onClicked:{
-                            spinnerContainer.startSpinner();
-                            appsModel.favorites.append(filename)
-                            qApp.launchDesktopByName(filename)
-                        }
+                delegate: FrontPanelIconTextItem {
+                    width: fpListTopApps.width
+                    visible: index < privateData.topApplicationsLimit
+                    imageSource: icon
+                    text: title
+                    fallBackImage: "image://meegotheme/icons/launchers/meego-app-widgets"
+                    onClicked:{
+                        spinnerContainer.startSpinner();
+                        appsModel.favorites.append(filename)
+                        qApp.launchDesktopByName(filename)
                     }
                 }
             }
@@ -242,7 +240,7 @@ FlipPanel {
 
             Column {
                 id:fplvTopApps
-                anchors.top:fpGridTopApps.bottom
+                anchors.top:fpListTopApps.bottom
                 width:parent.width
                 Repeater {
                     model:favoriteApplicationsItems
