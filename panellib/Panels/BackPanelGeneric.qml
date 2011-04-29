@@ -18,6 +18,7 @@ SimplePanel {
 
     property Component bpContent
     property bool clearButtonVisible :true
+    property string subheaderText
 
     isBackPanel: true
 
@@ -27,63 +28,53 @@ SimplePanel {
         id: backPanel
         Item {
             id: bpComp
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.left:  parent.left
-
-            BackPanelMessageTextItem
-            {
-                id: bpMessage
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-            }
-
-            BackPanelIconTextItem {
-                id: bpManagePanels
-                imageSource: "image://meegotheme/icons/settings/everyday-settings"
-                text: qsTr("Manage panels")
-                onClicked: {
-                    spinnerContainer.startSpinner();
-                    appsModel.launch("meego-qml-launcher --opengl --app meego-ux-settings --cmd showPage --cdata Panels --fullscreen")
+            anchors.fill: parent
+            Column {
+                anchors.fill: parent
+                FrontPanelSubHeader{
+                    visible: true
+                    text: subheaderText
                 }
-                anchors.top: bpMessage.bottom
-            }
-
-            BackPanelIconTextItem {
-                visible: panelObj.AllowHide
-                id: bpHidePanel
-                imageSource: ""
-                text: qsTr("Hide panel")
-                onClicked: {
-                    panelObj.IsVisible = false;
+                BackPanelMessageTextItem
+                {
+                    id: bpMessage
+                    width: parent.width
                 }
-                anchors.top: bpManagePanels.bottom
-            }
 
-            Loader {
-                id:bpContentLoader
-                width: parent.width
-                anchors.top: (panelObj.AllowHide ? bpHidePanel.bottom : bpManagePanels.bottom)
-                anchors.bottom: bpClearButton.visible? bpClearButton.top : parent.bottom
-                anchors.bottomMargin: (bpClearButton.visible ? panelSize.contentTopMargin : 0)
-                anchors.left: parent.left
-                sourceComponent: bpContent
-            }
-
-            Button {
-                id : bpClearButton
-                visible:backPanelGeneric.clearButtonVisible
-                text: qsTr("Clear history")
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: panelSize.contentTopMargin
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    var btnXY = topItem.topItem.mapFromItem(bpComp,
-                                                            (x+(width/2)),
-                                                            y);
-                    backPanelGeneric.clearHistClicked(btnXY)
+                Loader {
+                    width: parent.width
+                    sourceComponent: bpContent
+                }
+                Item {
+                    visible:backPanelGeneric.clearButtonVisible
+                    width: parent.width
+                    height: bpClearButton.height + 2*panelSize.contentTopMargin
+                    Button {
+                        id: bpClearButton
+                        text: qsTr("Clear history")
+                        anchors.bottomMargin: panelSize.contentTopMargin
+                        anchors.topMargin: panelSize.contentTopMargin
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        onClicked: {
+                            var btnXY = topItem.topItem.mapFromItem(bpComp,
+                                                                    (x+(width/2)),
+                                                                    y);
+                            backPanelGeneric.clearHistClicked(btnXY)
+                        }
+                    }
+                }
+                FrontPanelSubHeader{
+                    visible: true
+                    text: qsTr("Panels")
+                }
+                BackPanelIconTextItem {
+                    imageSource: "image://meegotheme/icons/settings/everyday-settings"
+                    text: qsTr("Manage panels")
+                    onClicked: {
+                        spinnerContainer.startSpinner();
+                        appsModel.launch("meego-qml-launcher --opengl --app meego-ux-settings --cmd showPage --cdata Panels --fullscreen")
+                    }
                 }
             }
         }

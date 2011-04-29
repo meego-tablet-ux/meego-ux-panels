@@ -185,6 +185,7 @@ FlipPanel {
 
     back: BackPanelStandard {
         panelTitle: qsTr("My Tablet settings")
+        subheaderText: qsTr("My Tablet content")
         settingsListModel: backSettingsModel
         isBackPanel: true
         leftIconSource: "image://theme/panels/pnl_icn_tablet"

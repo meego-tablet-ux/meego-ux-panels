@@ -122,6 +122,7 @@ FlipPanel {
 
     back: BackPanelStandard {
         panelTitle: qsTr("Web settings")
+        subheaderText: qsTr("Web panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
         leftIconSource: "image://theme/panels/pnl_icn_web"

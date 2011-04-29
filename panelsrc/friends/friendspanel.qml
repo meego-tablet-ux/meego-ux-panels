@@ -30,6 +30,7 @@ FlipPanel {
     back: BackPanelGeneric {
         id: backPanel
         panelTitle: qsTr("Friends settings")
+        subheaderText: qsTr("Friends panel content")
         bpContent: backPanelContent
         isBackPanel: true
         leftIconSource: "image://theme/panels/pnl_icn_friends"
