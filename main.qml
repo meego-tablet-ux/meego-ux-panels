@@ -12,6 +12,7 @@ import MeeGo.Components 0.1
 import MeeGo.Panels 0.1
 
 import MeeGo.Sharing 0.1
+import MeeGo.Sharing.UI 0.1
 
 
 Labs.Window {
@@ -169,7 +170,7 @@ Labs.Window {
         height: parent.height
         clip: true
 
-        Labs.ShareObj {
+        ShareObj {
             id: shareObj
         }
 
