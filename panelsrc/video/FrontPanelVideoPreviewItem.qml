@@ -15,10 +15,19 @@ import MeeGo.Panels 0.1
 
 FrontPanelContentPreviewItem{
 
+    id: fpVideoPreview
     property alias text: fpText.text
+    property bool imagePlayStatus: false
     clip: true
 
-    Image{        
+    Image{
+        id: playPauseButton
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        source: imagePlayStatus?"image://theme/panels/pnl_btn_pause_up"
+        :"image://theme/panels/pnl_btn_play_up"
+    }
+    Image{
         opacity: 0.7 //THEME
         anchors.bottom: parent.bottom
         source: "image://theme/panels/pnl_infopanel_lrg"
