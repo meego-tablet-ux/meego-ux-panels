@@ -147,7 +147,7 @@ FlipPanel {
 
         Flickable{
 
-            ModalContextMenu {
+            ContextMenu {
                 id: ctxMenuPhoto
                 property string currentUrn
                 property string currentUri
@@ -178,7 +178,7 @@ FlipPanel {
                 }
             }
 
-            ModalContextMenu {
+            ContextMenu {
                 id: ctxMenuAlbum
                 property string currentUrn
 

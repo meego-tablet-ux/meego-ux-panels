@@ -181,7 +181,7 @@ FlipPanel {
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
 
-                ModalContextMenu {
+                ContextMenu {
                     id: ctxMenuRecent
                     property variant currentUrl
                     property variant currentId
@@ -241,7 +241,7 @@ FlipPanel {
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
                 property int count: 0
 
-                ModalContextMenu {
+                ContextMenu {
                     id: ctxMenuBookMark
                     property variant currentUrl
                     property int currentId

@@ -139,7 +139,7 @@ FlipPanel {
             }
 
 
-            ModalContextMenu {
+            ContextMenu {
                 id: ctxMenu
                 property alias ctxModel: ctxActionMenu.model
                 property alias ctxPayload: ctxActionMenu.payload

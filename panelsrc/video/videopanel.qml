@@ -112,7 +112,7 @@ FlipPanel {
         id: videoFront
         Item {
 
-            ModalContextMenu {
+            ContextMenu {
                 id: ctxMenu
                 property string currentUrn
                 property string currentUri

@@ -228,7 +228,7 @@ FlipPanel {
 
                         text:qsTr("Play queue")
                         collapsible: false
-                        ModalContextMenu {
+                        ContextMenu {
                             id: ctxMenuQueue
                             property string currentUrn
                             property string currentUri
@@ -289,7 +289,7 @@ FlipPanel {
 
                 property int count: 0;
 
-                ModalContextMenu {
+                ContextMenu {
                     id: ctxMenuRecent
                     property string currentUrn
                     property string currentUri
@@ -405,7 +405,7 @@ FlipPanel {
                 text: qsTr("Playlists")
                 property int count: 0
 
-                ModalContextMenu {
+                ContextMenu {
                     id: ctxMenuAlbum
                     property string currentUrn
                     content: ActionMenu {
