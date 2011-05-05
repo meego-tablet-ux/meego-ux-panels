@@ -30,6 +30,7 @@ FlipPanel {
     back: BackPanelGeneric {
         id: backPanel
         panelTitle: qsTr("Friends settings")
+        subheaderText: qsTr("Friends panel content")
         bpContent: backPanelContent
         isBackPanel: true
         leftIconSource: "image://theme/panels/pnl_icn_friends"
@@ -220,14 +221,15 @@ FlipPanel {
         id: backPanelContent
 
         Item {
-            anchors.fill: parent
-            ListView {
+            width: parent.width
+            height: lvServices.height
+            Column {
                 id: lvServices
-                anchors.fill: parent
-                interactive: (contentHeight > height)
-                clip: true
-                model: panelManager.serviceModel
-                delegate: servicesDelegate
+                width: parent.width
+                Repeater {
+                    model: panelManager.serviceModel
+                    delegate: servicesDelegate
+                }
             }
 
             Connections {

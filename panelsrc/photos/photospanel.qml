@@ -94,6 +94,7 @@ FlipPanel {
 
     back: BackPanelStandard {
         panelTitle: qsTr("Photos settings")
+        subheaderText: qsTr("Photos panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
         leftIconSource: "image://theme/panels/pnl_icn_photos"

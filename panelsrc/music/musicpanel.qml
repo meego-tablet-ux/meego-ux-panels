@@ -96,6 +96,7 @@ FlipPanel {
 
     back: BackPanelStandard {
         panelTitle: qsTr("Music settings")
+        subheaderText: qsTr("Music panel content")
         //panelContent: itemModelSizes
         settingsListModel: backSettingsModel
         isBackPanel: true

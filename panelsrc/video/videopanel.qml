@@ -60,6 +60,7 @@ FlipPanel {
 
     back: BackPanelStandard {
         panelTitle: qsTr("Video settings")
+        subheaderText: qsTr("Video panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
         leftIconSource: "image://theme/panels/pnl_icn_video"

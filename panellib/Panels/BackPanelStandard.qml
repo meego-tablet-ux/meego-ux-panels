@@ -14,13 +14,11 @@ BackPanelGeneric {
     property Component settingsListDelegate: standardSettingsDelegate
 
 
-    bpContent: Item {
-        ListView {
-            anchors.fill: parent
+    bpContent: Column {
+        width: parent.width
+        Repeater {
             model: settingsListModel
             delegate: settingsListDelegate
-            interactive: (contentHeight > height)
-            flickableDirection: Flickable.VerticalFlick
         }
     }
 
