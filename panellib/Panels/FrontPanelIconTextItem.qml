@@ -24,7 +24,7 @@ FrontPanelContentItem {
 
     Image {
         id: fpImage
-        height: (fpITI.zoomImage ? width : sourceSize.width)
+        height: (fpITI.zoomImage ? width : sourceSize.height)
         width: (fpITI.zoomImage ? panelSize.contentIconSize : sourceSize.width) //THEME - VERIFY
         fillMode: Image.PreserveAspectCrop
         anchors.left: parent.left
