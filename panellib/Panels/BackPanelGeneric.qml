@@ -26,11 +26,15 @@ SimplePanel {
 
     Component {
         id: backPanel
-        Item {
+        Flickable {
             id: bpComp
+            interactive: (height < contentHeight)
             anchors.fill: parent
+            contentHeight: backPanelCol.height
+            clip: true
             Column {
-                anchors.fill: parent
+                id: backPanelCol
+                width: parent.width
                 FrontPanelSubHeader{
                     visible: true
                     text: subheaderText

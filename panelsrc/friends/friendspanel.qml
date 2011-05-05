@@ -221,14 +221,15 @@ FlipPanel {
         id: backPanelContent
 
         Item {
-            anchors.fill: parent
-            ListView {
+            width: parent.width
+            height: lvServices.height
+            Column {
                 id: lvServices
-                anchors.fill: parent
-                interactive: (contentHeight > height)
-                clip: true
-                model: panelManager.serviceModel
-                delegate: servicesDelegate
+                width: parent.width
+                Repeater {
+                    model: panelManager.serviceModel
+                    delegate: servicesDelegate
+                }
             }
 
             Connections {
