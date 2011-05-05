@@ -75,7 +75,7 @@ FlipPanel {
 
         ListElement {
             icon: "image://meegotheme/icons/settings/everyday-settings"
-            type: "launchDesktop"
+            type: "allSettings"
             title: QT_TR_NOOP("All settings")
             launchName: "/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"
         }
@@ -291,10 +291,10 @@ FlipPanel {
                                 volumeDialog.dlgX = posInWindow.x;
                                 volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
                                 volumeDialog.visible = true;
-                            } else if (type == "launchDesktop") {
+                            } else if (type == "allSettings") {
                                 spinnerContainer.startSpinner();
                                 appsModel.favorites.append(launchName);
-                                qApp.launchDesktopByName(launchName);
+                                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata settings")
                             }
                         }
                     }
