@@ -63,7 +63,7 @@ FlipPanel {
 
     McaPanelManager {
         id: panelManager
-        categories: ["social", "im", "email"]
+        categories: ["social", "im", "email", "messages"]
         servicesEnabledByDefault: true
     }
 
