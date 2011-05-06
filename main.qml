@@ -232,6 +232,12 @@ Window {
                     snapMode: ListView.SnapToItem
                     spacing: panelSize.panelOuterSpacing
                     property bool animationEnabled: true
+                    onMovementEnded: {
+                        snapMode = ListView.NoSnap
+                    }
+                    onMovementStarted: {
+                        snapMode = ListView.SnapToItem
+                    }
                     model:panelsModel
                     delegate: Loader {
                         id: contentLoader

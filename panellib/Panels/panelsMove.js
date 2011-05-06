@@ -101,15 +101,19 @@ function endDrag(mouse)
 {
     var oldIndex = flipablePanel.parent.aIndex;
     var newIndex = 0;
-    var dropX = mouse.x - middlePanelOffset;
-    var lvDropX = allPanels.mapFromItem(flipablePanel, dropX, mouse.y)
 
-    newIndex = Math.floor(lvDropX.x/panelWidthAndSpacing)
+    if (flipablePanel.x > 0) {
+	 newIndex = Math.floor(flipablePanel.x/panelWidthAndSpacing);
+    } else {
+	 newIndex = Math.ceil(flipablePanel.x/panelWidthAndSpacing);
+    }
 
-    if ((newIndex == 0) && (newIndex != oldIndex) && (lvDropX.x > (0.5 * panelWidthAndSpacing)))
-        newIndex = 1;
+    //console.log("index change: " + newIndex);
+    newIndex = oldIndex + newIndex;
+    //console.log("newIndex: " + newIndex);
 
-    //console.log("lvDropX: " + lvDropX.x + ", panelWidthAndSpacing: " + panelWidthAndSpacing)
+
+    //console.log("curFP.x: " + flipablePanel.x + ", panelWidthAndSpacing: " + panelWidthAndSpacing);
     //console.log ("oldIndex: " + oldIndex + ", newIndex: " + newIndex + ", curFP.x: " + flipablePanel.x + ", origFP.x: " + origPanelX)
     if (oldIndex == newIndex)
         flipablePanel.x = origPanelX;
