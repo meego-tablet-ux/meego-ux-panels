@@ -33,10 +33,12 @@ Flipable {
     signal draggingFinished(int oldIndex, int newIndex)
     //signal widthDistanceDragged
 
-
     signal visibleOptionClicked()
     signal flipToFront()
     signal flipToBack()
+    signal flipped()
+    signal visibleOptionClicked
+    signal flipToFront
     signal programClicked(string programId, int coordinate_x, int coordinate_y)
 
 
@@ -47,7 +49,7 @@ Flipable {
     Connections {
         target: front
         //onWheelIconPressed: state = 'back'
-        onTitleClicked: state = 'back'
+        onTitleClicked: {state = 'back'; flipablePanel.flipped();}
         onReleased:{ globalX=front.globalX
             localMousePosition= front.localMousePosition
             originalGlobalPosition=front.originalGlobalPosition
@@ -75,7 +77,7 @@ Flipable {
     Connections {
         target: back
         //onRightIconPressed: { state = ''; flipablePanel.flipToFront(); }
-        onTitleClicked: { state = ''; flipablePanel.flipToFront(); }
+        onTitleClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
         onReleased:{  flipablePanel.released() }
     }
 

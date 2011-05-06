@@ -205,22 +205,6 @@ Window {
             anchors.fill: parent
             anchors.topMargin: theme.statusBarHeight
 
-/*            Flickable{
-                id: panelsContainerFlickable
-                anchors.fill: parent
-
-                anchors.topMargin : panelSize.panelOuterSpacing
-
-                width: parent.width
-                height: parent.height
-
-                contentWidth: allPanels.width
-//                property int currentItemIndex: -1
-
-                Behavior on contentWidth {
-                    NumberAnimation { duration:500 }
-                }
-*/
                 ListView {
                     id: allPanels
                     anchors.topMargin: panelSize.panelOuterSpacing
@@ -229,7 +213,7 @@ Window {
                     cacheBuffer: count * panelSize.baseSize
                     flickableDirection: Flickable.HorizontalFlick
                     orientation: ListView.Horizontal
-                    snapMode: ListView.SnapToItem
+                    snapMode: ListView.NoSnap
                     spacing: panelSize.panelOuterSpacing
                     property bool animationEnabled: true
                     onMovementEnded: {
@@ -237,6 +221,9 @@ Window {
                     }
                     onMovementStarted: {
                         snapMode = ListView.SnapToItem
+                    }
+                    Behavior on contentX {
+                        NumberAnimation { duration: 250 }
                     }
                     model:panelsModel
                     delegate: Loader {
@@ -297,6 +284,22 @@ Window {
                             onVisibleOptionClicked:{
                                 if (allowHide) {
                                     panelObj.IsVisible = false;
+                                }
+                            }
+                            onFlipped: {
+                                // Calculate contentX change by hand because Behavior doesn't work when
+                                // using positionViewAtIndex. Assumes that all panels are same width. Is that safe?
+                                //allPanels.positionViewAtIndex(index, ListView.Contain);
+                                var start = allPanels.contentX;
+                                var end = start + allPanels.width
+                                var panelStartsAt = index*(width + allPanels.spacing);
+                                var panelEndsAt = index*(width + allPanels.spacing) + width;
+                                //console.log("area: "+start+" - "+ end);
+                                //console.log("panelStarts at: "+panelStartsAt+", panelEnds at: "+ panelEndsAt);
+                                if (start > panelStartsAt) {
+                                    allPanels.contentX = panelStartsAt;
+                                } else if (end < panelEndsAt){
+                                    allPanels.contentX = start + (panelEndsAt - end);
                                 }
                             }
 
