@@ -68,7 +68,7 @@ Labs.Window {
                     color: "black"
                     opacity: 0.7
                 }
-                Labs.Spinner {
+                Spinner {
                     anchors.centerIn: parent
                     spinning: true
                     onSpinningChanged: {
