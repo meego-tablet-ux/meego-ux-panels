@@ -11,14 +11,14 @@ import Qt 4.7
 //FrontPanelContentItem - base class for standard content items in the
 //front panel - this contains standard visual properties that are common
 
-Image {
+Item {
     width: parent.width
-    height: (visible ? (itemTopLine.height + itemBG.height + itemBottomLine.height) : 0)
-
+    height: panelSize.secondaryTileHeight
     property alias contentHeight: itemBG.height
     property alias mouseAreaActive: fpMouseArea.visible
     property variant itemTop: itemTopLine
     property variant itemBottom: itemBottomLine
+    property bool separatorVisible: true
 
     signal pressAndHold(variant mouse)
     signal clicked(variant mouse)

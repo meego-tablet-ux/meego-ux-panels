@@ -44,7 +44,7 @@ FlipPanel {
     VideoListModel {
         id: recentlyViewed
         type: VideoListModel.ListofRecentlyViewed
-        limit: 2
+        limit: 4
         sort: VideoListModel.SortByDefault
     }
 
@@ -108,57 +108,56 @@ FlipPanel {
 
     Component {
         id: videoFront
-        Item {
-
-            ContextMenu {
-                id: ctxMenu
-                property string currentUrn
-                property string currentUri
-                property variant menuPos
-
-                content: ActionMenu {
-                    model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
-
-
-                    onTriggered: {
-                        if (model[index] == qsTr("Play")) {
-                            spinnerContainer.startSpinner();
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
-                            container.notifyModel()
-                        } else if (model[index] == qsTr("Hide")){
-                            panelObj.addHiddenItem(ctxMenu.currentUrn)
-                            recentlyViewed.hideItemByURN(ctxMenu.currentUrn)
-                        }
-                        else if (model[index] == qsTr("Share"))
-                        {
-                            shareObj.clearItems();
-                            shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
-                            shareObj.addItem(ctxMenu.currentUri);
-                            ctxMenu.hide()
-                            shareObj.showContextTypes(ctxMenu.menuPos.x, ctxMenu.menuPos.y);
-                        }
-                        else {
-                            console.log("Unhandled context action in Photos: " + model[index]);
-                        }
-                        ctxMenu.hide();
-                    }
-                }
-
+        Flickable {
+            anchors.fill: parent
+            interactive: (height < contentHeight)
+            onInteractiveChanged: {
+                if (!interactive)
+                    contentY = 0;
             }
 
+            contentHeight: myContent.height
+            clip: true
+            PrimaryTileGrid {
+                id: myContent
+                showHeader: false
+                ContextMenu {
+                    id: ctxMenu
+                    property string currentUrn
+                    property string currentUri
+                    property variant menuPos
 
-            anchors.fill: parent
-            ListView {
-                id: fpRecentVideos
-                model: recentlyViewed
-                clip:true
-                anchors.fill: parent
-                interactive: (contentHeight > height)
-                onInteractiveChanged: {
-                    if (!interactive)
-                        contentY = 0;
+                    content: ActionMenu {
+                        model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
+
+
+                        onTriggered: {
+                            if (model[index] == qsTr("Play")) {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
+                                container.notifyModel()
+                            } else if (model[index] == qsTr("Hide")){
+                                panelObj.addHiddenItem(ctxMenu.currentUrn)
+                                recentlyViewed.hideItemByURN(ctxMenu.currentUrn)
+                            }
+                            else if (model[index] == qsTr("Share"))
+                            {
+                                shareObj.clearItems();
+                                shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
+                                shareObj.addItem(ctxMenu.currentUri);
+                                ctxMenu.hide()
+                                shareObj.showContextTypes(ctxMenu.menuPos.x, ctxMenu.menuPos.y);
+                            }
+                            else {
+                                console.log("Unhandled context action in Photos: " + model[index]);
+                            }
+                            ctxMenu.hide();
+                        }
+                    }
+
                 }
-                delegate: FrontPanelVideoPreviewItem {
+                model: recentlyViewed
+                delegate: PrimaryTile {
                     id:previewItem
                     imageSource:thumburi
                     text:qsTr(title)
@@ -169,7 +168,7 @@ FlipPanel {
                         container.notifyModel()
                     }
 
-                    //For the context Menu
+                            //For the context Menu
                     onPressAndHold:{
 
                         var pos = previewItem.mapToItem(window, mouse.x, mouse.y);

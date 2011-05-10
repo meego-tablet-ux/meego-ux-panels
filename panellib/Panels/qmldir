@@ -20,6 +20,11 @@ FrontPanelColumnView 0.1 FrontPanelColumnView.qml
 FrontPanelSubHeader 0.1 FrontPanelSubHeader.qml
 PanelComposition 0.1 PanelComposition.qml
 Panel 0.1 Panel.qml
+PrimaryTile 0.1 PrimaryTile.qml
+PrimaryTileGrid 0.1 PrimaryTileGrid.qml
+SecondaryTile 0.1 SecondaryTile.qml
 SimplePanel 0.1 SimplePanel.qml
+TileItem 0.1 TileItem.qml
+TileListItem 0.1 TileListItem.qml
 WifiDialog 0.1 WifiDialog.qml
 VolumeDialog 0.1 VolumeDialog.qml

@@ -78,46 +78,65 @@ Item {
         property bool inAni: false
     }
 
-    FrontPanelSubHeader{
-        id:fpsubheader
-        visible: true
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        z:1
-
-        property bool collapsing: false
-
-        onCollapsedChanged: {
-            collapsing = true;
-            if (collapsed) {
-                fpContents.height = 0;
-            } else {
-                fpContents.height = privateData.savedHeight;
-            }
-            fpec.collapsedChanged(collapsed);
-        }
+    BorderImage {
+        anchors.fill: parent
+        // TODO: use .sci once there is support in image provider
+        source: showHeader ? "image://meegotheme/widgets/apps/panels/panel-content-background" :
+                             "image://meegotheme/widgets/apps/panels/panel-content-background-no-header"
+        border.top: 55
+        border.bottom: 8
+        border.left: 8
+        border.right: 8
     }
 
-    Loader{
+    Item {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width - 2*panelSize.contentSideMargin
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
 
-        id:fpContents
-        z:fpsubheader.z-1
+        FrontPanelSubHeader{
+            id:fpsubheader
+            visible: true
+            smooth: true
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            z:1
 
-        anchors.top: (showHeader ? fpsubheader.bottom : parent.top)
-        anchors.left: parent.left
-        anchors.right: parent.right
-        clip: true
+            property bool collapsing: false
 
-        Behavior on height {
-            id: collapseAnimation
-            enabled: fpsubheader.collapsing
-            SequentialAnimation {
-                ScriptAction { script: { privateData.inAni = true; } }
-                NumberAnimation { duration: 100 }
-                ScriptAction { script: { privateData.inAni = false; calcAndSet(); fpsubheader.collapsing = false;} }
+            onCollapsedChanged: {
+                collapsing = true;
+                if (collapsed) {
+                    fpContents.height = 0;
+                } else {
+                    fpContents.height = privateData.savedHeight;
+                }
+                fpec.collapsedChanged(collapsed);
             }
         }
 
+        Loader{
+
+            id:fpContents
+            z:fpsubheader.z-1
+
+            anchors.top: (showHeader ? fpsubheader.bottom : parent.top)
+            anchors.left: parent.left
+            anchors.right: parent.right
+            clip: true
+
+            Behavior on height {
+                id: collapseAnimation
+                enabled: fpsubheader.collapsing
+                SequentialAnimation {
+                    ScriptAction { script: { privateData.inAni = true; } }
+                    NumberAnimation { duration: 100 }
+                    ScriptAction { script: { privateData.inAni = false; calcAndSet(); fpsubheader.collapsing = false;} }
+                }
+            }
+
+        }
     }
 }

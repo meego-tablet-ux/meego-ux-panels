@@ -69,8 +69,8 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: panelSize.contentSideMargin
-                color: panelColors.textColor
-                font.pixelSize: theme.fontPixelSizeLarge
+                color: panelColors.panelHeaderColor
+                font.pixelSize: theme_fontPixelSizeLarge
                 text: panelTitle
             }
 
@@ -131,9 +131,10 @@ Item {
         sourceComponent: panelComponent
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 7
-        anchors.rightMargin: 8
+        anchors.leftMargin: panelSize.contentSideMargin
+        anchors.rightMargin: panelSize.contentSideMargin
         anchors.top: panelHeader.bottom
+        anchors.topMargin: panelSize.contentTopMargin
         anchors.bottom: parent.bottom
     }
 }

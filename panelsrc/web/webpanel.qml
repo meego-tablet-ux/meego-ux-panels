@@ -172,8 +172,7 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOne
 
-
-            FrontPanelExpandableContent {
+            PrimaryTileGrid {
                 id: fpecRecentSites
                 text: qsTr("Recently visited")
                 collapsible:false
@@ -202,34 +201,28 @@ FlipPanel {
                     }
 
                 }
-
-                contents:FrontPanelListView{
-                    height: count * (((width/16)*9)+2)
-                    model: recentpagemodel
-                    onCountChanged: fpecRecentSites.count = count
-                    Component.onCompleted: fpecRecentSites.count = count
-                    delegate:
-                    FrontPanelWebPreviewItem
-                    {
-                        id:webPreviewItem
-                        text: title
-                        imageSource: thumbnailUri
-                        iconSource:faviconUri
-                        onClicked: {
-                            spinnerContainer.startSpinner();
-                            recentpagemodel.viewItem(url);
-                            container.notifyModel();
-                        }
-
-                        onPressAndHold:{
-                            var pos = webPreviewItem.mapToItem(window, mouse.x, mouse.y);
-                            ctxMenuRecent.currentUrl = url
-                            ctxMenuRecent.currentId = id
-                            ctxMenuRecent.setPosition(pos.x, pos.y);
-                            ctxMenuRecent.show();
-                        }
-
+                model: recentpagemodel
+                onModelCountChanged: count = modelCount
+                Component.onCompleted: count = modelCount
+                delegate: PrimaryTile {
+                    id:webPreviewItem
+                    text: title
+                    imageSource: thumbnailUri
+                    //iconSource:faviconUri
+                    onClicked: {
+                        spinnerContainer.startSpinner();
+                        recentpagemodel.viewItem(url);
+                        container.notifyModel();
                     }
+
+                    onPressAndHold:{
+                        var pos = webPreviewItem.mapToItem(scene, mouse.x, mouse.y);
+                        ctxMenuRecent.currentUrl = url
+                        ctxMenuRecent.currentId = id
+                        ctxMenuRecent.setPosition(pos.x, pos.y);
+                        ctxMenuRecent.show();
+                    }
+
                 }
             }
 
@@ -262,13 +255,13 @@ FlipPanel {
                         }
                     }
                 }
-                contents:FrontPanelListView {
-                    height: (panelSize.contentItemHeight + 2) * count
+                contents:FrontPanelColumnView {
                     model:bookmarkmodel
                     onCountChanged: fpecBookmarks.count = count
                     Component.onCompleted: fpecBookmarks.count = count
-                    delegate: FrontPanelIconTextItem {
+                    delegate: TileListItem {
                         id:bookmarkPreview
+                        separatorVisible: index > 0
                         text: title
                         imageSource:faviconUri
                         onClicked: {

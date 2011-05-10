@@ -131,7 +131,6 @@ FlipPanel {
     front: SimplePanel {
 
         panelTitle: qsTr("My Tablet")
-        leftIconSource: "image://themedimage/images/panels/pnl_icn_tablet"
         panelComponent: Flickable {
             anchors.fill: parent
             interactive: (height < contentHeight)
@@ -222,12 +221,14 @@ FlipPanel {
                 width: parent.width
                 anchors.top: parent.top
                 model: appsModelFavorite
-                delegate: FrontPanelIconTextItem {
+                delegate: SecondaryTile {
                     width: fpListTopApps.width
+                    separatorVisible: index > 0
                     visible: index < privateData.topApplicationsLimit
                     imageSource: icon
                     text: title
-                    fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
+                    description: "Testing"
+                    fallBackImage: "image://meegotheme/icons/launchers/meego-app-widgets"
                     onClicked:{
                         spinnerContainer.startSpinner();
                         appsModel.favorites.append(filename)
@@ -243,7 +244,9 @@ FlipPanel {
                 width:parent.width
                 Repeater {
                     model:favoriteApplicationsItems
-                    delegate: FrontPanelIconTextItem {
+                    delegate: TileListItem {
+                        separatorVisible: true
+                        hasImage: false
                         text: qsTr(title)
                         onClicked: {
                             spinnerContainer.startSpinner();
@@ -274,10 +277,11 @@ FlipPanel {
                 width: parent.width
                 Repeater {
                     model: settingsModel
-                    delegate: FrontPanelIconTextItem {
+                    delegate: TileListItem {
                         id:fpPanelIconTextItem
                         text: qsTr(title)
                         imageSource: icon
+                        separatorVisible: index > 0
                         zoomImage: false
 
                         onClicked: {

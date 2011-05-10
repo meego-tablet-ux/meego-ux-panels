@@ -143,15 +143,36 @@ Window {
 
         property int panelOuterSpacing: oneTwentieth
         property int contentItemHeight: oneSixth
-        property int contentSideMargin: oneThirtieth	//verify
-        property int contentTopMargin: oneSixtieth	//verify
+        //property int contentSideMargin: oneThirtieth	//verify
+        //property int contentTopMargin: oneSixtieth	//verify
         property int contentIconSize: oneEigth		//verify
+
+        property int contentSideMargin: 12
+        property int contentTopMargin: 8
+        property int contentTitleHeight: 53
+        property int primaryTileHeight: 140
+        property int primaryTileContentHeight: 140
+        property int primaryTileWidth: 217
+        property int primaryTileContentWidth: 214
+        property int primaryTileSideMargin: 10
+        property int primaryTileTextHeight: 36
+        property int secondaryTileHeight: 130
+        property int secondaryTileContentHeight: 104
+        property int tileTextLeftMargin: 15
+        property int tileTextTopMargin: 25
+        property int tileTextLineSpacing: 2
+        property int tileListItemHeight: 63
+        property int tileListItemContentHeight: 49
     }
 
     Item {
         id: panelColors
-        property string textColor: theme.buttonFontColor
-        property string separatorColor: theme.lockscreenDateFontDropshadowColor
+        property string panelHeaderColor: theme_buttonFontColor
+        property string contentHeaderColor: theme_fontColorNormal
+        property string tileMainTextColor: "#2a7e98"
+        property string tileDescTextColor: "#666666"
+        property string textColor: theme_fontColorNormal
+        property string separatorColor: theme_lockscreenDateFontDropshadowColor
     }
 
     overlayItem: Item {

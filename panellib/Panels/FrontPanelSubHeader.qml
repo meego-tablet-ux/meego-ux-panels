@@ -14,7 +14,7 @@ import Qt 4.7
 Item {
 
     width: parent.width
-    height: subHeaderImg.height
+    height: panelSize.contentTitleHeight
 
     property bool collapsed: false
     property alias arrowVisible: fpSubHeaderImage.visible
@@ -22,27 +22,25 @@ Item {
 
     signal arrowClicked(bool collapsed);
 
-    Image {
-        id: subHeaderImg
-        source: (panelObj.Color == "" ? "image://themedimage/images/panels/pnl_mytablet_subtitlebar" :
-                 "image://themedimage/images/panels/pnl_subtitlebar_" + panelObj.Color)
-        height: sourceSize.height
-        width: parent.width
-        onStatusChanged: {
-            if (status == Image.Error) {
-                //If we can't load the colored titlebar, fall back to default
-                source = "image://themedimage/images/panels/pnl_mytablet_subtitlebar"
-            }
-        }
-    }
+    // Image {
+    //     id: subHeaderImg
+    //     source: "image://meegotheme/widgets/apps/panels/panel-content-background"
+    //     height: sourceSize.height
+    //     width: parent.width
+    //     onStatusChanged: {
+    //         if (status == Image.Error) {
+    //             //If we can't load the colored titlebar, fall back to default
+    //             source = "image://theme/panels/pnl_mytablet_subtitlebar"
+    //         }
+    //     }
+    // }
 
     Text {
         id: fpSubHeaderText
-        font.pixelSize: theme.fontPixelSizeLarge
-        color: panelColors.textColor
+        font.pixelSize: theme_fontPixelSizeLarge
+        color: panelColors.contentHeaderColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: panelSize.contentSideMargin
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
     }

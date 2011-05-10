@@ -15,6 +15,7 @@ import Qt 4.7
 FrontPanelContentItem {
     id: fpITI
     property alias imageSource: fpImage.source
+    property alias backgroundImageSource: fpIconBackground.source
     property alias text: fpText.text
     property bool zoomImage: false
     property string fallBackImage: ""
@@ -23,18 +24,21 @@ FrontPanelContentItem {
     mouseAreaActive: true
 
     Image {
-        id: fpImage
-        height: (fpITI.zoomImage ? width : sourceSize.height)
-        width: (fpITI.zoomImage ? panelSize.contentIconSize : sourceSize.width) //THEME - VERIFY
-        fillMode: Image.PreserveAspectCrop
-        anchors.left: parent.left
-        anchors.leftMargin: panelSize.contentSideMargin
+        id: fpIconBackground
+        source: "image://meegotheme/widgets/apps/panels/item-border-empty"
         anchors.verticalCenter: parent.verticalCenter
-        asynchronous: true
+        Image {
+            id: fpImage
+            anchors.centerIn: parent
+            height: (fpITI.zoomImage ? width : sourceSize.height)
+            width: (fpITI.zoomImage ? panelSize.contentIconSize : sourceSize.width) //THEME - VERIFY
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
 
-        Component.onCompleted: {
-            if ((fallBackImage != "") && ((fpImage.status == Image.Error) || (fpImage.status == Image.Null))) {
-                fpImage.source = fallBackImage;
+            Component.onCompleted: {
+                if ((fallBackImage != "") && ((fpImage.status == Image.Error) || (fpImage.status == Image.Null))) {
+                    fpImage.source = fallBackImage;
+                }
             }
         }
     }
@@ -44,10 +48,10 @@ FrontPanelContentItem {
         font.pixelSize: theme.fontPixelSizeLarge //THEME - VERIFY
         color: panelColors.textColor //THEME - VERIFY
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: (((fpImage.status == Image.Null) || (fpImage.status == Image.Error)) ? parent.left : fpImage.right)
-        anchors.leftMargin: ((fpImage.status == Image.Null) || (fpImage.status == Image.Error)) ? panelSize.contentSideMargin : (fpImage.width/4)
+        anchors.left: (((fpIconBackground.status == Image.Null) || (fpIconBackground.status == Image.Error)) ? parent.left : fpIconBackground.right)
+        anchors.leftMargin: ((fpIconBackground.status == Image.Null) || (fpIconBackground.status == Image.Error)) ? panelSize.contentSideMargin : (fpIconBackground.width/4)
         anchors.right: parent.right
-        anchors.rightMargin: fpImage.anchors.leftMargin
+        anchors.rightMargin: fpIconBackground.anchors.leftMargin
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
     }
