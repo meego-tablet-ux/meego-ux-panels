@@ -57,6 +57,7 @@ TileItem {
             }
         }
         Item {
+            visible: hasImage
             width: panelSize.tileTextLeftMargin
             height: parent.height
         }

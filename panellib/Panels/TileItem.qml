@@ -16,7 +16,7 @@ Item {
     width: parent.width
     property alias mouseAreaActive: fpMouseArea.visible
     property bool separatorVisible: false
-    property alias content: tileContent.sourceComponent
+    property alias children: tileContent.children
 
     signal pressAndHold(variant mouse)
     signal clicked(variant mouse)
@@ -24,14 +24,16 @@ Item {
     Column {
         width: parent.width
         Image {
-            width: parent.width
             id: separator
+            width: parent.width
             visible: separatorVisible
             height: separatorVisible ? sourceSize.height : 0
             source: "image://meegotheme/widgets/apps/panels/panel-content-separator"
         }
-        Loader {
+        Item {
             id: tileContent
+            height: childrenRect.height
+            width: childrenRect.width
         }
     }
     MouseArea{

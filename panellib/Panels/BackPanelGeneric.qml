@@ -30,24 +30,24 @@ SimplePanel {
             id: bpComp
             interactive: (height < contentHeight)
             anchors.fill: parent
-            contentHeight: backPanelCol.height
+            contentHeight: myContent.height
             clip: true
             Column {
-                id: backPanelCol
+                id: myContent
                 width: parent.width
-                FrontPanelSubHeader{
-                    visible: true
+                FrontPanelExpandableContent {
+                    id: backPanelCol
+                    width: parent.width
                     text: subheaderText
-                }
-                BackPanelMessageTextItem
-                {
-                    id: bpMessage
-                    width: parent.width
-                }
-
-                Loader {
-                    width: parent.width
-                    sourceComponent: bpContent
+                    // FrontPanelSubHeader{
+                    //     visible: true
+                    //     text: subheaderText
+                    // }
+                    contents: bpContent
+                    // Loader {
+                    //     width: parent.width
+                    //     sourceComponent: bpContent
+                    // }
                 }
                 Item {
                     visible:backPanelGeneric.clearButtonVisible
@@ -68,16 +68,17 @@ SimplePanel {
                         }
                     }
                 }
-                FrontPanelSubHeader{
-                    visible: true
+                FrontPanelExpandableContent {
+                    id: panelSettings
+                    width: parent.width
                     text: qsTr("Panels")
-                }
-                BackPanelIconTextItem {
-                    imageSource: "image://themedimage/icons/settings/everyday-settings"
-                    text: qsTr("Manage panels")
-                    onClicked: {
-                        spinnerContainer.startSpinner();
-                        appsModel.launch("meego-qml-launcher --opengl --app meego-ux-settings --cmd showPage --cdata Panels --fullscreen")
+                    contents: TileListItem {
+                        imageSource: "image://themedimage/icons/settings/everyday-settings"
+                        text: qsTr("Manage panels")
+                        onClicked: {
+                            spinnerContainer.startSpinner();
+                            appsModel.launch("meego-qml-launcher --opengl --app meego-ux-settings --cmd showPage --cdata Panels --fullscreen")
+                        }
                     }
                 }
             }

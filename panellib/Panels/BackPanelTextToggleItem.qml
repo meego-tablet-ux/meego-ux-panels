@@ -12,25 +12,27 @@ import MeeGo.Components 0.1
 //BackPanelTextToggleItem  - class for standard toggle items in the
 //back panel - this contains standard visual properties that are common
 
-BackPanelContentItem {
+TileItem {
     id: backPanelTextToggleItem
-    property alias text: bpText.text
-    property string propName: ""
+    height: panelSize.tileListItemHeight
+    width: parent.width
     property variant defaultVal: true
+    property alias text: bpText.text
+    property alias on: bpToggleButton.on
 
     signal toggled(bool isOn)
 
-    contentHeight: bpToggleButton.height + bpToggleButton.anchors.topMargin + bpToggleButton.anchors.bottomMargin
-
-    width: parent.width
-
+    Component.onCompleted: {
+        var initialVal = panelObj.getCustomProp(custPropName, defaultVal)
+        on = initialVal
+        backPanelTextToggleItem.toggled(backPanelTextToggleItem.on);
+    }
     Text {
         id: bpText
-        font.pixelSize: theme.fontPixelSizeLarge
-        color: panelColors.textColor
+        font.pixelSize: theme_fontPixelSizeLarge
+        color: panelColors.tileDescTextColor //THEME - VERIFY
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: panelSize.contentSideMargin
         anchors.right: bpToggleButton.left
         anchors.rightMargin: anchors.leftMargin
         wrapMode: Text.NoWrap
@@ -39,24 +41,12 @@ BackPanelContentItem {
 
     ToggleButton{
         id: bpToggleButton
-        anchors.topMargin: panelSize.contentTopMargin
-        anchors.bottomMargin: anchors.topMargin
+        anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         anchors.rightMargin: panelSize.contentSideMargin
-        anchors.top: parent.itemTop.bottom
-
-        property bool initialVal
-
-        on: {
-            initialVal = panelObj.getCustomProp(custPropName, defaultVal)
-            backPanelTextToggleItem.toggled(initialVal);
-            return initialVal;
-        }
-
         onToggled:{
             backPanelTextToggleItem.toggled(isOn);
             panelObj.setCustomProp(custPropName, isOn);
         }
     }
-
 }

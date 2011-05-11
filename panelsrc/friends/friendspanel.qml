@@ -33,7 +33,6 @@ FlipPanel {
         panelTitle: qsTr("Friends settings")
         subheaderText: qsTr("Friends panel content")
         bpContent: backPanelContent
-        isBackPanel: true
     }
 
     onFlipToFront: {
@@ -267,6 +266,10 @@ FlipPanel {
             Column {
                 id: lvServices
                 width: parent.width
+                BackPanelMessageTextItem {
+                    id: bpMessage
+                    width: parent.width
+                }
                 Repeater {
                     model: panelManager.serviceModel
                     delegate: servicesDelegate
@@ -421,17 +424,18 @@ FlipPanel {
     Component {
         id: servicesDelegate
 
-        BackPanelContentItem {
+        TileItem {
             id: contentDel
-            contentHeight: svcButtonLoader.height + svcButtonLoader.anchors.topMargin + svcButtonLoader.anchors.bottomMargin
+            height: panelSize.tileListItemHeight
+            width: parent.width
+            separatorVisible: true
             Text {
                 id: nameText
                 anchors.left: parent.left
-                anchors.leftMargin: panelSize.contentSideMargin
                 anchors.right: svcButtonLoader.left
                 anchors.rightMargin: panelSize.contentSideMargin
                 text: displayname
-                color: panelColors.textColor
+                color: panelColors.tileDescTextColor //THEME - VERIFY
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: theme.fontPixelSizeLarge
                 wrapMode: Text.NoWrap

@@ -8,11 +8,9 @@
 
 import Qt 4.7
 
-BackPanelContentItem{
-
-    contentHeight: bpText.paintedHeight
-    + bpText.anchors.topMargin
-    + bpText.anchors.bottomMargin
+TileItem{
+    //height: panelSize.secondaryTileHeight
+    height: bpText.paintedHeight + 2*panelSize.contentTopMargin
 
     property alias text: bpText.text
 
@@ -24,12 +22,12 @@ BackPanelContentItem{
         anchors.right:  parent.right
         anchors.rightMargin: panelSize.contentSideMargin
         anchors.top: parent.itemTop.bottom
-        anchors.topMargin: panelSize.contentTopMargin
-        anchors.bottomMargin: anchors.topMargin
+        anchors.verticalCenter: parent.verticalCenter
+        verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
 
-        font.pixelSize: theme.fontPixelSizeLarge
-        color: panelColors.textColor
+        font.pixelSize: theme_fontPixelSizeLarge
+        color: panelColors.tileDescTextColor
         wrapMode: Text.Wrap
     }
 }

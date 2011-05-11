@@ -14,11 +14,19 @@ BackPanelGeneric {
     property Component settingsListDelegate: standardSettingsDelegate
 
 
-    bpContent: Column {
+    bpContent: Item {
         width: parent.width
-        Repeater {
-            model: settingsListModel
-            delegate: settingsListDelegate
+        height: childrenRect.height
+        Column {
+            width: parent.width
+            BackPanelMessageTextItem {
+                id: bpMessage
+                width: parent.width
+            }
+            Repeater {
+                model: settingsListModel
+                delegate: settingsListDelegate
+            }
         }
     }
 
@@ -26,7 +34,7 @@ BackPanelGeneric {
         id: standardSettingsDelegate
         BackPanelTextToggleItem {
             text: settingsTitle
-            propName: custPropName
+            separatorVisible: true
             onToggled: {
                 settingsListModel.setProperty(index, "isVisible", isOn);
             }
