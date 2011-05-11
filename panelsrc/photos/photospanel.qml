@@ -247,17 +247,18 @@ FlipPanel {
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
                 text: qsTr("Albums")
                 property int count: 0
-                contents: ListView {
-                    width: fpecAlbumList.width
-                    interactive: false
+                contents: FrontPanelColumnView {
+                    width: parent.width
                     model: allAlbumsListModel
-                    height: count * (panelSize.contentItemHeight + 2)
                     onCountChanged: fpecAlbumList.count = count
                     Component.onCompleted: fpecAlbumList.count = count
-                    delegate: FrontPanelPhotoIconItem {
+                    delegate: TileListItem {
                         id:albumPreview
+                        separatorVisible: index > 0
                         imageSource: thumburi
-                        text: title
+                        imageComponent: imageNormal
+                        description: title
+                        zoomImage: true
                         onClicked: {
                             spinnerContainer.startSpinner();
                             appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + urn)
@@ -272,7 +273,6 @@ FlipPanel {
                             ctxMenuAlbum.setPosition(pos.x, pos.y);
                             ctxMenuAlbum.show();
                         }
-
                     }
                 }
             }

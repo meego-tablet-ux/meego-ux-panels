@@ -43,13 +43,27 @@ TileItem {
         }
         Text {
             id: fpText
-            text: "<font color='"+panelColors.tileMainTextColor+ "'>" + fpITI.text + (fpITI.description && fpITI.text ? ", ":"") + "</font>"
-                + "<font color='"+panelColors.tileDescTextColor+ "'>" + fpITI.description+"</font>"
-            width: parent.width - panelSize.tileTextLeftMargin - tileImage.width
+            text: fpITI.text + (fpITI.description && fpITI.text ? ", ":"")
+            onTextChanged: {
+                if (paintedWidth > parent.width - panelSize.tileTextLeftMargin - tileImage.width) {
+                    elide = Text.ElideRight
+                    width: parent.width - panelSize.tileTextLeftMargin - tileImage.width
+                }
+            }
             font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+            color: panelColors.tileMainTextColor
             anchors.verticalCenter: parent.verticalCenter
             wrapMode: Text.NoWrap
+        }
+        Text {
+            id: fpDesc
+            text: fpITI.description
+            width: parent.width - panelSize.tileTextLeftMargin - tileImage.width - fpText.width
+            font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+            color: panelColors.tileDescTextColor
+            anchors.verticalCenter: parent.verticalCenter
             elide: Text.ElideRight
+            wrapMode: Text.NoWrap
         }
     }
     resources: [
