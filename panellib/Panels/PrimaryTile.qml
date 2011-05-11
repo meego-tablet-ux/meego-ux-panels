@@ -8,7 +8,7 @@
 
 import Qt 4.7
 
-//SecondaryTile - base class for standard content items in the
+//PrimaryTile - base class for standard content items in the
 
 TileItem {
     id: fpITI

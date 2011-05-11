@@ -16,23 +16,17 @@ FrontPanelExpandableContent {
     property alias modelCount: repeater.count
     contents: Item {
         width: parent.width
-        height: childrenRect.height
+        height: col.height + 2*panelSize.primaryTileSideMargin
         Column {
+            id: col
             width: parent.width
-            Item {
-                width: parent.width
-                height: panelSize.primaryTileSideMargin
-            }
+            anchors.verticalCenter: parent.verticalCenter
             Grid {
                 id: grid
                 clip:true
                 width: parent.width
                 columns: 2
                 children: repeater
-            }
-            Item {
-                width: parent.width
-                height: panelSize.primaryTileSideMargin
             }
         }
     }

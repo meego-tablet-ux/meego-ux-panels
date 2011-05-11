@@ -71,7 +71,7 @@ TileItem {
                     source: fpITI.imageSource
                     anchors.centerIn: parent
                     height: (fpITI.zoomImage ? width : sourceSize.height)
-                    width: (fpITI.zoomImage ? panelSize.secondaryTileContentHeight - 2*parent.border.top : sourceSize.width) //THEME - VERIFY
+                    width: (fpITI.zoomImage ? panelSize.tileListItemContentHeight - 2*parent.border.top : sourceSize.width) //THEME - VERIFY
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
 

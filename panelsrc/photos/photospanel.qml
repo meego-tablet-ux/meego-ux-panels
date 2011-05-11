@@ -210,47 +210,34 @@ FlipPanel {
                     contentY = 0;
             }
             contentHeight: fpecPhotoGrid.height + fpecAlbumList.height
-            FrontPanelExpandableContent {
+            SecondaryTileGrid{
                 id: fpecPhotoGrid
                 text: qsTr("Recently viewed")
                 collapsible: false
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
-
-                contents: FrontPanelGridView {
-                    id: photoGrid
-                    width: parent.width
-                    anchors.top: parent.top
-                    colCount: 4
-                    model: allPhotosListModel
-                    onCountChanged: fpecPhotoGrid.count = count
-                    Component.onCompleted: fpecPhotoGrid.count = count
-                    delegate: FrontPanelGridImageItem {
-                        id:photoPreview
-                        imageSource: thumburi
-                        width: { return Math.floor(parent.width/photoGrid.colCount); }
-                        imageFillMode: Image.PreserveAspectCrop
-                        height: width
-                        clip: true
-                        padding: 0
-                        onClicked: {
-                            spinnerContainer.startSpinner();
-                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + urn )
-                            container.notifyModel();
-                        }
-
-                        //For the context Menu
-                        onPressAndHold:{
-                            var pos = photoPreview.mapToItem(window, mouse.x, mouse.y);
-
-                            ctxMenuPhoto.currentUrn= urn
-                            ctxMenuPhoto.currentUri=uri;
-                            ctxMenuPhoto.menuPos = pos;
-                            ctxMenuPhoto.setPosition(pos.x, pos.y);
-                            ctxMenuPhoto.show();
-                        }
-
+                model: allPhotosListModel
+                onModelCountChanged: count = modelCount
+                Component.onCompleted: count = modelCount
+                delegate: SecondaryTileGridItem {
+                    id:photoPreview
+                    imageSource: thumburi
+                    onClicked: {
+                        spinnerContainer.startSpinner();
+                        appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + urn )
+                        container.notifyModel();
                     }
+                    //For the context Menu
+                    onPressAndHold:{
+                        var pos = photoPreview.mapToItem(scene, mouse.x, mouse.y);
+
+                        ctxMenuPhoto.currentUrn= urn
+                        ctxMenuPhoto.currentUri=uri;
+                        ctxMenuPhoto.menuPos = pos;
+                        ctxMenuPhoto.setPosition(pos.x, pos.y);
+                        ctxMenuPhoto.show();
+                    }
+
                 }
             }
 

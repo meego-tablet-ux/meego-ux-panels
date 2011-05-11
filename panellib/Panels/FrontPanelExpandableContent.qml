@@ -18,6 +18,7 @@ Item {
     property alias collapsible: fpsubheader.arrowVisible
     property alias contents: fpContents.sourceComponent
     property alias showHeader: fpsubheader.visible
+    property real sideMargin: panelSize.contentSideMargin
 
     //If set, forces a set loader height, using maxLoaderHeight
     property bool useFixedLoaderHeight: false
@@ -91,7 +92,7 @@ Item {
 
     Item {
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - 2*panelSize.contentSideMargin
+        width: parent.width - 2*sideMargin
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 

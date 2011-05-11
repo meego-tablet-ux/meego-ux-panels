@@ -33,7 +33,6 @@ Item {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
 
-
     Item {
         id: panelHeader
         anchors.top: parent.top

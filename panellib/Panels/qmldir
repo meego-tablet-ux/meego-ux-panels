@@ -23,6 +23,8 @@ Panel 0.1 Panel.qml
 PrimaryTile 0.1 PrimaryTile.qml
 PrimaryTileGrid 0.1 PrimaryTileGrid.qml
 SecondaryTile 0.1 SecondaryTile.qml
+SecondaryTileGrid 0.1 SecondaryTileGrid.qml
+SecondaryTileGridItem 0.1 SecondaryTileGridItem.qml
 SimplePanel 0.1 SimplePanel.qml
 TileItem 0.1 TileItem.qml
 TileListItem 0.1 TileListItem.qml
