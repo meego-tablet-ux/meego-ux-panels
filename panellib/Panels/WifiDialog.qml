@@ -14,19 +14,20 @@ import MeeGo.Panels 0.1
 
 Item {
     id: bubbleContainer
-    width: childrenRect.width + 20
-    height: childrenRect.height + 10
-    property alias offset: rectangularBubble.offset
-    property alias dlgX: rectangularBubble.x
-    property alias dlgY: rectangularBubble.y
 
-    onVisibleChanged:{
+    function setPosition(mouseX, mouseY) {
+        wifiCtxMenu.setPosition(mouseX, mouseY)
+    }
+    function show() {
         networkListModel.initWifi()
+        wifiCtxMenu.show()
     }
 
     TopItem {
         id: topItem
     }
+
+    Theme{ id: theme }
 
     NetworkListModel {
         id: networkListModel
@@ -115,138 +116,91 @@ Item {
                        //precedence: default route
     }
 
+    // For getting same margins as in action menu
+    ActionMenu {
+        id: actionMenu
+        visible: false
+    }
 
-    MouseArea {
-        id: maDlg
-        parent: topItem.topItem
-        anchors.fill: parent
-        onClicked: {
-            bubbleContainer.visible = false;
-        }
-        visible: bubbleContainer.visible
+    ModalContextMenu {
+        id: wifiCtxMenu
 
-        Labs.RectangularBubble {
-            id: rectangularBubble
+        content: Item {
 
-            width: childrenRect.width+15
-            height: childrenRect.height+10
+            width: bubbleCol.width
+            height: bubbleCol.height
+            Column {
+                id: bubbleCol
+                anchors.centerIn: parent
+                Item {
+                    id:wifiRectangle
+                    width: bubbleCol.width
 
+                    height: Math.max(wifiText.height,wifiToggle.height) + actionMenu.textMargin
 
-            //This is SUCH a hack!
-            //We can't adjust the y in the calling code,
-            //as, since the height is now dynamically calculated,
-            //the wifiDialog.height is 0 initially.
-            //So, instead, we adjust it in here, every time we
-            //become visible... <sigh>
-            //There's really gotta be a better way...
+                    Text {
+                        id: wifiText
+                        text: qsTr("Wi-Fi")
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: actionMenu.textMargin
+                        color: theme.contextMenuFontColor
+                        font.pixelSize: theme.contextMenuFontPixelSize
+                    }
 
-            property bool yAdjusted: false
-            property bool xAdjusted: false
+                    ToggleButton {
+                        id: wifiToggle
 
-            onYChanged: {
-                if (!yAdjusted) {
-                    yAdjusted = true;
-                    y -= (height/2);
-                }
-            }
+                        anchors.right: parent.right
+                        anchors.rightMargin: actionMenu.textMargin
+                        anchors.verticalCenter: wifiText.verticalCenter
 
-            onXChanged: {
-                if (!xAdjusted) {
-                    xAdjusted = true;
-                    //Adjust for the finger
-                    x += 5;
-                }
-            }
-
-            onVisibleChanged: {
-                if (!visible) {
-                    yAdjusted = false;
-                    xAdjusted = false;
-                }
-            }
-
-            Item{
-                id:wifiRectangle
-
-                anchors.top: parent.top
-                anchors.topMargin: 5
-                height: childrenRect.height + 10
-                width: { return Math.max(childrenRect.width + 20, parent.width - 4); }
-
-                Text{
-                    id: wifiText
-                    text: qsTr("Wi-Fi")
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    anchors.rightMargin: 5
-                    color: panelColors.textColor
-                    height: paintedHeight
-                    width: paintedWidth
-                }
-
-                ToggleButton{
-                    id: wifiToggle
-
-                    anchors.right: parent.right
-                    anchors.rightMargin: 5
-                    anchors.verticalCenter: wifiText.verticalCenter
-
-                    on:  (networkListModel.enabledTechnologies.indexOf("wifi") != -1)
-                    onToggled: {
-                        if(wifiToggle.on)
-                            networkListModel.enableTechnology("wifi");
-                        else
-                            networkListModel.disableTechnology("wifi");
+                        on:  (networkListModel.enabledTechnologies.indexOf("wifi") != -1)
+                        onToggled: {
+                            if(wifiToggle.on)
+                                networkListModel.enableTechnology("wifi");
+                            else
+                                networkListModel.disableTechnology("wifi");
+                        }
                     }
                 }
-            }
 
-            Rectangle{
-                id: wifiRectangleborder1
-                anchors.top: wifiRectangle.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 4
-                height: 1
-                color: panelColors.separatorColor
-            }
+                Image {
+                    source: "image://themedimage/widgets/common/menu/menu-item-separator-header"
+                    width: parent.width
+                }
 
-	    Text {
-	        id: txtCurConn
-		anchors.top: wifiRectangleborder1.bottom
-                anchors.left: parent.left
-		anchors.leftMargin: 10
-                anchors.topMargin: 4
-                width: paintedWidth
-                text: connectedText
-                color: panelColors.textColor
-	    }
+        	    Text {
+        	        id: txtCurConn
+                    anchors.left: parent.left
+                    anchors.leftMargin: actionMenu.textMargin
+                    width: paintedWidth + actionMenu.textMargin*2
+                    height: paintedHeight + actionMenu.textMargin*2
+                    text: connectedText
+                    verticalAlignment: Text.AlignVCenter
+                    color: theme.contextMenuFontColor
+                    font.pixelSize: theme.contextMenuFontPixelSize
+        	    }
 
-            Rectangle{
-                id: wifiRectangleborder2
-                anchors.top: txtCurConn.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.margins: 4
-                height: 1
-                color: panelColors.separatorColor
-            }
+                Image {
+                    source: "image://themedimage/widgets/common/menu/menu-item-separator-header"
+                    width: parent.width
+                }
 
-            Button {
-                id : wifiSettings
-                text: qsTr("Wi-Fi settings")
-                anchors.top: wifiRectangleborder2.bottom
-                anchors.topMargin: 5
-                anchors.leftMargin:5
-                anchors.rightMargin:5
-                anchors.bottomMargin:5
-                anchors.horizontalCenter: parent.horizontalCenter
+                Item {
+                    height: wifiSettings.height + actionMenu.textMargin
+                    width: parent.width
+                    Button {
+                        id : wifiSettings
+                        text: qsTr("Wi-Fi settings")
+                        anchors.centerIn: parent
 
-                onClicked:{
-                    spinnerContainer.startSpinner();
-                    appsModel.launch("meego-qml-launcher --opengl  --app meego-ux-settings --cmd showPage --cdata Connections --fullscreen")
-                    bubbleContainer.visible = false;
+                        onClicked:{
+                            spinnerContainer.startSpinner();
+                            appsModel.launch("meego-qml-launcher --opengl  --app meego-ux-settings --cmd showPage --cdata Connections --fullscreen")
+                            wifiCtxMenu.hide();
+                        }
+                    }
                 }
             }
         }

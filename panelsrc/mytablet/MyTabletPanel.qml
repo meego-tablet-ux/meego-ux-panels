@@ -37,7 +37,6 @@ FlipPanel {
 
     WifiDialog {
         id: wifiDialog
-        visible: false
         z: 100
         parent: topItem.topItem
     }
@@ -285,9 +284,8 @@ FlipPanel {
                         onClicked: {
                             var posInWindow = fpPanelIconTextItem.mapToItem(topItem.topItem, mouse.x, mouse.y)
                             if (type == "wifi") {
-                                wifiDialog.dlgX = posInWindow.x;
-                                wifiDialog.dlgY = posInWindow.y;
-                                wifiDialog.visible = true;
+                                wifiDialog.setPosition(posInWindow.x, posInWindow.y);
+                                wifiDialog.show();
                             } else if (type == "sound") {
                                 volumeDialog.dlgX = posInWindow.x;
                                 volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
