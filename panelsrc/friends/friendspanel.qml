@@ -427,7 +427,7 @@ FlipPanel {
         TileItem {
             id: contentDel
             height: panelSize.tileListItemHeight
-            width: parent.width
+            width: parent ? parent.width : 0
             separatorVisible: true
             Text {
                 id: nameText

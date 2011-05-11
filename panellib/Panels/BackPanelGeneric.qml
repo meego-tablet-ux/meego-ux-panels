@@ -56,6 +56,7 @@ SimplePanel {
                     Button {
                         id: bpClearButton
                         text: qsTr("Clear history")
+                        maxWidth: parent.width
                         anchors.bottomMargin: panelSize.contentTopMargin
                         anchors.topMargin: panelSize.contentTopMargin
                         anchors.horizontalCenter: parent.horizontalCenter

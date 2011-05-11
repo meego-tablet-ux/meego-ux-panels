@@ -11,7 +11,7 @@ import Qt 4.7
 Item {
     id: fpec
 
-    width: parent.width
+    width: parent ? parent.width : 0
     height: visible? (showHeader ? fpsubheader.height : 0 ) + fpContents.height : 0
 
     property alias text: fpsubheader.text

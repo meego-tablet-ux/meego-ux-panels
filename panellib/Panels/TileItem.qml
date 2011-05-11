@@ -13,7 +13,7 @@ import Qt 4.7
 
 Item {
     id: container
-    width: parent.width
+    width: parent ? parent.width : 0
     property alias mouseAreaActive: fpMouseArea.visible
     property bool separatorVisible: false
     property alias children: tileContent.children

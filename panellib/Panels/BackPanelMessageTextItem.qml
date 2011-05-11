@@ -18,10 +18,7 @@ TileItem{
         id: bpText
         text: qsTr("To show items on the front of the panel select ON, to hide select OFF")
         anchors.left: parent.left
-        anchors.leftMargin: panelSize.contentSideMargin
         anchors.right:  parent.right
-        anchors.rightMargin: panelSize.contentSideMargin
-        anchors.top: parent.itemTop.bottom
         anchors.verticalCenter: parent.verticalCenter
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft

@@ -13,8 +13,11 @@ import Qt 4.7
 TileItem {
     id: fpITI
     height: panelSize.secondaryTileHeight
-    property alias imageSource: fpImage.source
-    property alias backgroundImageSource: fpIconBackground.source
+    property string imageSource
+    property alias imageComponent: tileImage.sourceComponent
+    property Component imageEmpty: empty
+    property Component imageAlbum: album
+    property Component imageAlbumChild
     property alias text: fpText.text
     property alias description: fpDesc.text
     property bool zoomImage: false
@@ -24,34 +27,11 @@ TileItem {
 
     Row {
         height: parent.height
-        BorderImage {
-            id: fpIconBackground
-            // TODO: use .sci once there is support in image provider
-            // (and an .sci file)
-            source: "image://meegotheme/widgets/apps/panels/item-border-empty"
-            border.top: 6
-            border.bottom: 6
-            border.left: 6
-            border.right: 6
-            height: panelSize.secondaryTileContentHeight
-            width: height
+        Loader {
+            id: tileImage
+            sourceComponent: empty
             anchors.verticalCenter: parent.verticalCenter
-            Image {
-                id: fpImage
-                anchors.centerIn: parent
-                height: (fpITI.zoomImage ? width : sourceSize.height)
-                width: (fpITI.zoomImage ? panelSize.contentIconSize : sourceSize.width) //THEME - VERIFY
-                fillMode: Image.PreserveAspectCrop
-                asynchronous: true
-
-                Component.onCompleted: {
-                    if ((fallBackImage != "") && ((fpImage.status == Image.Error) || (fpImage.status == Image.Null))) {
-                        fpImage.source = fallBackImage;
-                    }
-                }
-            }
         }
-
         Item {
             width: panelSize.tileTextLeftMargin
             height: parent.height
@@ -81,4 +61,76 @@ TileItem {
             }
         }
     }
+    resources: [
+        Component {
+            id: empty
+            BorderImage {
+                id: fpIconBackground
+                // TODO: use .sci once there is support in image provider
+                // (and an .sci file)
+                source: "image://meegotheme/widgets/apps/panels/item-border-empty"
+                border.top: 6
+                border.bottom: 6
+                border.left: 6
+                border.right: 6
+                height: panelSize.secondaryTileContentHeight
+                width: height
+                Image {
+                    id: fpImage
+                    source: fpITI.imageSource
+                    anchors.centerIn: parent
+                    height: (fpITI.zoomImage ? width : sourceSize.height)
+                    width: (fpITI.zoomImage ? panelSize.secondaryTileContentHeight - 2*parent.border.top : sourceSize.width)
+                    //THEME - VERIFY
+                    fillMode: Image.PreserveAspectCrop
+                    asynchronous: true
+
+                    Component.onCompleted: {
+                        if ((fallBackImage != "") && ((fpImage.status == Image.Error))) {
+                            console.log("Failed to load: " + fpITI.imageSource)
+                            fpITI.imageSource = fallBackImage;
+                        }
+                    }
+                }
+            }
+        },
+        Component {
+            id: album
+            BorderImage {
+                id: fpIconBackground
+                // TODO: use .sci once there is support in image provider
+                // (and an .sci file)
+                source: "image://meegotheme/widgets/apps/panels/item-border-album"
+                border.top: 12
+                border.bottom: 10
+                border.left: 4
+                border.right: 4
+                height: panelSize.secondaryTileContentHeight
+                width: height
+                anchors.verticalCenter: parent.verticalCenter
+                Image {
+                    id: fpImage
+                    source: fpITI.imageSource
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: parent.height - parent.border.top - parent.border.bottom
+                    width: parent.width - parent.border.left - parent.border.right
+                    anchors.verticalCenterOffset: parent.border.top - parent.border.bottom
+                    fillMode: Image.Stretch
+                    asynchronous: true
+
+                    Loader {
+                        anchors.fill: parent
+                        sourceComponent: fpITI.imageAlbumChild
+                    }
+
+                    Component.onCompleted: {
+                        if ((fallBackImage != "") && ((fpImage.status == Image.Error))) {
+                            fpImage.source = fallBackImage;
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }

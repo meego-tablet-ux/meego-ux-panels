@@ -23,7 +23,11 @@ FlipPanel {
     //Need to modify model that this app is launched
     function notifyModel()
     {
-        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+        appsModel.favorites.append(privateData.musicDesktop)
+    }
+    Item {
+        id: privateData
+        property string musicDesktop: "/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop"
     }
 
 
@@ -96,7 +100,6 @@ FlipPanel {
     back: BackPanelStandard {
         panelTitle: qsTr("Music settings")
         subheaderText: qsTr("Music panel content")
-        //panelContent: itemModelSizes
         settingsListModel: backSettingsModel
         isBackPanel: true
 
@@ -177,7 +180,7 @@ FlipPanel {
 
 
             FrontPanelExpandableContent {
-
+                id: currentlyPlaying
                 visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
                 text:qsTr("Currently playing")
                 collapsible: false
@@ -186,11 +189,9 @@ FlipPanel {
                     if (musicIntf.state == "playing")
                         musicIntf.refresh();
                 }
-
                 contents: Item{
 
                     height: curPlayingListView.height
-                    + playqueueItem.height
 
                     MusicListModel {
                         id: curPlaying
@@ -198,92 +199,32 @@ FlipPanel {
                         urns: musicIntf.nowTrack
                     }
 
-                    ListView {
+                    Column {
                         id: curPlayingListView
-                        model: curPlaying
                         width: parent.width
-                        height: (width * .4)
-                        interactive: false
-                        delegate: FrontPanelMusicPreviewContentItem{
-                            id: currentlyPlayingItem
-                            isCurrentlyPlayingLayout: true
-                            anchors.top: parent.top
-                            imageSource: thumburi
-                            imagePlayStatus: (musicIntf.state == "playing")
-                            text: title
-                            onBackButtonClicked: musicIntf.prev()
-                            onForwardButtonClicked: musicIntf.next()
-                            onPlayButtonClicked: (musicIntf.state == "playing" ? musicIntf.pause() : musicIntf.play())
-                        }
-
-                    }
-
-                    FrontPanelExpandableContent {
-
-                        id: playqueueItem
-                        property int count: 0
-                        anchors.top: curPlayingListView.bottom
-                        visible: (musicIntf.nextTrackCount > 0)
-
-                        text:qsTr("Play queue")
-                        collapsible: false
-                        ContextMenu {
-                            id: ctxMenuQueue
-                            property string currentUrn
-                            property string currentUri
-                            property variant menuPos
-                            property string playCommand
-
-                            content: ActionMenu {
-                                model:[qsTr("Open"), qsTr("Play"), qsTr("Share")]
-                                onTriggered: {
-                                    if (model[index] == qsTr("Open")) {
-                                        spinnerContainer.startSpinner();
-                                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --cdata " + ctxMenuQueue.currentUrn)
-                                        container.notifyModel();
-                                    } else if (model[index] == qsTr("Play")){
-                                        appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
-                                        //container.notifyModel();
-                                    }
-                                    else if(model[index] == qsTr("Share"))
-                                    {
-                                        shareObj.clearItems();
-                                        shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
-                                        shareObj.addItem(ctxMenuQueue.currentUri);
-                                        ctxMenuQueue.hide()
-                                        shareObj.showContextTypes(ctxMenuQueue.menuPos.x, ctxMenuQueue.menuPos.y);
-                                    }
-                                    else {
-                                        console.log("Unhandled context action in Photos: " + model[index]);
-                                    }
-                                    ctxMenuQueue.hide();
-                                }
-                            }
-
-                        }
-                        MusicListModel {
-                            id: nextTwo
-                            type: MusicListModel.Editor
-                            urns: musicIntf.nextTracks
-                        }
-                        contents: FrontPanelMusicTrackListView{
-                            model: nextTwo
-                            contextMenu: ctxMenuQueue
-                            onCountChanged: {
-                                playqueueItem.count = count
-                                //console.log("********nextTwo count changed: " + count)
+                        Repeater {
+                            model: curPlaying
+                            delegate: FrontPanelMusicPreviewContentItem{
+                                id: currentlyPlayingItem
+                                isCurrentlyPlayingLayout: true
+                                imageSource: thumburi
+                                imagePlayStatus: (musicIntf.state == "playing")
+                                text: title
+                                description: "" + artist
+                                onBackButtonClicked: musicIntf.prev()
+                                onForwardButtonClicked: musicIntf.next()
+                                onPlayButtonClicked: (musicIntf.state == "playing" ? musicIntf.pause() : musicIntf.play())
+                                onClicked: (musicIntf.state == "playing" ? musicIntf.pause() : musicIntf.play())
                             }
                         }
                     }
                 }
-
-
             }
 
             FrontPanelExpandableContent {
                 id: fpRecentMusic
 
-                visible: backSettingsModel.get(0).isVisible && (count > 0)
+                visible: backSettingsModel.get(0).isVisible && (count > 0) && !currentlyPlaying.visible
                 text: qsTr("Recently played")
 
                 property int count: 0;
@@ -328,71 +269,115 @@ FlipPanel {
 
                 }
 
-                contents: FrontPanelListView{
+                contents: FrontPanelMusicTrackListView{
                     model: musicRecentsModel
-                    width: parent.width
-                    height: { return count * (Math.round(width * 0.4) + 2); }
+                    contextMenu: ctxMenuRecent
+                    onCountChanged: {
+                        fpRecentMusic.count = count
+                    }
+                }
+            }
 
-                    onCountChanged: fpRecentMusic.count = count
-                    Component.onCompleted: fpRecentMusic.count = count
+            FrontPanelExpandableContent {
 
-                    delegate:  FrontPanelMusicPreviewContentItem{
-                        id: musicPreview
-                        imageSource: thumburi
-                        text: title
-                        imagePlayStatus: false //playstatus == 2
-                        onClicked:{
-                            spinnerContainer.startSpinner();
-                            var playCommand = "playSong";
-                            if (itemtype == MediaItem.SongItem)
-                                playCommand = "playSong";
-                            else if (itemtype == MediaItem.MusicArtistItem)
-                                playCommand = "playArtist";
-                            else if (itemtype == MediaItem.MusicAlbumItem)
-                                playCommand = "playAlbum";
-                            else if (itemtype == MediaItem.MusicPlaylistItem)
-                                playCommand = "playPlaylist";
+                id: playqueueItem
+                property int count: 0
+                //visible: (musicIntf.nextTrackCount > 0)
 
-                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
-                            container.notifyModel();
+                text:qsTr("Play queue")
+                collapsible: false
+                ContextMenu {
+                    id: ctxMenuQueue
+                    property string currentUrn
+                    property string currentUri
+                    property variant menuPos
+                    property string playCommand
+
+                    content: ActionMenu {
+                        model:[qsTr("Open"), qsTr("Play"), qsTr("Share")]
+                        onTriggered: {
+                            if (model[index] == qsTr("Open")) {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --cdata " + ctxMenuQueue.currentUrn)
+                                container.notifyModel();
+                            } else if (model[index] == qsTr("Play")){
+                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
+                                //container.notifyModel();
+                            }
+                            else if(model[index] == qsTr("Share"))
+                            {
+                                shareObj.clearItems();
+                                shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeAudio
+                                shareObj.addItem(ctxMenuQueue.currentUri);
+                                ctxMenuQueue.hide()
+                                shareObj.showContextTypes(ctxMenuQueue.menuPos.x, ctxMenuQueue.menuPos.y);
+                            }
+                            else {
+                                console.log("Unhandled context action in Photos: " + model[index]);
+                            }
+                            ctxMenuQueue.hide();
                         }
-                        onPlayButtonClicked: {
-                            var playCommand = "playSong";
-                            if (itemtype == MediaItem.SongItem)
-                                playCommand = "playSong";
-                            else if (itemtype == MediaItem.MusicArtistItem)
-                                playCommand = "playArtist";
-                            else if (itemtype == MediaItem.MusicAlbumItem)
-                                playCommand = "playAlbum";
-                            else if (itemtype == MediaItem.MusicPlaylistItem)
-                                playCommand = "playPlaylist";
+                    }
 
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --noraise --cdata " + urn)
+                }
+                MusicListModel {
+                    id: nextTwo
+                    type: MusicListModel.Editor
+                    urns: musicIntf.nextTracks
+                }
+                contents: Item {
+                    property bool playQueueEmpty: playqueueItem.count == 0
+                    width: parent ? parent.width : 0
+                    height: playQueueEmpty ? emptyQueue.height: trackList.height
+                    Item {
+                        id: emptyQueue
+                        visible: playQueueEmpty
+                        width: parent.width
+                        height: childrenRect.height
+                        Column {
+                            width: parent.width
+                            Text {
+                                id: bpText
+                                text: qsTr("Your play queue is empty")
+                                height: paintedHeight + 2*panelSize.contentTopMargin
+                                anchors.left: parent.left
+                                anchors.right:  parent.right
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+
+                                font.pixelSize: theme_fontPixelSizeLarge
+                                color: panelColors.tileDescTextColor
+                                wrapMode: Text.Wrap
+                            }
+                            Item {
+                                width: parent.width
+                                height: addMusicToPlayQueue.height + 2*panelSize.contentTopMargin
+                                Button {
+                                    id: addMusicToPlayQueue
+                                    text: qsTr("Add music to the play queue")
+                                    maxWidth: parent.width
+                                    anchors.bottomMargin: panelSize.contentTopMargin
+                                    anchors.topMargin: panelSize.contentTopMargin
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    onClicked: {
+                                        spinnerContainer.startSpinner();
+                                        qApp.launchDesktopByName(privateData.musicDesktop);
+                                        container.notifyModel();
+                                    }
+                                }
+                            }
                         }
-
-                        //For the context Menu
-                        onPressAndHold:{
-                            var pos = musicPreview.mapToItem(window, mouse.x, mouse.y);
-
-                            ctxMenuRecent.currentUrn=urn;
-                            ctxMenuRecent.currentUri=uri;
-
-                            var playCommand = "playSong";
-                            if (itemtype == MediaItem.SongItem)
-                                playCommand = "playSong";
-                            else if (itemtype == MediaItem.MusicArtistItem)
-                                playCommand = "playArtist";
-                            else if (itemtype == MediaItem.MusicAlbumItem)
-                                playCommand = "playAlbum";
-                            else if (itemtype == MediaItem.MusicPlaylistItem)
-                                playCommand = "playPlaylist";
-
-                            ctxMenuRecent.playCommand = playCommand
-                            ctxMenuRecent.menuPos = pos;
-                            ctxMenuRecent.setPosition(pos.x, pos.y);
-                            ctxMenuRecent.show();
+                    }
+                    FrontPanelMusicTrackListView{
+                        id: trackList
+                        visible: !playQueueEmpty
+                        model: nextTwo
+                        contextMenu: ctxMenuQueue
+                        onCountChanged: {
+                            playqueueItem.count = count
+                            //console.log("********nextTwo count changed: " + count)
                         }
-
                     }
                 }
             }
@@ -400,7 +385,6 @@ FlipPanel {
             FrontPanelExpandableContent {
                 id: fpPlaylists
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
-                anchors.top: fpRecentMusic.bottom
                 text: qsTr("Playlists")
                 property int count: 0
 
@@ -433,10 +417,13 @@ FlipPanel {
                     width: parent.width
                     onCountChanged: fpPlaylists.count = count
                     Component.onCompleted: fpPlaylists.count = count
-                    delegate: FrontPanelIconTextItem {
+                    delegate: TileListItem {
                         id:albumPreview
                         text: title
+                        description: "" + artist
+                        separatorVisible: index > 0
                         imageSource: thumburi
+                        imageComponent: imageNormal
                         fallBackImage: "image://themedimage/images/media/music_thumb_med"
                         zoomImage: true
 
@@ -446,7 +433,7 @@ FlipPanel {
                             container.notifyModel();
                         }
 
-                        //For the context Menu                        
+                        //For the context Menu
                         onPressAndHold:{
                             var pos = albumPreview.mapToItem(window, mouse.x, mouse.y);
 

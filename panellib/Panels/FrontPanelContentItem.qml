@@ -12,7 +12,7 @@ import Qt 4.7
 //front panel - this contains standard visual properties that are common
 
 Item {
-    width: parent.width
+    width: parent ? parent.width : 0
     height: panelSize.secondaryTileHeight
     property alias contentHeight: itemBG.height
     property alias mouseAreaActive: fpMouseArea.visible

@@ -279,7 +279,7 @@ FlipPanel {
                     model: settingsModel
                     delegate: TileListItem {
                         id:fpPanelIconTextItem
-                        text: qsTr(title)
+                        description: qsTr(title)
                         imageSource: icon
                         separatorVisible: index > 0
                         zoomImage: false
