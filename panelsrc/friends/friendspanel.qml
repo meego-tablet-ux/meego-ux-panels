@@ -149,6 +149,7 @@ FlipPanel {
                 delegate: recentUpdatesDelegate
                 anchors.fill: parent
                 interactive: (contentHeight > height)
+                snapMode: ListView.SnapToItem
                 onInteractiveChanged: {
                     if (!interactive)
                         contentY = 0;
@@ -206,45 +207,46 @@ FlipPanel {
 
                 Component {
                     id: recentUpdatesDelegate
-                    FriendsItem {
-                        id: friendsItemDel
-                        serviceName: servicename
-                        serviceIcon: serviceicon
-                        authorIcon: (avatar == undefined ? "" : avatar)
-                        authorName: title
-                        messageText: content
-                        picImage: picture
-                        timeStamp: fuzzyDateTime.getFuzzy(timestamp)
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        itemID: id
-                        itemType: type
+                    FrontPanelExpandableContent {
+                        showHeader: false
+                        contents: FriendsItem {
+                            id: friendsItemDel
+                            serviceName: servicename
+                            serviceIcon: serviceicon
+                            authorIcon: (avatar == undefined ? "" : avatar)
+                            authorName: title
+                            messageText: content
+                            picImage: picture ? picture : ""
+                            timeStamp: fuzzyDateTime.getFuzzy(timestamp)
+                            itemID: id
+                            itemType: type
 
-                        onPressAndHold: {
-                            //console.log("got to onPressAndHold! Yay!" + myID);
-                            if (type == "request")
-                                ctxMenu.ctxModel = [qsTr("Hide")];
-                            else
-                                ctxMenu.ctxModel = [qsTr("View"), qsTr("Hide")]
-                            ctxMenu.ctxPayload = [actions, myID];
+                            onPressAndHold: {
+                                //console.log("got to onPressAndHold! Yay!" + myID);
+                                if (type == "request")
+                                    ctxMenu.ctxModel = [qsTr("Hide")];
+                                else
+                                    ctxMenu.ctxModel = [qsTr("View"), qsTr("Hide")]
+                                ctxMenu.ctxPayload = [actions, myID];
 
-                            var mousePos = friendsItemDel.mapToItem(topItem.topItem, mouse.x, mouse.y);
+                                var mousePos = friendsItemDel.mapToItem(topItem.topItem, mouse.x, mouse.y);
 
-                            ctxMenu.setPosition(mousePos.x, mousePos.y);
-                            ctxMenu.show();
-                        }
-                        onClicked: {
-                            //console.log("got to onClicked! Yay!" + myID);
-                            spinnerContainer.startSpinner();
-                            actions.performStandardAction("default", myID);
-                        }
-                        onAcceptClicked: {
-                            //console.log("Accept clicked for ID " + myID);
-                            actions.performStandardAction("accept", myID);
-                        }
-                        onRejectClicked: {
-                            //console.log("Reject clicked for ID " + myID);
-                            actions.performStandardAction("reject", myID);
+                                ctxMenu.setPosition(mousePos.x, mousePos.y);
+                                ctxMenu.show();
+                            }
+                            onClicked: {
+                                //console.log("got to onClicked! Yay!" + myID);
+                                spinnerContainer.startSpinner();
+                                actions.performStandardAction("default", myID);
+                            }
+                            onAcceptClicked: {
+                                //console.log("Accept clicked for ID " + myID);
+                                actions.performStandardAction("accept", myID);
+                            }
+                            onRejectClicked: {
+                                //console.log("Reject clicked for ID " + myID);
+                                actions.performStandardAction("reject", myID);
+                            }
                         }
                         onRead: {
                             //console.log("onRead for ID " + myID);
@@ -274,12 +276,10 @@ FlipPanel {
                     model: panelManager.serviceModel
                     delegate: servicesDelegate
                 }
-            }
-
-            Connections {
-                target:  back
-                onClearHistClicked: {
-                    mdlClearHist.show();
+                BackPanelClearButton {
+                    onClearHistClicked: {
+                        mdlClearHist.show();
+                    }
                 }
             }
 

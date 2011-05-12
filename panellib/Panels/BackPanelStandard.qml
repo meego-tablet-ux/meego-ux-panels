@@ -10,9 +10,12 @@ import Qt 4.7
 import MeeGo.Panels 0.1
 
 BackPanelGeneric {
+    id: container
     property ListModel settingsListModel
     property Component settingsListDelegate: standardSettingsDelegate
+    property bool clearButtonVisible :true
 
+    signal clearHistClicked()
 
     bpContent: Item {
         width: parent.width
@@ -20,12 +23,16 @@ BackPanelGeneric {
         Column {
             width: parent.width
             BackPanelMessageTextItem {
-                id: bpMessage
-                width: parent.width
             }
             Repeater {
                 model: settingsListModel
                 delegate: settingsListDelegate
+            }
+            BackPanelClearButton {
+                visible: clearButtonVisible
+                onClearHistClicked: {
+                    container.clearHistClicked();
+                }
             }
         }
     }

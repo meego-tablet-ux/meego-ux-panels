@@ -345,7 +345,8 @@ FlipPanel {
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
 
-                                font.pixelSize: theme_fontPixelSizeLarge
+                                font.family: panelSize.fontFamily
+                                font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                                 color: panelColors.tileDescTextColor
                                 wrapMode: Text.Wrap
                             }

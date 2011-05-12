@@ -168,6 +168,7 @@ Window {
         property int tileListItemContentHeight: 49
         property int tileFontSize: theme_fontPixelSizeNormal
         property string fontFamily: theme_fontFamily
+        property int timestampFontSize: theme_fontPixelSizeSmall
     }
 
     Item {

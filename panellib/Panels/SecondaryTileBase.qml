@@ -57,7 +57,12 @@ TileItem {
             Loader {
                 id: descContent
                 width: parent.width
-                height: fpITI.height - topMargin.height - fpText.height - panelSize.tileTextTopMargin
+                height: fpITI.height - topMargin.height - fpText.height - bottomMargin.height
+            }
+            Item {
+                id: bottomMargin
+                width: 1
+                height: panelSize.tileTextTopMargin
             }
         }
     }

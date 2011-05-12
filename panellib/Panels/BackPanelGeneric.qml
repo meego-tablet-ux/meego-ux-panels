@@ -14,10 +14,7 @@ import MeeGo.Panels 0.1
 SimplePanel {
     id: backPanelGeneric
 
-    signal clearHistClicked(variant btnPos)
-
     property Component bpContent
-    property bool clearButtonVisible :true
     property string subheaderText
 
     isBackPanel: true
@@ -48,26 +45,6 @@ SimplePanel {
                     //     width: parent.width
                     //     sourceComponent: bpContent
                     // }
-                }
-                Item {
-                    visible:backPanelGeneric.clearButtonVisible
-                    width: parent.width
-                    height: bpClearButton.height + 2*panelSize.contentTopMargin
-                    Button {
-                        id: bpClearButton
-                        text: qsTr("Clear history")
-                        maxWidth: parent.width
-                        anchors.bottomMargin: panelSize.contentTopMargin
-                        anchors.topMargin: panelSize.contentTopMargin
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                        onClicked: {
-                            var btnXY = topItem.topItem.mapFromItem(bpComp,
-                                                                    (x+(width/2)),
-                                                                    y);
-                            backPanelGeneric.clearHistClicked(btnXY)
-                        }
-                    }
                 }
                 FrontPanelExpandableContent {
                     id: panelSettings

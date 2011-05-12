@@ -39,11 +39,11 @@ Item {
             newHeight = maxLoaderHeight;
         } else if (maxLoaderHeight == 0) {
             //If no max is set, grow to fit
-            newHeight = fpContents.item.height;
+            newHeight = fpContents.item ? fpContents.item.height : 0
         } else if (fpContents.item.height > maxLoaderHeight) {
             newHeight = maxLoaderHeight;
         } else {
-            newHeight = fpContents.item.height;
+            newHeight = fpContents.item ? fpContents.item.height : 0
         }
         //console.log("calcLoaderHeight, old: " + privateData.savedHeight + ", new: " + newHeight);
 
@@ -117,7 +117,6 @@ Item {
                 fpec.collapsedChanged(collapsed);
             }
         }
-
         Loader{
 
             id:fpContents

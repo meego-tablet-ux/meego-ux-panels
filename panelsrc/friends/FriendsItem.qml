@@ -10,16 +10,18 @@ import Qt 4.7
 import MeeGo.Panels 0.1
 import MeeGo.Components 0.1
 
-FrontPanelContentItem {
+SecondaryTileBase {
     id: friendItemText
 
-    contentHeight: (header.height + content.height)
+    height: contentHeight()
+    width: parent.width
 
     property int maxHeight: panelSize.oneHalf
     property string authorIcon: ""
     property string openUrl: ""
 
-    property alias serviceName: serviceNameText.text
+    // property alias serviceName: serviceNameText.text
+    property string serviceName: ""
     property string serviceIcon: "" //serviceIconImage.source
     property alias authorName: authorNameText.text
     property alias messageText: contentText.text
@@ -78,103 +80,89 @@ FrontPanelContentItem {
         onClicked: friendItemText.clicked(itemID)
         onPressAndHold: friendItemText.pressAndHold(itemID, mouse)
     }
-
-    FrontPanelSubHeader {
-        id: header
-        anchors.left: parent.left
-        anchors.top: parent.itemTop.bottom
-        arrowVisible: false
-        width: parent.width
-
-//        Image {
-//            id: serviceIconImage
-//            height: panelSize.oneTwentieth
-//            width: height
-//            anchors.left: parent.left
-//            anchors.leftMargin: panelSize.contentSideMargin
-//            anchors.verticalCenter: parent.verticalCenter
-//            fillMode: Image.PreserveAspectCrop
-//            smooth: !friendItemText.moving
-//            asynchronous: true
-//        }
-        Text {
-            id: serviceNameText
-            anchors.left: parent.left
-            anchors.leftMargin: panelSize.contentSideMargin
-            anchors.right: parent.right
-            anchors.rightMargin: panelSize.contentSideMargin
-            anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: theme.fontPixelSizeLarge
-            color: panelColors.textColor
-            wrapMode: Text.NoWrap
-            elide: Text.ElideRight
-        }
+    function contentHeight() {
+        return panelSize.secondaryTileHeight
+        //return (timestampText.y + timestampText.height + timestampText.anchors.bottomMargin);
     }
 
-    Item {
-        id: content
-        width: parent.width
-        height: contentHeight()
-        anchors.left: parent.left
-        anchors.top: header.bottom
-
-        function contentHeight() {
-            return (timestampText.y + timestampText.height + timestampText.anchors.bottomMargin);
-        }
-
-        Image {
+    Row {
+        id: row
+        height: parent.height
+        TileIcon {
             id: authorIconImage
-            source: (authorIcon == "" ? "image://themedimage/images/im/bg_avatar_nopicture" : authorIcon)
+            height: panelSize.secondaryTileContentHeight
+            width: height
+            anchors.verticalCenter: parent.verticalCenter
+            imageSource: (authorIcon == "" ? "image://themedimage/images/im/bg_avatar_nopicture" : authorIcon)
 
-            height: panelSize.oneFourth //sourceSize.height
-            width: panelSize.oneFourth //sourceSize.width
-            anchors.top: parent.top
-            anchors.topMargin: panelSize.contentSideMargin
-            anchors.left: parent.left
-            anchors.leftMargin: panelSize.contentSideMargin
-            fillMode: Image.PreserveAspectCrop
+            zoomImage: true
+            // TODO: use .sci once there is support in image provider
+            // (and an .sci file)
+            source: "image://meegotheme/widgets/apps/panels/item-border-item"
+            border.top: 3
+            border.bottom: 3
+            border.left: 3
+            border.right: 3
+            fillMode: Image.PreserveAspectFit
             smooth: !friendItemText.moving
             asynchronous: true
 
-            onStatusChanged: {
-                if ((status == Image.Error) || (status == Image.Null))
-                    source = "image://themedimage/images/im/bg_avatar_nopicture";
+        }
+        Item {
+            id: leftMargin
+            width: panelSize.tileTextLeftMargin
+            height: parent.height
+        }
+        Column {
+            width: friendItemText.width - authorIconImage.width - leftMargin.width
+            Item {
+                id: topMargin
+                width: 1
+                height: panelSize.tileTextTopMargin
+            }
+            Item {
+                width: parent.width
+                height: authorNameText.height
+                Text {
+                    id: authorNameText
+                    anchors.left: parent.left
+                    font.family: panelSize.fontFamily
+                    font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+                    color: panelColors.tileMainTextColor //THEME - VERIFY
+                    font.bold: true
+                    wrapMode: Text.NoWrap
+                    elide: Text.ElideRight
+                }
+                Text {
+                    id: timestampText
+                    width: parent.width - authorNameText.width
+                    anchors.right: parent.right
+                    font.family: panelSize.fontFamily
+                    font.pixelSize: panelSize.timestampFontSize //THEME - VERIFY
+                    color: panelColors.tileDescTextColor //THEME - VERIFY
+                    horizontalAlignment: Text.AlignRight
+                    wrapMode: Text.NoWrap
+                    elide: Text.ElideRight
+                }
+            }
+
+            Text {
+                id: contentText
+                width: parent.width
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                font.family: panelSize.fontFamily
+                font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+                color: panelColors.tileDescTextColor //THEME - VERIFY
             }
         }
-
-        Text {
-            id: authorNameText
-            //width: (parent.width - authorIconImage.width - 20)
-            anchors.right: parent.right
-            anchors.rightMargin: panelSize.contentSideMargin
-            anchors.top: authorIconImage.top
-            anchors.left: authorIconImage.right
-            anchors.leftMargin: panelSize.contentSideMargin
-            color: panelColors.textColor
-            font.bold: true
-            font.pixelSize: theme.fontPixelSizeLarge
-            wrapMode: Text.NoWrap
-            elide: Text.ElideRight
-        }
-
-        Text {
-            id: contentText
-            width: authorNameText.width
-            anchors.top: authorNameText.bottom
-            anchors.topMargin: panelSize.contentTopMargin
-            anchors.left: authorNameText.left
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.pixelSize: theme.fontPixelSizeLarge
-            color: panelColors.textColor
-        }
-
+    }
         Image {
             id: pictureImage
             height: panelSize.oneThird //sourceSize.height
             width: panelSize.oneThird //calcPictureImageWidth()
-            anchors.top: contentText.bottom
-            anchors.topMargin: panelSize.contentTopMargin
-            anchors.left: contentText.left
+            // anchors.top: contentText.bottom
+            // anchors.topMargin: panelSize.contentTopMargin
+            // anchors.left: contentText.left
             clip: true
             fillMode: Image.PreserveAspectCrop
             smooth: !friendItemText.moving
@@ -201,9 +189,9 @@ FrontPanelContentItem {
 //            bgSourceDn: "image://themedimage/images/panels/pnl_switch_pink_dn"
 //            height: panelSize.oneTenth
 //            width: panelSize.oneFourth
-            anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
-            anchors.topMargin: panelSize.contentTopMargin
-            anchors.left: contentText.left
+            // anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
+            // anchors.topMargin: panelSize.contentTopMargin
+            // anchors.left: contentText.left
             text: qsTr("Accept")
             //color: theme.fontColorNormal
             onClicked: {
@@ -216,44 +204,14 @@ FrontPanelContentItem {
             visible: (friendItemText.itemType == "request")
 //            height: panelSize.oneTenth
 //            width: panelSize.oneFourth
-            anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
-            anchors.topMargin: panelSize.contentTopMargin
-            anchors.left: acceptBtn.right
-            anchors.leftMargin: panelSize.contentSideMargin
+            // anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
+            // anchors.topMargin: panelSize.contentTopMargin
+            // anchors.left: acceptBtn.right
+            // anchors.leftMargin: panelSize.contentSideMargin
             text: qsTr("Decline")
             //color: theme.fontColorNormal
             onClicked: {
                 friendItemText.rejectClicked(itemID);
             }
         }
-        Text {
-            id: timestampText
-            width: contentText.width
-            anchors.top: {
-                var obj;
-                if (acceptBtn.visible)
-                    obj = acceptBtn;
-                else if (pictureImage.visible)
-                    obj = pictureImage;
-                else
-                    obj = contentText;
-
-                if ((obj.y + obj.height) < (authorIconImage.y + authorIconImage.height))
-                    return authorIconImage.bottom;
-                else
-                    return obj.bottom;
-
-            }
-            anchors.topMargin: panelSize.contentTopMargin
-            anchors.left: authorIconImage.left
-            anchors.bottomMargin: panelSize.contentTopMargin
-            font.pixelSize: theme.fontPixelSizeNormal
-            color:theme.fontColorInactive
-            anchors.right: contentText.right
-            wrapMode: Text.NoWrap
-            elide: Text.ElideRight
-        }
-
-    }
-
 }
