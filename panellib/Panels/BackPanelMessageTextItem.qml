@@ -23,7 +23,8 @@ TileItem{
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
 
-        font.pixelSize: theme_fontPixelSizeLarge
+        font.family: panelSize.fontFamily
+        font.pixelSize: panelSize.tileFontSize
         color: panelColors.tileDescTextColor
         wrapMode: Text.Wrap
     }

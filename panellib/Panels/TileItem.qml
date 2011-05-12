@@ -32,8 +32,8 @@ Item {
         }
         Item {
             id: tileContent
-            height: childrenRect.height
-            width: childrenRect.width
+            height: container.height - separator.height
+            width: parent.width
         }
     }
     MouseArea{

@@ -437,7 +437,8 @@ FlipPanel {
                 text: displayname
                 color: panelColors.tileDescTextColor //THEME - VERIFY
                 anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: theme.fontPixelSizeLarge
+                font.family: panelSize.fontFamily
+                font.pixelSize: panelSize.tileFontSize
                 wrapMode: Text.NoWrap
                 elide: Text.ElideRight
             }

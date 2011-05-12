@@ -23,7 +23,7 @@ SecondaryTile {
     zoomImage: true
     fallBackImage: "image://theme/media/music_thumb_med"
     imageComponent: imageAlbum
-    imageAlbumChild: playPauseComponent
+    imageChildComponent: playPauseComponent
     Component {
         id: playPauseComponent
         Image{

@@ -166,6 +166,8 @@ Window {
         property int tileTextLineSpacing: 2
         property int tileListItemHeight: 63
         property int tileListItemContentHeight: 49
+        property int tileFontSize: theme_fontPixelSizeNormal
+        property string fontFamily: theme_fontFamily
     }
 
     Item {

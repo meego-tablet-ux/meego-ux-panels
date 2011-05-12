@@ -50,7 +50,8 @@ TileItem {
                     width: parent.width - panelSize.tileTextLeftMargin - tileImage.width
                 }
             }
-            font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+            font.family: panelSize.fontFamily
+            font.pixelSize: panelSize.tileFontSize
             color: panelColors.tileMainTextColor
             anchors.verticalCenter: parent.verticalCenter
             wrapMode: Text.NoWrap
@@ -59,7 +60,8 @@ TileItem {
             id: fpDesc
             text: fpITI.description
             width: parent.width - panelSize.tileTextLeftMargin - tileImage.width - fpText.width
-            font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+            font.family: panelSize.fontFamily
+            font.pixelSize: panelSize.tileFontSize
             color: panelColors.tileDescTextColor
             anchors.verticalCenter: parent.verticalCenter
             elide: Text.ElideRight

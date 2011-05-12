@@ -29,7 +29,8 @@ TileItem {
     }
     Text {
         id: bpText
-        font.pixelSize: theme_fontPixelSizeLarge
+        font.family: panelSize.fontFamily
+        font.pixelSize: panelSize.tileFontSize
         color: panelColors.tileDescTextColor //THEME - VERIFY
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left

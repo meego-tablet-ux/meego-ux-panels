@@ -252,13 +252,36 @@ FlipPanel {
                     model: allAlbumsListModel
                     onCountChanged: fpecAlbumList.count = count
                     Component.onCompleted: fpecAlbumList.count = count
-                    delegate: TileListItem {
+                    delegate: SecondaryTileBase {
                         id:albumPreview
                         separatorVisible: index > 0
                         imageSource: thumburi
                         imageComponent: imageNormal
-                        description: title
+                        text: title
                         zoomImage: true
+                        descriptionComponent: Item {
+                            Column {
+                                width: parent.width
+                                anchors.bottom: parent.bottom
+                                Text {
+                                    text: "NN photos" // TODO where data?
+                                    width: parent.width
+                                    font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+                                    color: panelColors.tileDescTextColor //THEME - VERIFY
+                                    wrapMode: Text.NoWrap
+                                    elide: Text.ElideRight
+                                }
+                                Text {
+                                    text: "Created " + creationtime  // TODO creationtime is empty?
+                                    width: parent.width
+                                    font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+                                    color: panelColors.tileDescTextColor //THEME - VERIFY
+                                    wrapMode: Text.NoWrap
+                                    elide: Text.ElideRight
+                                }
+                            }
+                        }
+
                         onClicked: {
                             spinnerContainer.startSpinner();
                             appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + urn)

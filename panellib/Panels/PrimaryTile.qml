@@ -14,46 +14,29 @@ TileItem {
     id: fpITI
     height: panelSize.primaryTileHeight
     width: panelSize.primaryTileWidth
-    property alias imageSource: fpImage.source
+    property alias imageSource: fpIconBackground.imageSource
     property alias backgroundImageSource: fpIconBackground.source
-    property alias text: fpText.text
-    property string fallBackImage: ""
+    property string text
+    property alias fallBackImage: fpIconBackground.fallBackImage
 
     mouseAreaActive: true
 
-    BorderImage {
+    TileIcon {
         id: fpIconBackground
+        height: parent.height
+        width: panelSize.primaryTileContentWidth
+        fillMode: Image.Stretch
+        zoomImage: true
         // TODO: use .sci once there is support in image provider
         // (and an .sci file)
         source: "image://meegotheme/widgets/apps/panels/item-border"
         border.top: 6
-        border.bottom: 6
+        border.bottom: 8
         border.left: 6
         border.right: 6
-        height: parent.height
-        width: panelSize.primaryTileContentWidth
         anchors.verticalCenter: parent.verticalCenter
-        Rectangle {
+        imageChild: Item {
             anchors.fill: parent
-            anchors.margins: 8
-            anchors.bottomMargin: 12
-            opacity: 0.5
-            border.width: 1
-        }
-        Image {
-            id: fpImage
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - 12
-            height: parent.height - 16
-            y: 6
-            fillMode: Image.Stretch
-            asynchronous: true
-
-            Component.onCompleted: {
-                if ((fallBackImage != "") && ((fpImage.status == Image.Error) || (fpImage.status == Image.Null))) {
-                    fpImage.source = fallBackImage;
-                }
-            }
             Rectangle {
                 id: shade
                 width: parent.width
@@ -64,6 +47,7 @@ TileItem {
             }
             Text {
                 id: fpText
+                text: fpITI.text
                 anchors.bottom: parent.bottom
                 anchors.top: shade.top
                 anchors.left: parent.left
