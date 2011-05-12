@@ -175,7 +175,6 @@ FlipPanel {
             PrimaryTileGrid {
                 id: fpecRecentSites
                 text: qsTr("Recently visited")
-                collapsible:false
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
 

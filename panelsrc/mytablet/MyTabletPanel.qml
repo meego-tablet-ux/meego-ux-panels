@@ -152,7 +152,6 @@ FlipPanel {
                     id: connDevSection
                     anchors.top: parent.top
                     text: qsTr("Connected devices")
-                    collapsible: false
                     contents: connDevComp
                     visible: (pluggableDeviceModel.count > 0)
                 }
@@ -162,7 +161,6 @@ FlipPanel {
                     id: topAppSection
                     anchors.top: parent.top //connDevSection.bottom
                     text: qsTr("Top applications")
-                    collapsible: false
                     contents: topAppComp
                     visible: backSettingsModel.get(0).isVisible
                 }
@@ -171,7 +169,6 @@ FlipPanel {
                     id: settingsSection
                     anchors.top: topAppSection.bottom
                     text: qsTr("Settings")
-                    collapsible: false
                     contents: settingsComp
                     visible: backSettingsModel.get(1).isVisible
                 }
@@ -269,36 +266,28 @@ FlipPanel {
 
     Component {
         id: settingsComp
-        Item {
+        FrontPanelColumnView {
             width: parent.width
-            height: lvSettings.height
-            Column {
-                id: lvSettings
-                width: parent.width
-                Repeater {
-                    model: settingsModel
-                    delegate: TileListItem {
-                        id:fpPanelIconTextItem
-                        description: qsTr(title)
-                        imageSource: icon
-                        separatorVisible: index > 0
-                        zoomImage: false
-
-                        onClicked: {
-                            var posInWindow = fpPanelIconTextItem.mapToItem(topItem.topItem, mouse.x, mouse.y)
-                            if (type == "wifi") {
-                                wifiDialog.setPosition(posInWindow.x, posInWindow.y);
-                                wifiDialog.show();
-                            } else if (type == "sound") {
-                                volumeDialog.dlgX = posInWindow.x;
-                                volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
-                                volumeDialog.visible = true;
-                            } else if (type == "allSettings") {
-                                spinnerContainer.startSpinner();
-                                appsModel.favorites.append(launchName);
-                                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata settings")
-                            }
-                        }
+            model: settingsModel
+            delegate: TileListItem {
+                id:fpPanelIconTextItem
+                description: qsTr(title)
+                imageSource: icon
+                separatorVisible: index > 0
+                zoomImage: false
+                onClicked: {
+                    var posInWindow = fpPanelIconTextItem.mapToItem(topItem.topItem, mouse.x, mouse.y)
+                    if (type == "wifi") {
+                        wifiDialog.setPosition(posInWindow.x, posInWindow.y);
+                        wifiDialog.show();
+                    } else if (type == "sound") {
+                        volumeDialog.dlgX = posInWindow.x;
+                        volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
+                        volumeDialog.visible = true;
+                    } else if (type == "allSettings") {
+                        spinnerContainer.startSpinner();
+                        appsModel.favorites.append(launchName);
+                        appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata settings")
                     }
                 }
             }

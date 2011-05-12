@@ -213,7 +213,6 @@ FlipPanel {
             SecondaryTileGrid{
                 id: fpecPhotoGrid
                 text: qsTr("Recently viewed")
-                collapsible: false
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
                 model: allPhotosListModel

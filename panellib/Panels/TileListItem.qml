@@ -24,6 +24,7 @@ TileItem {
     property bool zoomImage: false
     property bool hasImage: true
     property string fallBackImage: ""
+    property variant fillMode: Image.Stretch
 
     mouseAreaActive: true
 
@@ -71,39 +72,33 @@ TileItem {
     resources: [
         Component {
             id: empty
-            BorderImage {
+            TileIcon {
                 id: fpIconBackground
+                height: panelSize.tileListItemContentHeight
+                width: height
+                imageSource: fpITI.imageSource
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
+                fallBackImage: fpITI.fallBackImage
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
                 source: "image://meegotheme/widgets/apps/panels/item-border-empty"
-                border.top: 6
-                border.bottom: 6
-                border.left: 6
-                border.right: 6
-                height: panelSize.tileListItemContentHeight
-                width: height
-                Image {
-                    id: fpImage
-                    source: fpITI.imageSource
-                    anchors.centerIn: parent
-                    height: (fpITI.zoomImage ? width : sourceSize.height)
-                    width: (fpITI.zoomImage ? panelSize.tileListItemContentHeight - 2*parent.border.top : sourceSize.width) //THEME - VERIFY
-                    fillMode: Image.PreserveAspectCrop
-                    asynchronous: true
-
-                    Component.onCompleted: {
-                        if ((fallBackImage != "") && ((fpImage.status == Image.Error))) {
-                            console.log("Failed to load: " + fpITI.imageSource)
-                            fpITI.imageSource = fallBackImage;
-                        }
-                    }
-                }
+                border.top: 3
+                border.bottom: 3
+                border.left: 3
+                border.right: 3
             }
         },
         Component {
             id: normal
-            BorderImage {
+            TileIcon {
                 id: fpIconBackground
+                imageSource: fpITI.imageSource
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
+                fallBackImage: fpITI.fallBackImage
+                height: panelSize.tileListItemContentHeight
+                width: height
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
                 source: "image://meegotheme/widgets/apps/panels/item-border"
@@ -111,26 +106,6 @@ TileItem {
                 border.bottom: 7
                 border.left: 4
                 border.right: 4
-                height: panelSize.tileListItemContentHeight
-                width: height
-                anchors.verticalCenter: parent.verticalCenter
-                Image {
-                    id: fpImage
-                    source: fpITI.imageSource
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    height: parent.height - parent.border.top - parent.border.bottom
-                    width: parent.width - parent.border.left - parent.border.right
-                    anchors.verticalCenterOffset: parent.border.top - parent.border.bottom
-                    fillMode: Image.Stretch
-                    asynchronous: true
-
-                    Component.onCompleted: {
-                        if ((fallBackImage != "") && ((fpImage.status == Image.Error))) {
-                            fpImage.source = fallBackImage;
-                        }
-                    }
-                }
             }
         }
     ]

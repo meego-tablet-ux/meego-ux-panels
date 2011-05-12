@@ -17,23 +17,7 @@ Item {
     height: panelSize.contentTitleHeight
 
     property bool collapsed: false
-    property alias arrowVisible: fpSubHeaderImage.visible
     property alias text: fpSubHeaderText.text
-
-    signal arrowClicked(bool collapsed);
-
-    // Image {
-    //     id: subHeaderImg
-    //     source: "image://meegotheme/widgets/apps/panels/panel-content-background"
-    //     height: sourceSize.height
-    //     width: parent.width
-    //     onStatusChanged: {
-    //         if (status == Image.Error) {
-    //             //If we can't load the colored titlebar, fall back to default
-    //             source = "image://theme/panels/pnl_mytablet_subtitlebar"
-    //         }
-    //     }
-    // }
 
     Text {
         id: fpSubHeaderText
@@ -45,28 +29,4 @@ Item {
         wrapMode: Text.NoWrap
         elide: Text.ElideRight
     }
-
-    Image {
-        id: fpSubHeaderImage
-        anchors.right: parent.right
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.rightMargin: fpSubHeaderText.anchors.leftMargin //THEME
-        rotation: collapsed? 90 : 0
-        source:  "image://themedimage/images/panels/pnl_icn_arrowdown"
-        visible: false
-
-        Behavior on rotation {
-            RotationAnimation { duration: 100 }
-        }
-    }
-
-    MouseArea{
-        anchors.fill: parent
-        onClicked:{
-            collapsed=!collapsed
-            fpSubHeaderImage.parent.arrowClicked(collapsed);
-        }
-        visible: fpSubHeaderImage.visible
-    }
-
 }

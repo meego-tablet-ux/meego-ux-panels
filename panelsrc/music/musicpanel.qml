@@ -183,7 +183,6 @@ FlipPanel {
                 id: currentlyPlaying
                 visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
                 text:qsTr("Currently playing")
-                collapsible: false
 
                 Component.onCompleted: {
                     if (musicIntf.state == "playing")
@@ -285,7 +284,6 @@ FlipPanel {
                 //visible: (musicIntf.nextTrackCount > 0)
 
                 text:qsTr("Play queue")
-                collapsible: false
                 ContextMenu {
                     id: ctxMenuQueue
                     property string currentUrn
@@ -415,7 +413,7 @@ FlipPanel {
                     }
                 }
 
-                contents: FrontPanelColumnView{
+                contents: FrontPanelColumnView {
                     model: playlistsModel
                     width: parent.width
                     onCountChanged: fpPlaylists.count = count
@@ -426,7 +424,7 @@ FlipPanel {
                         description: "" + artist
                         separatorVisible: index > 0
                         imageSource: thumburi
-                        imageComponent: imageNormal
+                        //imageComponent: imageNormal
                         fallBackImage: "image://themedimage/images/media/music_thumb_med"
                         zoomImage: true
 

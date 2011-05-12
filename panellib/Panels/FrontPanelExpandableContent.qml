@@ -12,10 +12,9 @@ Item {
     id: fpec
 
     width: parent ? parent.width : 0
-    height: visible? (showHeader ? fpsubheader.height : 0 ) + fpContents.height : 0
+    height: visible? (showHeader ? fpsubheader.height : 0 ) + fpContents.height + topMargin.height + bottomMargin.height : 0
 
     property alias text: fpsubheader.text
-    property alias collapsible: fpsubheader.arrowVisible
     property alias contents: fpContents.sourceComponent
     property alias showHeader: fpsubheader.visible
     property real sideMargin: panelSize.contentSideMargin
@@ -90,19 +89,14 @@ Item {
         border.right: 8
     }
 
-    Item {
+    Column {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - 2*sideMargin
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
 
         FrontPanelSubHeader{
             id:fpsubheader
             visible: true
             smooth: true
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
             z:1
 
             property bool collapsing: false
@@ -117,12 +111,16 @@ Item {
                 fpec.collapsedChanged(collapsed);
             }
         }
+        Item {
+            id: topMargin
+            width: parent.width
+            height: panelSize.contentAreaTopMargin
+        }
         Loader{
 
             id:fpContents
             z:fpsubheader.z-1
 
-            anchors.top: (showHeader ? fpsubheader.bottom : parent.top)
             anchors.left: parent.left
             anchors.right: parent.right
             clip: true
@@ -136,7 +134,11 @@ Item {
                     ScriptAction { script: { privateData.inAni = false; calcAndSet(); fpsubheader.collapsing = false;} }
                 }
             }
-
+        }
+        Item {
+            id: bottomMargin
+            width: parent.width
+            height: panelSize.contentAreaBottomMargin
         }
     }
 }
