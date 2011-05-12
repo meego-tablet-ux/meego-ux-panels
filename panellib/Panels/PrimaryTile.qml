@@ -54,7 +54,8 @@ TileItem {
                 anchors.leftMargin: panelSize.tileTextLeftMargin
                 anchors.right: parent.right
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+                font.family: panelSize.fontFamily
+                font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                 color: theme_buttonFontColor //THEME - VERIFY
                 wrapMode: Text.NoWrap
                 elide: Text.ElideRight

@@ -356,6 +356,8 @@ FlipPanel {
                                 Button {
                                     id: addMusicToPlayQueue
                                     text: qsTr("Add music to the play queue")
+                                    font.family: panelSize.fontFamily
+                                    font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                                     maxWidth: parent.width
                                     anchors.bottomMargin: panelSize.contentTopMargin
                                     anchors.topMargin: panelSize.contentTopMargin
