@@ -31,6 +31,23 @@ Labs.Window {
         target: mainWindow
         onOrientationChanged: scene.orientation = mainWindow.orientation
     }
+    // TODO: Once this code is using MeeGo.Component's Window{}, then 
+    //       remove the 'orientationLocked: true' and replace the above
+    //       Connections with the code below
+    //
+    // Connections {
+    //    target: mainWindow
+    //    onOrientationChanged: {
+    //        if (mainWindow.orientation == 1)
+    //            scene.lockOrientationIn = "landscape";
+    //        else if (mainWindow.orientation == 2)
+    //            scene.lockOrientationIn = "portrait";
+    //        else if (mainWindow.orientation == 3)
+    //            scene.lockOrientationIn = "invertedLandscape";
+    //        else
+    //            scene.lockOrientationIn = "invertedPortrait";
+    //    }
+    // }
 
     Translator {
         catalog: "meego-ux-panels"
