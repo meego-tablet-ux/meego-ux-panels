@@ -28,7 +28,7 @@ BackPanelContentItem{
         anchors.bottomMargin: anchors.topMargin
         horizontalAlignment: Text.AlignLeft
 
-        font.pixelSize: theme_fontPixelSizeLarge
+        font.pixelSize: theme.fontPixelSizeLarge
         color: panelColors.textColor
         wrapMode: Text.Wrap
     }

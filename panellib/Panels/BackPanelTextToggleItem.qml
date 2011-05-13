@@ -26,7 +26,7 @@ BackPanelContentItem {
 
     Text {
         id: bpText
-        font.pixelSize: theme_fontPixelSizeLarge
+        font.pixelSize: theme.fontPixelSizeLarge
         color: panelColors.textColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left

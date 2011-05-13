@@ -33,7 +33,7 @@ BackPanelContentItem {
 
     Text {
         id: bpText
-        font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+        font.pixelSize: theme.fontPixelSizeLarge //THEME - VERIFY
         color: panelColors.textColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: (((bpImage.status == Image.Error) || (bpImage.status == Image.Null)) ? parent.left : bpImage.right )

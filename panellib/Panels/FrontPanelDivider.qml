@@ -11,5 +11,5 @@ import Qt 4.7
 Rectangle {
     width: parent.width
     height: 1
-    color: theme_fontColorInactive //THEME - VERIFY
+    color: theme.fontColorInactive //THEME - VERIFY
 }

@@ -104,7 +104,7 @@ FrontPanelContentItem {
             anchors.right: parent.right
             anchors.rightMargin: panelSize.contentSideMargin
             anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: theme_fontPixelSizeLarge
+            font.pixelSize: theme.fontPixelSizeLarge
             color: panelColors.textColor
             wrapMode: Text.NoWrap
             elide: Text.ElideRight
@@ -152,7 +152,7 @@ FrontPanelContentItem {
             anchors.leftMargin: panelSize.contentSideMargin
             color: panelColors.textColor
             font.bold: true
-            font.pixelSize: theme_fontPixelSizeLarge
+            font.pixelSize: theme.fontPixelSizeLarge
             wrapMode: Text.NoWrap
             elide: Text.ElideRight
         }
@@ -164,7 +164,7 @@ FrontPanelContentItem {
             anchors.topMargin: panelSize.contentTopMargin
             anchors.left: authorNameText.left
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.pixelSize: theme_fontPixelSizeLarge
+            font.pixelSize: theme.fontPixelSizeLarge
             color: panelColors.textColor
         }
 
@@ -205,7 +205,7 @@ FrontPanelContentItem {
             anchors.topMargin: panelSize.contentTopMargin
             anchors.left: contentText.left
             text: qsTr("Accept")
-            //color: theme_fontColorNormal
+            //color: theme.fontColorNormal
             onClicked: {
                 friendItemText.acceptClicked(itemID);
             }
@@ -221,7 +221,7 @@ FrontPanelContentItem {
             anchors.left: acceptBtn.right
             anchors.leftMargin: panelSize.contentSideMargin
             text: qsTr("Decline")
-            //color: theme_fontColorNormal
+            //color: theme.fontColorNormal
             onClicked: {
                 friendItemText.rejectClicked(itemID);
             }
@@ -247,8 +247,8 @@ FrontPanelContentItem {
             anchors.topMargin: panelSize.contentTopMargin
             anchors.left: authorIconImage.left
             anchors.bottomMargin: panelSize.contentTopMargin
-            font.pixelSize: theme_fontPixelSizeNormal
-            color:theme_fontColorInactive
+            font.pixelSize: theme.fontPixelSizeNormal
+            color:theme.fontColorInactive
             anchors.right: contentText.right
             wrapMode: Text.NoWrap
             elide: Text.ElideRight

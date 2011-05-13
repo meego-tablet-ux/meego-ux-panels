@@ -112,7 +112,7 @@ FrontPanelContentItem {
 
         Text {
             id: fpMainText
-            font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+            font.pixelSize: theme.fontPixelSizeLarge //THEME - VERIFY
             color: panelColors.textColor
             anchors.top: parent.top
             anchors.topMargin: font.pixelSize/2
@@ -126,7 +126,7 @@ FrontPanelContentItem {
 
         Text {
             id: fpDescriptionText
-            font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+            font.pixelSize: theme.fontPixelSizeLarge //THEME - VERIFY
             color: panelColors.textColor
             anchors.top: fpMainText.bottom
             anchors.topMargin: font.pixelSize/2

@@ -44,7 +44,7 @@ FrontPanelColumnView {
             Text {
                 id: fpMainText
                 text: title
-                font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+                font.pixelSize: theme.fontPixelSizeLarge //THEME - VERIFY
                 color: panelColors.textColor
                 anchors.top: parent.top
                 anchors.topMargin: font.pixelSize/2

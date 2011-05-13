@@ -333,7 +333,7 @@ FlipPanel {
                             anchors.right: parent.right
                             anchors.rightMargin: panelSize.contentSideMargin
                             text: qsTr("Clear history from:")
-                            font.pixelSize: theme_fontPixelSizeLarge
+                            font.pixelSize: theme.fontPixelSizeLarge
                             wrapMode: Text.NoWrap
                             elide: Text.ElideNone
                             clip: true
@@ -382,7 +382,7 @@ FlipPanel {
                             Text {
                                 id: textDName
                                 text: displayname
-                                font.pixelSize: theme_fontPixelSizeLarge
+                                font.pixelSize: theme.fontPixelSizeLarge
                                 anchors.left: ckBox.right
                                 anchors.leftMargin: panelSize.contentSideMargin
                                 anchors.verticalCenter: parent.verticalCenter
@@ -435,7 +435,7 @@ FlipPanel {
                 text: displayname
                 color: panelColors.textColor
                 anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeLarge
                 wrapMode: Text.NoWrap
                 elide: Text.ElideRight
             }

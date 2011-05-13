@@ -29,7 +29,7 @@ FrontPanelContentItem {
 
     Text {
         id: fpText
-        font.pixelSize: theme_fontPixelSizeLarge
+        font.pixelSize: theme.fontPixelSizeLarge
         color: panelColors.textColor
         anchors.left: fpImage.right
         anchors.leftMargin: (fpImage.width/4)

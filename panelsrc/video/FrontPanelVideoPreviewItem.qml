@@ -39,7 +39,7 @@ FrontPanelContentPreviewItem{
             anchors.right: parent.right
             anchors.leftMargin: panelSize.contentSideMargin
             anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: theme_fontPixelSizeLarge
+            font.pixelSize: theme.fontPixelSizeLarge
             color: panelColors.textColor
             wrapMode: Text.NoWrap
             elide: Text.ElideRight

@@ -53,6 +53,10 @@ Window {
         catalog: "meego-ux-panels"
     }
 
+    Theme {
+        id: theme
+    }
+
 
     //Temp to get a spinner in for UX review - BEGIN
     //Now we should be able to do "spinnerContainer.startSpinner();"
@@ -174,8 +178,8 @@ Window {
 
     Item {
         id: panelColors
-        property string textColor: theme_buttonFontColor
-        property string separatorColor: theme_lockscreenDateFontDropshadowColor
+        property string textColor: theme.buttonFontColor
+        property string separatorColor: theme.lockscreenDateFontDropshadowColor
     }
 
     Item {
@@ -221,15 +225,15 @@ Window {
         StatusBar {
             anchors.top: parent.top
             width: parent.width
-            height: theme_statusBarHeight
+            height: theme.statusBarHeight
             active: window.foreground
-            backgroundOpacity: theme_panelStatusBarOpacity
+            backgroundOpacity: theme.panelStatusBarOpacity
         }
 
         Item {
             id: panelsContainer
             anchors.fill: parent
-            anchors.topMargin: theme_statusBarHeight
+            anchors.topMargin: theme.statusBarHeight
 
             Flickable{
                 id: panelsContainerFlickable

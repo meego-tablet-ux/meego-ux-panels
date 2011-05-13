@@ -41,7 +41,7 @@ FrontPanelContentItem {
 
     Text {
         id: fpText
-        font.pixelSize: theme_fontPixelSizeLarge //THEME - VERIFY
+        font.pixelSize: theme.fontPixelSizeLarge //THEME - VERIFY
         color: panelColors.textColor //THEME - VERIFY
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: (((fpImage.status == Image.Null) || (fpImage.status == Image.Error)) ? parent.left : fpImage.right)

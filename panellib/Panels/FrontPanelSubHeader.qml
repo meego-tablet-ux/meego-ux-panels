@@ -38,7 +38,7 @@ Item {
 
     Text {
         id: fpSubHeaderText
-        font.pixelSize: theme_fontPixelSizeLarge
+        font.pixelSize: theme.fontPixelSizeLarge
         color: panelColors.textColor
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
