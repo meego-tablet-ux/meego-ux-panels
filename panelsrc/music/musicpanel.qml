@@ -180,8 +180,14 @@ FlipPanel {
 
 
             FrontPanelExpandableContent {
+                MusicListModel {
+                    id: curPlaying
+                    type: MusicListModel.Editor
+                    urns: musicIntf.nowTrack
+                }
+
                 id: currentlyPlaying
-                visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
+                visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready && curPlaying.cont > 0)
                 text:qsTr("Currently playing")
 
                 Component.onCompleted: {
@@ -191,12 +197,6 @@ FlipPanel {
                 contents: Item{
 
                     height: curPlayingListView.height
-
-                    MusicListModel {
-                        id: curPlaying
-                        type: MusicListModel.Editor
-                        urns: musicIntf.nowTrack
-                    }
 
                     Column {
                         id: curPlayingListView
@@ -424,7 +424,6 @@ FlipPanel {
                         description: "" + artist
                         separatorVisible: index > 0
                         imageSource: thumburi
-                        //imageComponent: imageNormal
                         fallBackImage: "image://themedimage/images/media/music_thumb_med"
                         zoomImage: true
 

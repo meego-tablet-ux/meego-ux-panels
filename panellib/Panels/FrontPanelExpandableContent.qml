@@ -81,8 +81,8 @@ Item {
     BorderImage {
         anchors.fill: parent
         // TODO: use .sci once there is support in image provider
-        source: showHeader ? "image://meegotheme/widgets/apps/panels/panel-content-background" :
-                             "image://meegotheme/widgets/apps/panels/panel-content-background-no-header"
+        source: showHeader ? "image://themedimage/widgets/apps/panels/panel-content-background" :
+                             "image://themedimage/widgets/apps/panels/panel-content-background-no-header"
         border.top: 55
         border.bottom: 8
         border.left: 8

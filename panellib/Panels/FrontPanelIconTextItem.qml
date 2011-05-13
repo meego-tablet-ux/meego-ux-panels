@@ -25,7 +25,7 @@ FrontPanelContentItem {
 
     Image {
         id: fpIconBackground
-        source: "image://meegotheme/widgets/apps/panels/item-border-empty"
+        source: "image://themedimage/widgets/apps/panels/item-border-empty"
         anchors.verticalCenter: parent.verticalCenter
         Image {
             id: fpImage

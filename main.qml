@@ -112,7 +112,7 @@ Window {
 
     Image {
         opacity: 0
-        source: "image://meegotheme/widgets/apps/panels/panel-background"
+        source: "image://themedimage/widgets/apps/panels/panel-background"
         width: sourceSize.width
         height: sourceSize.height
         asynchronous: false
@@ -168,19 +168,19 @@ Window {
         property int tileTextLineSpacing: 2
         property int tileListItemHeight: 63
         property int tileListItemContentHeight: 49
-        property int tileFontSize: theme_fontPixelSizeNormal
-        property string fontFamily: theme_fontFamily
-        property int timestampFontSize: theme_fontPixelSizeSmall
+        property int tileFontSize: theme.fontPixelSizeNormal
+        property string fontFamily: theme.fontFamily
+        property int timestampFontSize: theme.fontPixelSizeSmall
     }
 
     Item {
         id: panelColors
-        property string panelHeaderColor: theme_buttonFontColor
-        property string contentHeaderColor: theme_fontColorNormal
+        property string panelHeaderColor: theme.buttonFontColor
+        property string contentHeaderColor: theme.fontColorNormal
         property string tileMainTextColor: "#2a7e98"
         property string tileDescTextColor: "#666666"
-        property string textColor: theme_fontColorNormal
-        property string separatorColor: theme_lockscreenDateFontDropshadowColor
+        property string textColor: theme.fontColorNormal
+        property string separatorColor: theme.lockscreenDateFontDropshadowColor
     }
 
     overlayItem: Item {

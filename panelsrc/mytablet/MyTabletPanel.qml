@@ -225,7 +225,7 @@ FlipPanel {
                     imageSource: icon
                     text: title
                     description: "Testing"
-                    fallBackImage: "image://meegotheme/icons/launchers/meego-app-widgets"
+                    fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
                     onClicked:{
                         spinnerContainer.startSpinner();
                         appsModel.favorites.append(filename)

@@ -73,7 +73,7 @@ TileItem {
                 imageSource: fpITI.imageSource
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
-                source: "image://meegotheme/widgets/apps/panels/item-border-empty"
+                source: "image://themedimage/widgets/apps/panels/item-border-empty"
                 border.top: 6
                 border.bottom: 6
                 border.left: 6
@@ -94,7 +94,7 @@ TileItem {
                 zoomImage: true
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
-                source: "image://meegotheme/widgets/apps/panels/item-border-item"
+                source: "image://themedimage/widgets/apps/panels/item-border-item"
                 border.top: 3
                 border.bottom: 3
                 border.left: 3
@@ -113,7 +113,7 @@ TileItem {
                 zoomImage: true
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
-                source: "image://meegotheme/widgets/apps/panels/item-border-album"
+                source: "image://themedimage/widgets/apps/panels/item-border-album"
                 border.top: 12
                 border.bottom: 10
                 border.left: 4
@@ -131,7 +131,7 @@ TileItem {
                 fallBackImage: fpITI.fallBackImage
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
-                source: "image://meegotheme/widgets/apps/panels/item-border"
+                source: "image://themedimage/widgets/apps/panels/item-border"
                 border.top: 6
                 border.bottom: 8
                 border.left: 5

@@ -247,10 +247,10 @@ FlipPanel {
                                 //console.log("Reject clicked for ID " + myID);
                                 actions.performStandardAction("reject", myID);
                             }
-                        }
-                        onRead: {
-                            //console.log("onRead for ID " + myID);
-                            actions.performStandardAction("setRead", myID);
+                            onRead: {
+                                //console.log("onRead for ID " + myID);
+                                actions.performStandardAction("setRead", myID);
+                            }
                         }
                     }
                 }

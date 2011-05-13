@@ -29,7 +29,7 @@ TileItem {
         zoomImage: true
         // TODO: use .sci once there is support in image provider
         // (and an .sci file)
-        source: "image://meegotheme/widgets/apps/panels/item-border"
+        source: "image://themedimage/widgets/apps/panels/item-border"
         border.top: 6
         border.bottom: 8
         border.left: 6
@@ -56,7 +56,7 @@ TileItem {
                 verticalAlignment: Text.AlignVCenter
                 font.family: panelSize.fontFamily
                 font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
-                color: theme_buttonFontColor //THEME - VERIFY
+                color: theme.buttonFontColor //THEME - VERIFY
                 wrapMode: Text.NoWrap
                 elide: Text.ElideRight
             }

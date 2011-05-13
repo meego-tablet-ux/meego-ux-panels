@@ -26,7 +26,7 @@ TileItem {
         fillMode: Image.Stretch
         // TODO: use .sci once there is support in image provider
         // (and an .sci file)
-        source: "image://meegotheme/widgets/apps/panels/item-border-item"
+        source: "image://themedimage/widgets/apps/panels/item-border-item"
         border.top: 3
         border.bottom: 3
         border.left: 3

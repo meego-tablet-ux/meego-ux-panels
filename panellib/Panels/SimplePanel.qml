@@ -47,13 +47,13 @@ Item {
             height: sourceSize.height
             width: sourceSize.width
             source: simplePanel.isBackPanel ?
-                    "image://meegotheme/widgets/apps/panels/panel-header-reverse" :
-                    "image://meegotheme/widgets/apps/panels/panel-header-" + panelObj.UniqueName
+                    "image://themedimage/widgets/apps/panels/panel-header-reverse" :
+                    "image://themedimage/widgets/apps/panels/panel-header-" + panelObj.UniqueName
 
             onStatusChanged: {
                 if (status == Image.Error) {
                     //If we can't load the colored titlebar, fall back to default
-                    source = "image://meegotheme/widgets/apps/panels/panel-header"
+                    source = "image://themedimage/widgets/apps/panels/panel-header"
                 }
             }
 
@@ -69,7 +69,7 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: panelSize.contentSideMargin
                 color: panelColors.panelHeaderColor
-                font.pixelSize: theme_fontPixelSizeLarge
+                font.pixelSize: theme.fontPixelSizeLarge
                 text: panelTitle
             }
 
@@ -78,14 +78,14 @@ Item {
                anchors.rightMargin: panelSize.contentSideMargin
                anchors.right: parent.right
                anchors.verticalCenter: parent.verticalCenter
-               source: "image://meegotheme/widgets/apps/panels/flip-panel"
+               source: "image://themedimage/widgets/apps/panels/flip-panel"
                width: sourceSize.width
                height: sourceSize.height
 
                MouseArea {
                    anchors.fill: parent
                    onPressed: {
-                       rightIcon.source = "image://meegotheme/widgets/apps/panels/flip-panel-active"
+                       rightIcon.source = "image://themedimage/widgets/apps/panels/flip-panel-active"
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconPressed(mappedMouse)
                    }
@@ -95,7 +95,7 @@ Item {
                    }
 
                    onReleased: {
-                       rightIcon.source = "image://meegotheme/widgets/apps/panels/flip-panel"
+                       rightIcon.source = "image://themedimage/widgets/apps/panels/flip-panel"
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconReleased(mappedMouse)
                    }
@@ -108,8 +108,8 @@ Item {
     Image {
         id: fpTitleDropShadow
         source: simplePanel.isBackPanel ?
-                "image://meegotheme/widgets/apps/panels/panel-header-reverse-shadow" :
-                "image://meegotheme/widgets/apps/panels/panel-header-shadow"
+                "image://themedimage/widgets/apps/panels/panel-header-reverse-shadow" :
+                "image://themedimage/widgets/apps/panels/panel-header-shadow"
         width: panelHeader.width
         anchors.top: panelHeader.bottom
         z: panelHeader.z
@@ -117,7 +117,7 @@ Item {
 
     Image {
         id: panelBG
-        source: "image://meegotheme/widgets/apps/panels/panel-background"
+        source: "image://themedimage/widgets/apps/panels/panel-background"
         width: sourceSize.width
         anchors.left:  parent.left
         height: parent.height

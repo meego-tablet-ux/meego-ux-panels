@@ -73,7 +73,6 @@ TileItem {
         Component {
             id: empty
             TileIcon {
-                id: fpIconBackground
                 height: panelSize.tileListItemContentHeight
                 width: height
                 imageSource: fpITI.imageSource
@@ -82,7 +81,7 @@ TileItem {
                 fallBackImage: fpITI.fallBackImage
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
-                source: "image://meegotheme/widgets/apps/panels/item-border-empty"
+                source: "image://themedimage/widgets/apps/panels/item-border-empty"
                 border.top: 3
                 border.bottom: 3
                 border.left: 3
@@ -92,16 +91,15 @@ TileItem {
         Component {
             id: normal
             TileIcon {
-                id: fpIconBackground
+                height: panelSize.tileListItemContentHeight
+                width: height
                 imageSource: fpITI.imageSource
                 fillMode: fpITI.fillMode
                 zoomImage: fpITI.zoomImage
                 fallBackImage: fpITI.fallBackImage
-                height: panelSize.tileListItemContentHeight
-                width: height
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
-                source: "image://meegotheme/widgets/apps/panels/item-border"
+                source: "image://themedimage/widgets/apps/panels/item-border"
                 border.top: 5
                 border.bottom: 7
                 border.left: 4

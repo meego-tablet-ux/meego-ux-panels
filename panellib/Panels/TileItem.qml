@@ -28,7 +28,7 @@ Item {
             width: parent.width
             visible: separatorVisible
             height: separatorVisible ? sourceSize.height : 0
-            source: "image://meegotheme/widgets/apps/panels/panel-content-separator"
+            source: "image://themedimage/widgets/apps/panels/panel-content-separator"
         }
         Item {
             id: tileContent
