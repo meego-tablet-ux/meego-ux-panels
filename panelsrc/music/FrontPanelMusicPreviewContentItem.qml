@@ -21,7 +21,7 @@ SecondaryTile {
 
     mouseAreaActive: true
     zoomImage: true
-    fallBackImage: "image://theme/media/music_thumb_med"
+    fallBackImage: "image://themedimage/images/media/music_thumb_med"
     imageComponent: imageAlbum
     imageChildComponent: playPauseComponent
     Component {
