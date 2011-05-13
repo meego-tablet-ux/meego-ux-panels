@@ -15,39 +15,39 @@ import MeeGo.Sharing 0.1
 import MeeGo.Sharing.UI 0.1
 
 
-Labs.Window {
-    id: scene
+Window {
+    id: window
     anchors.centerIn: parent
-    showtoolbar: false
+//    showtoolbar: false
     fullContent: true
-    fullscreen: true
+    fullScreen: true
 
     // Since this window is inside the meego-ux-daemon process, which
     // managages multiple top level windows, we can't use the normal 
     // orientation locking mechanism.  The following is a hack till
     // a proper per-window orientation mechanism lands in MeeGo.Components
-    orientationLocked: true
-    Connections {
-        target: mainWindow
-        onOrientationChanged: scene.orientation = mainWindow.orientation
-    }
-    // TODO: Once this code is using MeeGo.Component's Window{}, then 
+//    isOrientationLocked: true
+//    Connections {
+//        target: mainWindow
+//        onOrientationChanged: window.orientation = mainWindow.orientation
+//    }
+    // DONE: Once this code is using MeeGo.Component's Window{}, then
     //       remove the 'orientationLocked: true' and replace the above
     //       Connections with the code below
     //
-    // Connections {
-    //    target: mainWindow
-    //    onOrientationChanged: {
-    //        if (mainWindow.orientation == 1)
-    //            scene.lockOrientationIn = "landscape";
-    //        else if (mainWindow.orientation == 2)
-    //            scene.lockOrientationIn = "portrait";
-    //        else if (mainWindow.orientation == 3)
-    //            scene.lockOrientationIn = "invertedLandscape";
-    //        else
-    //            scene.lockOrientationIn = "invertedPortrait";
-    //    }
-    // }
+    Connections {
+        target: mainWindow
+        onOrientationChanged: {
+            if (mainWindow.orientation == 1)
+                window.lockOrientationIn = "landscape";
+            else if (mainWindow.orientation == 2)
+                window.lockOrientationIn = "portrait";
+            else if (mainWindow.orientation == 3)
+                window.lockOrientationIn = "invertedLandscape";
+            else
+                window.lockOrientationIn = "invertedPortrait";
+        }
+    }
 
     Translator {
         catalog: "meego-ux-panels"
@@ -59,8 +59,8 @@ Labs.Window {
 
     Item {
         id: spinnerContainer
-        parent: scene.content
-        anchors.fill: scene.content
+        parent: window.content
+        anchors.fill: window.content
         property variant overlay: null
 
         TopItem {
@@ -180,7 +180,7 @@ Labs.Window {
 
     Item {
         id: deviceScreen
-        parent: scene.content
+        parent: window.content
         x: 0
         y: 0
         width: parent.width
@@ -222,7 +222,7 @@ Labs.Window {
             anchors.top: parent.top
             width: parent.width
             height: theme_statusBarHeight
-            active: scene.foreground
+            active: window.foreground
             backgroundOpacity: theme_panelStatusBarOpacity
         }
 
