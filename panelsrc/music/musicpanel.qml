@@ -185,9 +185,8 @@ FlipPanel {
                     type: MusicListModel.Editor
                     urns: musicIntf.nowTrack
                 }
-
                 id: currentlyPlaying
-                visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready && curPlaying.cont > 0)
+                visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
                 text:qsTr("Currently playing")
 
                 Component.onCompleted: {

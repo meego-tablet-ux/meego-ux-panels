@@ -218,6 +218,7 @@ FlipPanel {
                 model: allPhotosListModel
                 onModelCountChanged: count = modelCount
                 Component.onCompleted: count = modelCount
+                emptyItemsDelegate: SecondaryTileGridItem {}
                 delegate: SecondaryTileGridItem {
                     id:photoPreview
                     imageSource: thumburi

@@ -203,6 +203,7 @@ FlipPanel {
                 model: recentpagemodel
                 onModelCountChanged: count = modelCount
                 Component.onCompleted: count = modelCount
+                emptyItemsDelegate: PrimaryTile {}
                 delegate: PrimaryTile {
                     id:webPreviewItem
                     text: title

@@ -157,6 +157,7 @@ FlipPanel {
 
                 }
                 model: recentlyViewed
+                emptyItemsDelegate: PrimaryTile {}
                 delegate: PrimaryTile {
                     id:previewItem
                     imageSource:thumburi

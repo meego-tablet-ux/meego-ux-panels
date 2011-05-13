@@ -14,6 +14,8 @@ FrontPanelExpandableContent {
     property alias model: repeater.model
     property alias delegate: repeater.delegate
     property alias modelCount: repeater.count
+    property alias emptyItemsDelegate: emptyItems.delegate
+    property int gridColumns: 2
     contents: Item {
         width: parent.width
         height: col.height + 2*panelSize.primaryTileSideMargin
@@ -25,14 +27,18 @@ FrontPanelExpandableContent {
                 id: grid
                 clip:true
                 width: parent.width
-                columns: 2
-                children: repeater
+                columns: gridColumns
+                children: [repeater, emptyItems]
             }
         }
     }
     resources: [
         Repeater {
             id: repeater
+        },
+        Repeater {
+            id: emptyItems
+            model: (modelCount % gridColumns != 0 ) ? gridColumns - (modelCount % gridColumns) : 0
         }
     ]
 }

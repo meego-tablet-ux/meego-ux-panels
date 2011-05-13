@@ -20,8 +20,8 @@ TileItem {
 
     TileIcon {
         id: fpIconBackground
-        height: parent.height
-        width: panelSize.secondaryTileContentWidth
+        height: panelSize.secondaryTileContentWidth
+        width: height
         zoomImage: true
         fillMode: Image.Stretch
         // TODO: use .sci once there is support in image provider

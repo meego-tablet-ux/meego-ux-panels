@@ -39,6 +39,7 @@ TileItem {
             anchors.fill: parent
             Rectangle {
                 id: shade
+                visible: fpText.visible
                 width: parent.width
                 height: panelSize.primaryTileTextHeight
                 anchors.bottom: parent.bottom
@@ -47,6 +48,7 @@ TileItem {
             }
             Text {
                 id: fpText
+                visible: text
                 text: fpITI.text
                 anchors.bottom: parent.bottom
                 anchors.top: shade.top
