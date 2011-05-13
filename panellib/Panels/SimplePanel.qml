@@ -86,18 +86,21 @@ Item {
                    anchors.fill: parent
                    onPressed: {
                        rightIcon.source = "image://themedimage/widgets/apps/panels/flip-panel-active"
-                       var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
-                       simplePanel.rightIconPressed(mappedMouse)
+                       // var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
+                       // simplePanel.rightIconPressed(mappedMouse)
                    }
-                   onPositionChanged:{
-                       var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
-                       simplePanel.rightIconPositionChanged(mappedMouse)
-                   }
+                   // onPositionChanged:{
+                   //     var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
+                   //     simplePanel.rightIconPositionChanged(mappedMouse)
+                   // }
 
+                   onCanceled: {
+                       rightIcon.source = "image://themedimage/widgets/apps/panels/flip-panel"
+                   }
                    onReleased: {
                        rightIcon.source = "image://themedimage/widgets/apps/panels/flip-panel"
-                       var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
-                       simplePanel.rightIconReleased(mappedMouse)
+                       // var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
+                       // simplePanel.rightIconReleased(mappedMouse)
                    }
 
                    onClicked: simplePanel.rightIconClicked()
