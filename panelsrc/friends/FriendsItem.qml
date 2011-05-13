@@ -103,7 +103,7 @@ SecondaryTileBase {
             border.bottom: 3
             border.left: 3
             border.right: 3
-            fillMode: Image.PreserveAspectFit
+            fillMode: Image.PreserveAspectCrop
             smooth: !friendItemText.moving
             asynchronous: true
 
