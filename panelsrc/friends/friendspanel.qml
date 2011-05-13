@@ -208,7 +208,9 @@ FlipPanel {
                 Component {
                     id: recentUpdatesDelegate
                     FrontPanelExpandableContent {
+                        id: fiContainer
                         showHeader: false
+                        property variant view: ListView.view
                         contents: FriendsItem {
                             id: friendsItemDel
                             serviceName: servicename

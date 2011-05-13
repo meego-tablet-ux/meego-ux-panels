@@ -48,8 +48,8 @@ SecondaryTileBase {
         console.log("amIVisible? visArea.yPos: ", ListView.view.visibleArea.yPosition, "visArea.heightRatio: ", ListView.view.visibleArea.heightRatio, "LV.v.height: ", ListView.view.height);
         console.log("amIVisible? calcLV.view.y: ", ListView.view.visibleArea.yPosition * ListView.view.height, " calcLV.view.y*h: ", ListView.view.visibleArea.yPosition * ListView.view.contentHeight);
 */
-        var minY = ListView.view.visibleArea.yPosition * ListView.view.contentHeight;
-        var maxY = minY + ListView.view.height;
+        var minY = fiContainer.view.visibleArea.yPosition * fiContainer.view.contentHeight;
+        var maxY = minY + fiContainer.view.height;
         var myMinY = index * friendItemText.height;
         var myMaxY = (index+1) * friendItemText.height;
 /*
@@ -69,9 +69,9 @@ SecondaryTileBase {
         target: fpContainer
         onCheckVisible: {
 //            console.log("readTimer onTriggered for itemID " + itemID);
-            // if (amIVisible()) {
-            //     friendItemText.read(itemID);
-            // }
+            if (amIVisible()) {
+                friendItemText.read(itemID);
+            }
         }
     }
 
