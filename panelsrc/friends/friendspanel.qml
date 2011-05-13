@@ -14,6 +14,8 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: fpContainer
 
+    signal checkVisible()
+
     Translator {
         catalog: "meego-ux-panels-friends"
     }
@@ -39,6 +41,11 @@ FlipPanel {
     onFlipToFront: {
         panelManager.frozen = false;
         refreshTimer.stop();
+        readTimer.restart();
+    }
+
+    onFlipToBack: {
+        readTimer.stop();
     }
 
     TopItem {
@@ -54,9 +61,30 @@ FlipPanel {
             onTriggered: {
                 panelManager.frozen = false;
             }
+        },
+
+        Timer {
+            id: readTimer
+            interval: 5000
+            onTriggered: {
+                //console.log("fpContainer.state: ", fpContainer.state);
+                if (contentLoader.amIVisible() && fpContainer.state != "back")
+                    fpContainer.checkVisible();
+            }
         }
+
     ]
 
+    Connections {
+        target: panelsContainerFlickable
+        onMovementStarted: {
+            readTimer.stop();
+        }
+        onMovementEnded: {
+            if (contentLoader.amIVisible())
+                readTimer.restart();
+        }
+    }
 
     Component.onCompleted: {
         panelManager.initialize("friends");
@@ -119,6 +147,7 @@ FlipPanel {
             anchors.fill: parent
 
             ListView {
+                id: lvContent
                 model: panelManager.feedModel
                 delegate: recentUpdatesDelegate
                 anchors.fill: parent
@@ -131,11 +160,21 @@ FlipPanel {
                 clip: true
                 onMovementStarted:  {
                     panelManager.frozen = true;
-                    refreshTimer.stop()
+                    refreshTimer.stop();
+                    readTimer.stop();
                 }
 
                 onMovementEnded: {
-                    refreshTimer.restart()
+                    refreshTimer.restart();
+                    readTimer.restart();
+                }
+
+                onCountChanged: {
+                    readTimer.restart();
+                }
+
+                Component.onCompleted: {
+                    console.log(visibleArea.yPosition * height);
                 }
             }
 
@@ -209,6 +248,10 @@ FlipPanel {
                         onRejectClicked: {
                             //console.log("Reject clicked for ID " + myID);
                             actions.performStandardAction("reject", myID);
+                        }
+                        onRead: {
+                            //console.log("onRead for ID " + myID);
+                            actions.performStandardAction("setRead", myID);
                         }
                     }
                 }

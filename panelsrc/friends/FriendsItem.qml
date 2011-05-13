@@ -25,7 +25,9 @@ FrontPanelContentItem {
     property alias messageText: contentText.text
     property alias picImage: pictureImage.source
     property alias timeStamp: timestampText.text
+//DEBUG    property string timeStamp
     property string itemID: ""
+//DEBUG    property alias itemID: timestampText.text
     property string itemType: ""
 
     property bool moving: false
@@ -34,6 +36,42 @@ FrontPanelContentItem {
     signal clicked(string myID)
     signal acceptClicked(string myID)
     signal rejectClicked(string myID)
+    signal read(string myID)
+
+
+
+    function amIVisible() {
+/*        console.log("amIVisible? id: ", itemID, "visible: ", friendItemText.visible);
+        console.log("amIVisible? fIT.idx: ", index, "fIT.height: ", friendItemText.height, " lvContent.height: ", lvContent.height, " h*idx: ", index * friendItemText.height);
+        console.log("amIVisible? visArea.yPos: ", ListView.view.visibleArea.yPosition, "visArea.heightRatio: ", ListView.view.visibleArea.heightRatio, "LV.v.height: ", ListView.view.height);
+        console.log("amIVisible? calcLV.view.y: ", ListView.view.visibleArea.yPosition * ListView.view.height, " calcLV.view.y*h: ", ListView.view.visibleArea.yPosition * ListView.view.contentHeight);
+*/
+        var minY = ListView.view.visibleArea.yPosition * ListView.view.contentHeight;
+        var maxY = minY + ListView.view.height;
+        var myMinY = index * friendItemText.height;
+        var myMaxY = (index+1) * friendItemText.height;
+/*
+        console.log("amIVisible? minY: ", minY, "maxY: ", maxY);
+        console.log("amIVisible? idx: ", index, "id: ", itemID, "myMinY: ", myMinY, "myMaxY: ", myMaxY);
+*/
+        if ((myMinY < minY) || (myMaxY > maxY)) {
+//            console.log("amIVisible? false");
+            return false;
+        }
+//        console.log("amIVisible? true");
+        return true;
+    }
+
+
+    Connections {
+        target: fpContainer
+        onCheckVisible: {
+//            console.log("readTimer onTriggered for itemID " + itemID);
+            if (amIVisible()) {
+                friendItemText.read(itemID);
+            }
+        }
+    }
 
     MouseArea {
         anchors.fill: parent

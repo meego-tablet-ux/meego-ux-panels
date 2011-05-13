@@ -267,6 +267,22 @@ Labs.Window {
                             property string aDisplayName: displayName
                             property int aIndex: index
 
+                            function amIVisible() {
+                                //console.log("amIVisiblePanel")
+                                var minX = panelsContainerFlickable.visibleArea.xPosition * panelsContainerFlickable.contentWidth;
+                                var maxX = minX + panelsContainerFlickable.width;
+                                var myMinX = index * (item.width + panelSize.panelOuterSpacing);
+                                var myMaxX = ((index+1) * (item.width + panelSize.panelOuterSpacing))-panelSize.panelOuterSpacing;
+                                //console.log("amIVisiblePanel? minX: ", minX, "maxX: ", maxX);
+                                //console.log("amIVisiblePanel? idx: ", index, "displayName: ", displayName, "myMinX: ", myMinX, "myMaxX: ", myMaxX);
+                                if ((myMinX < minX) || (myMaxX > maxX)) {
+                                    //console.log("amIVisiblePanel? false");
+                                    return false;
+                                }
+                                //console.log("amIVisiblePanel? true");
+                                return true;
+                            }
+
                             Component.onCompleted: {
                                 console.log("displayName: " + displayName + ", index: " + index)
                             }

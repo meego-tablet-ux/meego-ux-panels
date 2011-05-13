@@ -34,8 +34,9 @@ Flipable {
     //signal widthDistanceDragged
 
 
-    signal visibleOptionClicked
-    signal flipToFront
+    signal visibleOptionClicked()
+    signal flipToFront()
+    signal flipToBack()
     signal programClicked(string programId, int coordinate_x, int coordinate_y)
 
 
