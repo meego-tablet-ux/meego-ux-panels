@@ -17,7 +17,6 @@ Item {
     property alias text: fpsubheader.text
     property alias contents: fpContents.sourceComponent
     property alias showHeader: fpsubheader.visible
-    property real sideMargin: panelSize.contentSideMargin
 
     //If set, forces a set loader height, using maxLoaderHeight
     property bool useFixedLoaderHeight: false
@@ -91,7 +90,7 @@ Item {
 
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - 2*sideMargin
+        width: parent.width - 2*panelSize.contentSideMargin
 
         FrontPanelSubHeader{
             id:fpsubheader

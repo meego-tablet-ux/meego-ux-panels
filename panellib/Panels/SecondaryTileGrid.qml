@@ -16,7 +16,6 @@ FrontPanelExpandableContent {
     property alias modelCount: repeater.count
     property alias emptyItemsDelegate: emptyItems.delegate
     property int gridColumns: 4
-    sideMargin: panelSize.secondaryTileGridSideMargin
     contents: Item {
         width: parent.width
         height: col.height + 2*panelSize.primaryTileSideMargin
