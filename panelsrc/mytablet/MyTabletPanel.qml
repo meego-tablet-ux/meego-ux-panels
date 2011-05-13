@@ -131,7 +131,7 @@ FlipPanel {
     front: SimplePanel {
 
         panelTitle: qsTr("My Tablet")
-        leftIconSource: "image://theme/panels/pnl_icn_tablet"
+        leftIconSource: "image://themedimage/images/panels/pnl_icn_tablet"
         panelComponent: Flickable {
             anchors.fill: parent
             interactive: (height < contentHeight)
@@ -187,7 +187,7 @@ FlipPanel {
         subheaderText: qsTr("My Tablet content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://theme/panels/pnl_icn_tablet"
+        leftIconSource: "image://themedimage/images/panels/pnl_icn_tablet"
 
         clearButtonVisible:false
     }

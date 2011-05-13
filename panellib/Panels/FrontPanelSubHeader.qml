@@ -24,14 +24,14 @@ Item {
 
     Image {
         id: subHeaderImg
-        source: (panelObj.Color == "" ? "image://theme/panels/pnl_mytablet_subtitlebar" :
-                 "image://theme/panels/pnl_subtitlebar_" + panelObj.Color)
+        source: (panelObj.Color == "" ? "image://themedimage/images/panels/pnl_mytablet_subtitlebar" :
+                 "image://themedimage/images/panels/pnl_subtitlebar_" + panelObj.Color)
         height: sourceSize.height
         width: parent.width
         onStatusChanged: {
             if (status == Image.Error) {
                 //If we can't load the colored titlebar, fall back to default
-                source = "image://theme/panels/pnl_mytablet_subtitlebar"
+                source = "image://themedimage/images/panels/pnl_mytablet_subtitlebar"
             }
         }
     }
@@ -53,7 +53,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: fpSubHeaderText.anchors.leftMargin //THEME
         rotation: collapsed? 90 : 0
-        source:  "image://theme/panels/pnl_icn_arrowdown"
+        source:  "image://themedimage/images/panels/pnl_icn_arrowdown"
         visible: false
 
         Behavior on rotation {

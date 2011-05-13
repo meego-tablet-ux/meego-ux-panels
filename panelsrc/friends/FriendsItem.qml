@@ -124,7 +124,7 @@ FrontPanelContentItem {
 
         Image {
             id: authorIconImage
-            source: (authorIcon == "" ? "image://theme/im/bg_avatar_nopicture" : authorIcon)
+            source: (authorIcon == "" ? "image://themedimage/images/im/bg_avatar_nopicture" : authorIcon)
 
             height: panelSize.oneFourth //sourceSize.height
             width: panelSize.oneFourth //sourceSize.width
@@ -138,7 +138,7 @@ FrontPanelContentItem {
 
             onStatusChanged: {
                 if ((status == Image.Error) || (status == Image.Null))
-                    source = "image://theme/im/bg_avatar_nopicture";
+                    source = "image://themedimage/images/im/bg_avatar_nopicture";
             }
         }
 
@@ -197,8 +197,8 @@ FrontPanelContentItem {
         Button {
             id: acceptBtn
             visible: (friendItemText.itemType == "request")
-//            bgSourceUp: "image://theme/panels/pnl_switch_pink_up"
-//            bgSourceDn: "image://theme/panels/pnl_switch_pink_dn"
+//            bgSourceUp: "image://themedimage/images/panels/pnl_switch_pink_up"
+//            bgSourceDn: "image://themedimage/images/panels/pnl_switch_pink_dn"
 //            height: panelSize.oneTenth
 //            width: panelSize.oneFourth
             anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)

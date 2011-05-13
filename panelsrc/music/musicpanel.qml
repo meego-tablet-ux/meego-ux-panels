@@ -91,7 +91,7 @@ FlipPanel {
                 return itemModelOOBE;
 //            (((playlistsModel.count + musicRecentsModel.count == 0) && (musicIntf.state != "playing" && musicIntf.state != "paused")) ? itemModelOOBE : itemModelOne)
         }
-        leftIconSource: "image://theme/panels/pnl_icn_music"
+        leftIconSource: "image://themedimage/images/panels/pnl_icn_music"
     }
 
     back: BackPanelStandard {
@@ -100,7 +100,7 @@ FlipPanel {
         //panelContent: itemModelSizes
         settingsListModel: backSettingsModel
         isBackPanel: true
-        leftIconSource: "image://theme/panels/pnl_icn_music"
+        leftIconSource: "image://themedimage/images/panels/pnl_icn_music"
 
         onClearHistClicked:{
             musicRecentsModel.clear()
@@ -439,7 +439,7 @@ FlipPanel {
                         id:albumPreview
                         text: title
                         imageSource: thumburi
-                        fallBackImage: "image://theme/media/music_thumb_med"
+                        fallBackImage: "image://themedimage/images/media/music_thumb_med"
                         zoomImage: true
 
                         onClicked:{

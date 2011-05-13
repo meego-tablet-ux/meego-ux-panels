@@ -53,13 +53,13 @@ Item {
             anchors.left: parent.left
             height: sourceSize.height
             width: sourceSize.width
-            source: (panelObj.Color == "" ? "image://theme/panels/pnl_titlebar" :
-                     "image://theme/panels/pnl_titlebar_" + panelObj.Color)
+            source: (panelObj.Color == "" ? "image://themedimage/images/panels/pnl_titlebar" :
+                     "image://themedimage/images/panels/pnl_titlebar_" + panelObj.Color)
 
             onStatusChanged: {
                 if (status == Image.Error) {
                     //If we can't load the colored titlebar, fall back to default
-                    source = "image://theme/panels/pnl_titlebar"
+                    source = "image://themedimage/images/panels/pnl_titlebar"
                 }
             }
 
@@ -93,7 +93,7 @@ Item {
                anchors.rightMargin: panelSize.contentSideMargin
                anchors.right: parent.right
                anchors.verticalCenter: parent.verticalCenter
-               source: "image://theme/panels/" + (isBackPanel ? "pnl_icn_flip_up" : "pnl_grip_up")
+               source: "image://themedimage/images/panels/" + (isBackPanel ? "pnl_icn_flip_up" : "pnl_grip_up")
                width: sourceSize.width
                height: sourceSize.height
                visible: !isBackPanel
@@ -101,7 +101,7 @@ Item {
                MouseArea {
                    anchors.fill: parent
                    onPressed: {
-                       rightIcon.source = "image://theme/panels/" + (isBackPanel ? "pnl_icn_flip_dn" : "pnl_grip_dn")
+                       rightIcon.source = "image://themedimage/images/panels/" + (isBackPanel ? "pnl_icn_flip_dn" : "pnl_grip_dn")
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconPressed(mappedMouse)
                    }
@@ -111,7 +111,7 @@ Item {
                    }
 
                    onReleased: {
-                       rightIcon.source = "image://theme/panels/" + (isBackPanel ? "pnl_icn_flip_up" : "pnl_grip_up")
+                       rightIcon.source = "image://themedimage/images/panels/" + (isBackPanel ? "pnl_icn_flip_up" : "pnl_grip_up")
                        var mappedMouse = simplePanel.parent.mapFromItem(rightIcon, mouse.x, mouse.y)
                        simplePanel.rightIconReleased(mappedMouse)
                    }
@@ -121,7 +121,7 @@ Item {
     }
     Image {
         id: fpTitleDropShadow
-        source: "image://theme/panels/pnl_titlebar_shadow"
+        source: "image://themedimage/images/panels/pnl_titlebar_shadow"
         width: panelHeader.width
         anchors.top: panelHeader.bottom
         z: panelHeader.z
@@ -129,7 +129,7 @@ Item {
 
     Image {
         id: panelDSL
-        source: "image://theme/panels/pnl_shadow_left"
+        source: "image://themedimage/images/panels/pnl_shadow_left"
         width: sourceSize.width
         height: parent.height
         anchors.left: parent.left
@@ -140,7 +140,7 @@ Item {
 
     Image {
         id: panelBG
-        source: "image://theme/panels/pnl_bg" + (isBackPanel ? "_setting" : "")
+        source: "image://themedimage/images/panels/pnl_bg" + (isBackPanel ? "_setting" : "")
         width: sourceSize.width
         anchors.left:  panelDSL.right
         height: parent.height
@@ -161,7 +161,7 @@ Item {
 
     Image {
         id: panelDSR
-        source: "image://theme/panels/pnl_shadow_right"
+        source: "image://themedimage/images/panels/pnl_shadow_right"
         width: sourceSize.width
         height: parent.height
         anchors.left: panelBG.right

@@ -40,7 +40,7 @@ FrontPanelContentItem {
 
         Component.onCompleted: {
             if ((fpImage.status == Image.Error) || (fpImage.status == Image.Null)) {
-                fpImage.source = "image://theme/media/music_thumb_med";
+                fpImage.source = "image://themedimage/images/media/music_thumb_med";
             }
         }
 
@@ -51,7 +51,7 @@ FrontPanelContentItem {
             anchors.left: parent.left
             height: playPauseButton.height
             width: height
-            source: "image://theme/panels/pnl_btn_previous_up"
+            source: "image://themedimage/images/panels/pnl_btn_previous_up"
 
 
             MouseArea {
@@ -71,8 +71,8 @@ FrontPanelContentItem {
                     sourceSize.height/2 : sourceSize.height
             width: fpMusicPreview.isCurrentlyPlayingLayout? sourceSize.width/2
             :sourceSize.width
-            source: imagePlayStatus?"image://theme/panels/pnl_btn_pause_up"
-            :"image://theme/panels/pnl_btn_play_up"
+            source: imagePlayStatus?"image://themedimage/images/panels/pnl_btn_pause_up"
+            :"image://themedimage/images/panels/pnl_btn_play_up"
 
             MouseArea {
                 anchors.fill: parent
@@ -93,7 +93,7 @@ FrontPanelContentItem {
             visible: fpMusicPreview.isCurrentlyPlayingLayout
             height: playPauseButton.height
             width: height
-            source: "image://theme/panels/pnl_btn_next_up"
+            source: "image://themedimage/images/panels/pnl_btn_next_up"
 
             MouseArea {
                 anchors.fill: parent

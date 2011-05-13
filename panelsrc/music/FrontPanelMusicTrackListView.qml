@@ -36,7 +36,7 @@ FrontPanelColumnView {
 
                 Component.onCompleted: {
                     if ((imgArt.status == Image.Error) || (imgArt.status == Image.Null)) {
-                        imgArt.source = "image://theme/media/music_thumb_med";
+                        imgArt.source = "image://themedimage/images/media/music_thumb_med";
                     }
                 }
             }

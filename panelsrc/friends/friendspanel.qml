@@ -26,7 +26,7 @@ FlipPanel {
         id: frontPanel
         panelTitle: qsTr("Friends")
         panelComponent: frontPanelContent
-        leftIconSource: "image://theme/panels/pnl_icn_friends"
+        leftIconSource: "image://themedimage/images/panels/pnl_icn_friends"
     }
 
     back: BackPanelGeneric {
@@ -35,7 +35,7 @@ FlipPanel {
         subheaderText: qsTr("Friends panel content")
         bpContent: backPanelContent
         isBackPanel: true
-        leftIconSource: "image://theme/panels/pnl_icn_friends"
+        leftIconSource: "image://themedimage/images/panels/pnl_icn_friends"
     }
 
     onFlipToFront: {
@@ -287,7 +287,7 @@ FlipPanel {
                 autoCenter: true
                 modalSurface: BorderImage {
                     id: rectClearHist
-                    source: "image://theme/notificationBox_bg"
+                    source: "image://themedimage/images/notificationBox_bg"
                     border.top: 14
                     border.left: 20
                     border.right: 20

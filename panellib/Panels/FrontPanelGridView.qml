@@ -32,7 +32,7 @@ Item {
 
     Image {
         id: itemTopLine
-        source: "image://theme/panels/pnl_list_top"
+        source: "image://themedimage/images/panels/pnl_list_top"
         width: parent.width
         height: sourceSize.height
         anchors.top: parent.top
@@ -40,7 +40,7 @@ Item {
 
     Image {
         id: itemBG
-        source: "image://theme/panels/pnl_list_bg"
+        source: "image://themedimage/images/panels/pnl_list_bg"
         width: parent.width
         height: fpGrid.height
         anchors.top: itemTopLine.bottom
@@ -68,7 +68,7 @@ Item {
 
     Image {
         id: itemBottomLine
-        source: "image://theme/panels/pnl_list_bottom"
+        source: "image://themedimage/images/panels/pnl_list_bottom"
         width: parent.width
         height: 1//sourceSize.height
         anchors.bottom: parent.bottom

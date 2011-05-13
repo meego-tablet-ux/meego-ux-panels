@@ -140,7 +140,7 @@ Window {
 
     Image {
         opacity: 0
-        source: "image://theme/panels/pnl_bg"
+        source: "image://themedimage/images/panels/pnl_bg"
         width: sourceSize.width
         height: sourceSize.height
         asynchronous: false

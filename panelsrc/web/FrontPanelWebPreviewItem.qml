@@ -24,7 +24,7 @@ FrontPanelContentPreviewItem
     Image{
         opacity: 0.7 //THEME
         anchors.bottom: parent.bottom
-        source: "image://theme/panels/pnl_infopanel_lrg"
+        source: "image://themedimage/images/panels/pnl_infopanel_lrg"
         width: parent.width
 
         Image{
