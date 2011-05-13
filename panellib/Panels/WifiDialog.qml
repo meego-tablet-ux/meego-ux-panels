@@ -7,7 +7,6 @@
  */
 
 import Qt 4.7
-import MeeGo.Labs.Components 0.1 as Labs
 import MeeGo.Components 0.1
 import MeeGo.Settings 0.1
 import MeeGo.Panels 0.1
