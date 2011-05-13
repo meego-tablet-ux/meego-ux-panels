@@ -244,7 +244,7 @@ FlipPanel {
 
                         //For the context Menu
                         onPressAndHold:{
-                            var pos = photoPreview.mapToItem(scene, mouse.x, mouse.y);
+                            var pos = photoPreview.mapToItem(window, mouse.x, mouse.y);
 
                             ctxMenuPhoto.currentUrn= urn
                             ctxMenuPhoto.currentUri=uri;
@@ -282,7 +282,7 @@ FlipPanel {
 
                         //For the context Menu
                         onPressAndHold:{
-                            var pos = albumPreview.mapToItem(scene, mouse.x, mouse.y);
+                            var pos = albumPreview.mapToItem(window, mouse.x, mouse.y);
 
                             ctxMenuAlbum.currentUrn= urn
                             ctxMenuAlbum.setPosition(pos.x, pos.y);

@@ -175,7 +175,7 @@ FlipPanel {
                     //For the context Menu
                     onPressAndHold:{
 
-                        var pos = previewItem.mapToItem(scene, mouse.x, mouse.y);
+                        var pos = previewItem.mapToItem(window, mouse.x, mouse.y);
                         ctxMenu.currentUrn=urn;
                         ctxMenu.currentUri=uri;
                         ctxMenu.menuPos = pos;

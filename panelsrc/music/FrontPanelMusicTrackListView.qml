@@ -72,7 +72,7 @@ FrontPanelColumnView {
               }
               //For the context Menu
               onPressAndHold:{
-                  var pos = trackItem.mapToItem(scene, mouse.x, mouse.y);
+                  var pos = trackItem.mapToItem(window, mouse.x, mouse.y);
 
                   contextMenu.currentUrn=urn;
                   contextMenu.currentUri=uri;

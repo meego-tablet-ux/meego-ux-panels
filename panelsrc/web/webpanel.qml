@@ -224,7 +224,7 @@ FlipPanel {
                         }
 
                         onPressAndHold:{
-                            var pos = webPreviewItem.mapToItem(scene, mouse.x, mouse.y);
+                            var pos = webPreviewItem.mapToItem(window, mouse.x, mouse.y);
                             ctxMenuRecent.currentUrl = url
                             ctxMenuRecent.currentId = id
                             ctxMenuRecent.setPosition(pos.x, pos.y);
@@ -281,7 +281,7 @@ FlipPanel {
 
                         onPressAndHold:{
 
-                            var pos = bookmarkPreview.mapToItem(scene, mouse.x, mouse.y);
+                            var pos = bookmarkPreview.mapToItem(window, mouse.x, mouse.y);
                             ctxMenuBookMark.currentUrl = url
                             ctxMenuBookMark.currentId= id
                             ctxMenuBookMark.setPosition(pos.x, pos.y);
