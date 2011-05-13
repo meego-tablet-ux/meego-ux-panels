@@ -93,7 +93,7 @@ FrontPanelContentItem {
 //            anchors.left: parent.left
 //            anchors.leftMargin: panelSize.contentSideMargin
 //            anchors.verticalCenter: parent.verticalCenter
-//            fillMode: Image.PreserveAspectFit
+//            fillMode: Image.PreserveAspectCrop
 //            smooth: !friendItemText.moving
 //            asynchronous: true
 //        }
@@ -132,7 +132,7 @@ FrontPanelContentItem {
             anchors.topMargin: panelSize.contentSideMargin
             anchors.left: parent.left
             anchors.leftMargin: panelSize.contentSideMargin
-            fillMode: Image.PreserveAspectFit
+            fillMode: Image.PreserveAspectCrop
             smooth: !friendItemText.moving
             asynchronous: true
 

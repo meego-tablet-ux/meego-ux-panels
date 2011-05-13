@@ -36,7 +36,7 @@ FrontPanelContentItem {
 
         height: parent.height
         width: height
-        fillMode: Image.PreserveAspectFit
+        fillMode: Image.PreserveAspectCrop
 
         Component.onCompleted: {
             if ((fpImage.status == Image.Error) || (fpImage.status == Image.Null)) {

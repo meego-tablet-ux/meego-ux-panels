@@ -26,7 +26,7 @@ Item {
         id: fpImage
         anchors.fill: parent
         anchors.margins: parent.padding
-        fillMode: Image.PreserveAspectFit
+        fillMode: Image.PreserveAspectCrop
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         asynchronous: true
