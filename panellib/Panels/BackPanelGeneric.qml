@@ -73,7 +73,7 @@ SimplePanel {
                     text: qsTr("Panels")
                 }
                 BackPanelIconTextItem {
-                    imageSource: "image://meegotheme/icons/settings/everyday-settings"
+                    imageSource: "image://themedimage/icons/settings/everyday-settings"
                     text: qsTr("Manage panels")
                     onClicked: {
                         spinnerContainer.startSpinner();

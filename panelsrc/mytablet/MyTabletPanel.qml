@@ -61,19 +61,19 @@ FlipPanel {
         id: settingsModel
 
         ListElement {
-            icon: "image://meegotheme/icons/settings/networks"
+            icon: "image://themedimage/icons/settings/networks"
             type: "wifi"
             title: QT_TR_NOOP("Wi-Fi")
         }
 
         ListElement {
-            icon: "image://meegotheme/icons/settings/sound"
+            icon: "image://themedimage/icons/settings/sound"
             type: "sound"
             title: QT_TR_NOOP("Sound")
         }
 
         ListElement {
-            icon: "image://meegotheme/icons/settings/everyday-settings"
+            icon: "image://themedimage/icons/settings/everyday-settings"
             type: "allSettings"
             title: QT_TR_NOOP("All settings")
             launchName: "/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"
@@ -228,7 +228,7 @@ FlipPanel {
                     visible: index < privateData.topApplicationsLimit
                     imageSource: icon
                     text: title
-                    fallBackImage: "image://meegotheme/icons/launchers/meego-app-widgets"
+                    fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
                     onClicked:{
                         spinnerContainer.startSpinner();
                         appsModel.favorites.append(filename)
