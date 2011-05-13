@@ -218,7 +218,9 @@ FlipPanel {
                 model: allPhotosListModel
                 onModelCountChanged: count = modelCount
                 Component.onCompleted: count = modelCount
-                emptyItemsDelegate: SecondaryTileGridItem {}
+                emptyItemsDelegate: SecondaryTileGridItem {
+                    backgroundImageSource: "image://themedimage/widgets/apps/panels/item-border-empty"
+                }
                 delegate: SecondaryTileGridItem {
                     id:photoPreview
                     imageSource: thumburi
