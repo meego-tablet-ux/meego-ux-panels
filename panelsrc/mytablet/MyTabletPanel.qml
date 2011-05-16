@@ -244,7 +244,7 @@ FlipPanel {
                     delegate: TileListItem {
                         separatorVisible: true
                         hasImage: false
-                        text: qsTr(title)
+                        text: title
                         onClicked: {
                             spinnerContainer.startSpinner();
                             if( actionType == "javaScript" )
