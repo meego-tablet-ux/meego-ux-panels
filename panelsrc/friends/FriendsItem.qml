@@ -93,7 +93,7 @@ SecondaryTileBase {
             height: panelSize.secondaryTileContentHeight
             width: height
             anchors.verticalCenter: parent.verticalCenter
-            imageSource: (authorIcon == "" ? "image://themedimage/images/im/bg_avatar_nopicture" : authorIcon)
+            imageSource: (authorIcon == "" ? "image://themedimage/widgets/apps/panels/avatar-default" : authorIcon)
 
             zoomImage: true
             // TODO: use .sci once there is support in image provider
@@ -129,7 +129,6 @@ SecondaryTileBase {
                     font.family: panelSize.fontFamily
                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                     color: panelColors.tileMainTextColor //THEME - VERIFY
-                    font.bold: true
                     wrapMode: Text.NoWrap
                     elide: Text.ElideRight
                 }
