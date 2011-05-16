@@ -164,6 +164,7 @@ Window {
         property int tileTextLineSpacing: 2
         property int tileListItemHeight: 63
         property int tileListItemContentHeight: 49
+        property int serviceIconSize: 40
         property int tileFontSize: theme.fontPixelSizeNormal
         property string fontFamily: theme.fontFamily
         property int timestampFontSize: theme.fontPixelSizeSmall

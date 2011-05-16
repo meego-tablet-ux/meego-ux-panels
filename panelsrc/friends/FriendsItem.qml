@@ -13,16 +13,16 @@ import MeeGo.Components 0.1
 SecondaryTileBase {
     id: friendItemText
 
-    height: contentHeight()
+    height: row.height
     width: parent.width
+    imageVisible: false
 
-    property int maxHeight: panelSize.oneHalf
     property string authorIcon: ""
     property string openUrl: ""
 
     // property alias serviceName: serviceNameText.text
     property string serviceName: ""
-    property string serviceIcon: "" //serviceIconImage.source
+    property string serviceIcon: ""
     property alias authorName: authorNameText.text
     property alias messageText: contentText.text
     property alias picImage: pictureImage.source
@@ -80,33 +80,42 @@ SecondaryTileBase {
         onClicked: friendItemText.clicked(itemID)
         onPressAndHold: friendItemText.pressAndHold(itemID, mouse)
     }
-    function contentHeight() {
-        return panelSize.secondaryTileHeight
-        //return (timestampText.y + timestampText.height + timestampText.anchors.bottomMargin);
-    }
 
     Row {
         id: row
-        height: parent.height
-        TileIcon {
-            id: authorIconImage
-            height: panelSize.secondaryTileContentHeight
-            width: height
-            anchors.verticalCenter: parent.verticalCenter
-            imageSource: (authorIcon == "" ? "image://themedimage/widgets/apps/panels/avatar-default" : authorIcon)
+        height: Math.max(panelSize.secondaryTileHeight, col.height)
+        Item {
+            height: panelSize.secondaryTileHeight
+            width: authorIconImage.width
+            TileIcon {
+                id: authorIconImage
+                height: panelSize.secondaryTileContentHeight
+                width: height
+                anchors.verticalCenter: parent.verticalCenter
+                imageSource: (authorIcon == "" ? "image://themedimage/widgets/apps/panels/avatar-default" : authorIcon)
 
-            zoomImage: true
-            // TODO: use .sci once there is support in image provider
-            // (and an .sci file)
-            source: "image://themedimage/widgets/apps/panels/item-border-item"
-            border.top: 3
-            border.bottom: 3
-            border.left: 3
-            border.right: 3
-            fillMode: Image.PreserveAspectCrop
-            smooth: !friendItemText.moving
-            asynchronous: true
-
+                zoomImage: true
+                // TODO: use .sci once there is support in image provider
+                // (and an .sci file)
+                source: "image://themedimage/widgets/apps/panels/item-border-item"
+                border.top: 3
+                border.bottom: 3
+                border.left: 3
+                border.right: 3
+                fillMode: Image.PreserveAspectCrop
+                smooth: !friendItemText.moving
+                asynchronous: true
+                Image {
+                    id: serviceIconImage
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+                    height: Math.min(panelSize.serviceIconSize, sourceSize.height)
+                    width: Math.min(panelSize.serviceIconSize, sourceSize.height)
+                    fillMode: Image.PreserveAspectCrop
+                    asynchronous: true
+                    source: (serviceIcon == "" ? "image://themedimage/icons/services/generic" : serviceIcon)
+                }
+            }
         }
         Item {
             id: leftMargin
@@ -114,6 +123,7 @@ SecondaryTileBase {
             height: parent.height
         }
         Column {
+            id: col
             width: friendItemText.width - authorIconImage.width - leftMargin.width
             Item {
                 id: topMargin
@@ -121,6 +131,7 @@ SecondaryTileBase {
                 height: panelSize.tileTextTopMargin
             }
             Item {
+                id: heading
                 width: parent.width
                 height: authorNameText.height
                 Text {
@@ -144,73 +155,64 @@ SecondaryTileBase {
                     elide: Text.ElideRight
                 }
             }
-
+            Item {
+                width: 1
+                height: panelSize.tileTextLineSpacing
+            }
             Text {
+                // TODO multiline text elide. support available in Qt 4.8
                 id: contentText
                 width: parent.width
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                height: Math.min(paintedHeight, panelSize.secondaryTileHeight - heading.height - 2*topMargin.height)
                 font.family: panelSize.fontFamily
                 font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                 color: panelColors.tileDescTextColor //THEME - VERIFY
+                wrapMode: Text.Wrap
+                clip: true
             }
-        }
-    }
-        Image {
-            id: pictureImage
-            height: panelSize.oneThird //sourceSize.height
-            width: panelSize.oneThird //calcPictureImageWidth()
-            // anchors.top: contentText.bottom
-            // anchors.topMargin: panelSize.contentTopMargin
-            // anchors.left: contentText.left
-            clip: true
-            fillMode: Image.PreserveAspectCrop
-            smooth: !friendItemText.moving
-            asynchronous: true
-            visible: (pictureImage.source == "" ? false : true)
-            function calcPictureImageWidth() {
+            Item {
+                width: 1
+                height: panelSize.secondaryTileGridSideMargin
+                visible: pictureImage.visible || requestBtns.visible
+            }
+            TileIcon {
+                id: pictureImage
+                visible: (pictureImage.source == "" ? false : true)
+                height: panelSize.tileListItemContentHeight
+                width: panelSize.tileListItemContentHeight
+                zoomImage: true
+                fillMode: Image.PreserveAspectCrop
+                smooth: !friendItemText.moving
+                asynchronous: true
+            }
+            Item {
+                id: requestBtns
+                width: parent.width
+                height: acceptBtn.height
+                visible: (friendItemText.itemType == "request")
+                Button {
+                    id: acceptBtn
+                    anchors.left: parent.left
+                    anchors.leftMargin: panelSize.secondaryTileGridSideMargin // TODO
+                    maxWidth: parent.width/2 - 1.5*anchors.leftMargin
+                    text: qsTr("Accept")
+                    onClicked: {
+                        friendItemText.acceptClicked(itemID);
+                    }
+                }
 
-                if (pictureImage.sourceSize.width + authorNameText.anchors.leftMargin
-                    + authorIconImage.width + authorIconImage.anchors.leftMargin > content.width) {
-                    var size = content.width - (authorNameText.anchors.leftMargin
-                        + authorIconImage.width + authorIconImage.anchors.leftMargin + 5);
-                    return size;
-                } else {
-                    return pictureImage.sourceSize.width;
+                Button {
+                    id: rejectBtn
+                    anchors.right: parent.right
+                    anchors.rightMargin: panelSize.secondaryTileGridSideMargin // TODO
+                    maxWidth: parent.width/2 - 1.5*anchors.rightMargin
+                    text: qsTr("Decline")
+                    onClicked: {
+                        friendItemText.rejectClicked(itemID);
+                    }
                 }
             }
         }
+    }
 
-
-        Button {
-            id: acceptBtn
-            visible: (friendItemText.itemType == "request")
-//            bgSourceUp: "image://themedimage/images/panels/pnl_switch_pink_up"
-//            bgSourceDn: "image://themedimage/images/panels/pnl_switch_pink_dn"
-//            height: panelSize.oneTenth
-//            width: panelSize.oneFourth
-            // anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
-            // anchors.topMargin: panelSize.contentTopMargin
-            // anchors.left: contentText.left
-            text: qsTr("Accept")
-            //color: theme.fontColorNormal
-            onClicked: {
-                friendItemText.acceptClicked(itemID);
-            }
-        }
-
-        Button {
-            id: rejectBtn
-            visible: (friendItemText.itemType == "request")
-//            height: panelSize.oneTenth
-//            width: panelSize.oneFourth
-            // anchors.top: (pictureImage.visible ? pictureImage.bottom : contentText.bottom)
-            // anchors.topMargin: panelSize.contentTopMargin
-            // anchors.left: acceptBtn.right
-            // anchors.leftMargin: panelSize.contentSideMargin
-            text: qsTr("Decline")
-            //color: theme.fontColorNormal
-            onClicked: {
-                friendItemText.rejectClicked(itemID);
-            }
-        }
 }

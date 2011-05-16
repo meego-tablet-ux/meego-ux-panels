@@ -15,6 +15,7 @@ TileItem {
     height: panelSize.secondaryTileHeight
     property string imageSource
     property alias imageComponent: tileImage.sourceComponent
+    property alias imageVisible: tileImage.visible
     property Component imageEmpty: empty
     property Component imageNormal: normal
     property Component imageAlbum: album
