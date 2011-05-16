@@ -142,10 +142,6 @@ Window {
         property int oneHundredth: Math.round(baseSize/100)
 
         property int panelOuterSpacing: oneTwentieth
-        property int contentItemHeight: oneSixth
-        //property int contentSideMargin: oneThirtieth	//verify
-        //property int contentTopMargin: oneSixtieth	//verify
-        property int contentIconSize: oneEigth		//verify
 
         property int contentSideMargin: 12
         property int contentTopMargin: 8
@@ -179,8 +175,6 @@ Window {
         property string contentHeaderColor: theme.fontColorNormal
         property string tileMainTextColor: "#2a7e98"
         property string tileDescTextColor: "#666666"
-        property string textColor: theme.fontColorNormal
-        property string separatorColor: theme.lockscreenDateFontDropshadowColor
     }
 
     overlayItem: Item {

@@ -89,7 +89,7 @@ FlipPanel {
                 width: parent.width
                 text: qsTr("Watch your videos.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: panelColors.textColor
+                color: panelColors.panelHeaderColor
             }
 
             Button {

@@ -73,7 +73,7 @@ FlipPanel {
     ]
 
     Connections {
-        target: panelsContainerFlickable
+        target: allPanels
         onMovementStarted: {
             readTimer.stop();
         }
@@ -119,7 +119,7 @@ FlipPanel {
                 width: parent.width
                 text: qsTr("You have no web accounts enabled - tap here to configure your web accounts.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: panelColors.textColor
+                color: panelColors.panelHeaderColor
             }
 
             Button {

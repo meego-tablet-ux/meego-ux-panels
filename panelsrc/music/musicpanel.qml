@@ -157,7 +157,7 @@ FlipPanel {
                     width: parent.width
                     text: qsTr("Enjoy your music.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    color: panelColors.textColor
+                    color: panelColors.panelHeaderColor
                 }
 
                 Button {

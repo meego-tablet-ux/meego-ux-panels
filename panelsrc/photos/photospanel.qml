@@ -123,7 +123,7 @@ FlipPanel {
                 width: parent.width
                 text: qsTr("See your photos.")
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: panelColors.textColor
+                color: panelColors.panelHeaderColor
             }
 
             Button {

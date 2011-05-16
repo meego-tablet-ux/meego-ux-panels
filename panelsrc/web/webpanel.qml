@@ -152,7 +152,7 @@ FlipPanel {
                     width: parent.width
                     text: qsTr("What's going on today? Open the browser to start using the web.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    color: panelColors.textColor
+                    color: panelColors.panelHeaderColor
                 }
 
                 Button {
