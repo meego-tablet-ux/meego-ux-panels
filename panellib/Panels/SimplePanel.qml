@@ -21,12 +21,9 @@ Item {
     property bool isBackPanel: false
     property Component panelComponent //Set this to a Component with the contents
 
-    // These signals are bound to FlipPanel's flip state change
     signal titleClicked
     signal titlePressAndHold
-    signal wheelIconPressed
     signal rightIconClicked
-    signal released
 
     width: panelBG.width
     height: parent.height

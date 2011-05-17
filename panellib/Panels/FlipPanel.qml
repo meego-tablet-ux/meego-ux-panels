@@ -48,13 +48,11 @@ Flipable {
     //  back:
     Connections {
         target: front
-        //onWheelIconPressed: state = 'back'
         onTitleClicked: {state = 'back'; flipablePanel.flipped();}
         onRightIconClicked: {state = 'back'; flipablePanel.flipped();}
     }
     Connections {
         target: back
-        //onRightIconPressed: { state = ''; flipablePanel.flipToFront(); }
         onTitleClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
         onRightIconClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
     }
