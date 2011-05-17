@@ -92,7 +92,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - 2*panelSize.contentSideMargin
 
-        FrontPanelSubHeader{
+        PanelSubHeader {
             id:fpsubheader
             visible: true
             smooth: true

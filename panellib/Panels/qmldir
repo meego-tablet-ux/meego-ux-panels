@@ -6,7 +6,7 @@ BackPanelMessageTextItem 0.1 BackPanelMessageTextItem.qml
 BackPanelGeneric 0.1 BackPanelGeneric.qml
 BackPanelStandard 0.1 BackPanelStandard.qml
 FlipPanel 0.1 FlipPanel.qml
-FrontPanelSubHeader 0.1 FrontPanelSubHeader.qml
+PanelSubHeader 0.1 PanelSubHeader.qml
 Panel 0.1 Panel.qml
 PanelExpandableContent 0.1 PanelExpandableContent.qml
 PanelColumnView 0.1 PanelColumnView.qml
