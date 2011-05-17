@@ -14,7 +14,7 @@ Item {
     width: parent ? parent.width : 0
     height: visible? (showHeader ? fpsubheader.height : 0 ) + fpContents.height + topMargin.height + bottomMargin.height : 0
 
-    property alias text: fpsubheader.text
+    property alias text: fpSubHeaderText.text
     property alias contents: fpContents.sourceComponent
     property alias showHeader: fpsubheader.visible
 
@@ -26,8 +26,6 @@ Item {
     //If maxLoaderHeight is != 0, and useFixedLoaderHeight is false
     //then the loader dynamically auto-resizes up to a max of maxLoaderHeight
     property int maxLoaderHeight: 0
-
-    signal collapsedChanged(bool collapsed)
 
     function calcLoaderHeight() {
 
@@ -49,10 +47,8 @@ Item {
     }
 
     function calcAndSet() {
-        if (!privateData.inAni && !fpsubheader.collapsed) {
-            calcLoaderHeight();
-            fpContents.height = privateData.savedHeight;
-        }
+        calcLoaderHeight();
+        fpContents.height = privateData.savedHeight;
     }
 
     Component.onCompleted: {
@@ -64,17 +60,13 @@ Item {
         target: fpContents.item
         onHeightChanged: {
             //console.log("fpContents.item height changed, new height: " + fpContents.item.height)
-            if (!fpsubheader.collapsed) {
-                //console.log("fpContents.item height changed, doing calcAndSet")
-                calcAndSet();
-            }
+            calcAndSet();
         }
     }
 
     Item {
         id: privateData
         property int savedHeight
-        property bool inAni: false
     }
 
     BorderImage {
@@ -92,22 +84,22 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - 2*panelSize.contentSideMargin
 
-        PanelSubHeader {
+        Item {
             id:fpsubheader
-            visible: true
-            smooth: true
+            width: parent.width
+            height: panelSize.contentTitleHeight
             z:1
 
-            property bool collapsing: false
-
-            onCollapsedChanged: {
-                collapsing = true;
-                if (collapsed) {
-                    fpContents.height = 0;
-                } else {
-                    fpContents.height = privateData.savedHeight;
-                }
-                fpec.collapsedChanged(collapsed);
+            Text {
+                id: fpSubHeaderText
+                font.family: panelSize.fontFamily
+                font.pixelSize: panelSize.tileFontSize
+                color: panelColors.contentHeaderColor
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                wrapMode: Text.NoWrap
+                elide: Text.ElideRight
+                smooth: true
             }
         }
         Item {
@@ -124,15 +116,6 @@ Item {
             anchors.right: parent.right
             clip: true
 
-            Behavior on height {
-                id: collapseAnimation
-                enabled: fpsubheader.collapsing
-                SequentialAnimation {
-                    ScriptAction { script: { privateData.inAni = true; } }
-                    NumberAnimation { duration: 100 }
-                    ScriptAction { script: { privateData.inAni = false; calcAndSet(); fpsubheader.collapsing = false;} }
-                }
-            }
         }
         Item {
             id: bottomMargin
