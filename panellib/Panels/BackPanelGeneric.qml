@@ -32,21 +32,13 @@ SimplePanel {
             Column {
                 id: myContent
                 width: parent.width
-                FrontPanelExpandableContent {
+                PanelExpandableContent {
                     id: backPanelCol
                     width: parent.width
                     text: subheaderText
-                    // FrontPanelSubHeader{
-                    //     visible: true
-                    //     text: subheaderText
-                    // }
                     contents: bpContent
-                    // Loader {
-                    //     width: parent.width
-                    //     sourceComponent: bpContent
-                    // }
                 }
-                FrontPanelExpandableContent {
+                PanelExpandableContent {
                     id: panelSettings
                     width: parent.width
                     text: qsTr("Panels")

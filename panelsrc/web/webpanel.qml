@@ -228,7 +228,7 @@ FlipPanel {
                 }
             }
 
-            FrontPanelExpandableContent {
+            PanelExpandableContent {
                 id: fpecBookmarks
                 text: qsTr("Bookmarks")
                 anchors.top:  fpecRecentSites.bottom

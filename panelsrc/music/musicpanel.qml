@@ -179,7 +179,7 @@ FlipPanel {
 
 
 
-            FrontPanelExpandableContent {
+            PanelExpandableContent {
                 MusicListModel {
                     id: curPlaying
                     type: MusicListModel.Editor
@@ -219,7 +219,7 @@ FlipPanel {
                 }
             }
 
-            FrontPanelExpandableContent {
+            PanelExpandableContent {
                 id: fpRecentMusic
 
                 visible: backSettingsModel.get(0).isVisible && (count > 0) && !currentlyPlaying.visible
@@ -276,7 +276,7 @@ FlipPanel {
                 }
             }
 
-            FrontPanelExpandableContent {
+            PanelExpandableContent {
 
                 id: playqueueItem
                 property int count: 0
@@ -382,7 +382,7 @@ FlipPanel {
                 }
             }
 
-            FrontPanelExpandableContent {
+            PanelExpandableContent {
                 id: fpPlaylists
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
                 text: qsTr("Playlists")

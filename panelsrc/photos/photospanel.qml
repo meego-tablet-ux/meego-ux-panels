@@ -243,7 +243,7 @@ FlipPanel {
                 }
             }
 
-            FrontPanelExpandableContent {
+            PanelExpandableContent {
                 id: fpecAlbumList
                 anchors.top: fpecPhotoGrid.bottom
                 visible: backSettingsModel.get(1).isVisible && (count > 0)

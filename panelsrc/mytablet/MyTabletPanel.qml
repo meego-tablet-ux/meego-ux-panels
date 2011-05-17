@@ -148,7 +148,7 @@ FlipPanel {
                 height: /*connDevSection.height +*/ topAppSection.height + settingsSection.height
                 width: parent.width
 
-/*                FrontPanelExpandableContent{
+/*                PanelExpandableContent{
                     id: connDevSection
                     anchors.top: parent.top
                     text: qsTr("Connected devices")
@@ -157,7 +157,7 @@ FlipPanel {
                 }
 */
 
-                FrontPanelExpandableContent{
+                PanelExpandableContent{
                     id: topAppSection
                     anchors.top: parent.top //connDevSection.bottom
                     text: qsTr("Top applications")
@@ -165,7 +165,7 @@ FlipPanel {
                     visible: backSettingsModel.get(0).isVisible
                 }
 
-                FrontPanelExpandableContent{
+                PanelExpandableContent{
                     id: settingsSection
                     anchors.top: topAppSection.bottom
                     text: qsTr("Settings")

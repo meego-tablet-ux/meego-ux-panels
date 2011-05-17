@@ -207,7 +207,7 @@ FlipPanel {
 
                 Component {
                     id: recentUpdatesDelegate
-                    FrontPanelExpandableContent {
+                    PanelExpandableContent {
                         id: fiContainer
                         showHeader: false
                         property variant view: ListView.view
