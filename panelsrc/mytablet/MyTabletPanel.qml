@@ -21,7 +21,7 @@ FlipPanel {
 
     Item {
         id: privateData
-        property int topApplicationsLimit: 3
+        property int topApplicationsLimit: 8
     }
 
     Translator {
@@ -155,6 +155,12 @@ FlipPanel {
                 }
 */
 
+                // Loader {
+                //     id: topAppSection
+                //     anchors.top: parent.top //connDevSection.bottom
+                //     sourceComponent: topAppComp
+                //     visible: backSettingsModel.get(0).isVisible
+                // }
                 PanelExpandableContent{
                     id: topAppSection
                     anchors.top: parent.top //connDevSection.bottom
@@ -211,18 +217,22 @@ FlipPanel {
             height: fpListTopApps.height +
                     fplvTopApps.height
 
-            PanelColumnView{
+            SecondaryTileGrid {
                 id:fpListTopApps
                 width: parent.width
                 anchors.top: parent.top
                 model: appsModelFavorite
-                delegate: SecondaryTile {
-                    width: fpListTopApps.width
-                    separatorVisible: index > 0
+                emptyItemsDelegate: SecondaryTileGridItem {
+                    imageComponent: imageEmpty
+                }
+                delegate: SecondaryTileGridItem {
+                    //width: fpListTopApps.width
+                    //separatorVisible: index > 0
                     visible: index < privateData.topApplicationsLimit
+                    imageComponent: imageEmpty
                     imageSource: icon
-                    text: title
-                    description: "Testing"
+                    //text: title
+                    //description: "Testing"
                     fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
                     onClicked:{
                         spinnerContainer.startSpinner();

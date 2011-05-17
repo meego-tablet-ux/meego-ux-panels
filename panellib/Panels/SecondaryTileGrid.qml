@@ -9,27 +9,25 @@
 import Qt 4.7
 import MeeGo.Panels 0.1
 
-PanelExpandableContent {
+Item {
     id: container
     property alias model: repeater.model
     property alias delegate: repeater.delegate
     property alias modelCount: repeater.count
     property alias emptyItemsDelegate: emptyItems.delegate
     property int gridColumns: 4
-    contents: Item {
+    width: parent.width
+    height: col.height
+    Column {
+        id: col
         width: parent.width
-        height: col.height + 2*panelSize.primaryTileSideMargin
-        Column {
-            id: col
+        anchors.verticalCenter: parent.verticalCenter
+        Grid {
+            id: grid
+            clip:true
             width: parent.width
-            anchors.verticalCenter: parent.verticalCenter
-            Grid {
-                id: grid
-                clip:true
-                width: parent.width
-                columns: gridColumns
-                children: [repeater, emptyItems]
-            }
+            columns: gridColumns
+            children: [repeater, emptyItems]
         }
     }
     resources: [

@@ -18,7 +18,7 @@ PanelExpandableContent {
     property int gridColumns: 2
     contents: Item {
         width: parent.width
-        height: col.height + 2*panelSize.primaryTileSideMargin
+        height: col.height + 2*panelSize.contentAreaSideMargin
         Column {
             id: col
             width: parent.width

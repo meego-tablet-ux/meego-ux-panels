@@ -31,7 +31,7 @@ Item {
 
     Column {
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width - 2*panelSize.contentSideMargin
+        width: parent.width - 2*panelSize.contentAreaSideMargin
 
         Item {
             id:fpsubheader

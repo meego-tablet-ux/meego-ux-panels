@@ -24,6 +24,7 @@ TileItem {
     property alias descriptionComponent: descContent.sourceComponent
     property bool zoomImage: false
     property string fallBackImage: ""
+    property variant fillMode: Image.PreserveAspectCrop
 
     mouseAreaActive: true
 
@@ -79,6 +80,8 @@ TileItem {
                 border.bottom: 6
                 border.left: 6
                 border.right: 6
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
                 height: panelSize.secondaryTileContentHeight
                 width: height
                 fallBackImage: fpITI.fallBackImage
@@ -91,8 +94,8 @@ TileItem {
                 width: height
                 imageSource: fpITI.imageSource
                 fallBackImage: fpITI.fallBackImage
-                fillMode: Image.Stretch
-                zoomImage: true
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
                 source: "image://themedimage/widgets/apps/panels/item-border-item"
@@ -108,10 +111,10 @@ TileItem {
                 height: panelSize.secondaryTileContentHeight
                 width: height
                 imageSource: fpITI.imageSource
-                fillMode: Image.Stretch
                 fallBackImage: fpITI.fallBackImage
                 imageChild: imageChildComponent
-                zoomImage: true
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
                 source: "image://themedimage/widgets/apps/panels/item-border-album"
@@ -127,8 +130,8 @@ TileItem {
                 height: panelSize.secondaryTileContentHeight
                 width: height
                 imageSource: fpITI.imageSource
-                fillMode: Image.Stretch
-                zoomImage: true
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
                 fallBackImage: fpITI.fallBackImage
                 // TODO: use .sci once there is support in image provider
                 // (and an .sci file)
