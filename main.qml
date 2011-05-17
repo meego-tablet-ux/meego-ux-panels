@@ -156,8 +156,7 @@ Window {
         property int primaryTileTextHeight: 36
         property int secondaryTileHeight: 110
         property int secondaryTileContentHeight: 104
-        property int secondaryTileGridItemHeight: 110
-        property int secondaryTileGridItemWidth: 110
+        property int secondaryTileGridSpacing: 6
         property int secondaryTileGridSideMargin: 7
         property int tileTextLeftMargin: 15
         property int tileTextTopMargin: 15

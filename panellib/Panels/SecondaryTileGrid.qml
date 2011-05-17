@@ -26,6 +26,7 @@ Item {
             id: grid
             clip:true
             width: parent.width
+            spacing: panelSize.secondaryTileGridSpacing
             columns: gridColumns
             children: [repeater, emptyItems]
         }
