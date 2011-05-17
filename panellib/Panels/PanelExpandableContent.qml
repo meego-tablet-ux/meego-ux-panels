@@ -18,57 +18,6 @@ Item {
     property alias contents: fpContents.sourceComponent
     property alias showHeader: fpsubheader.visible
 
-    //If set, forces a set loader height, using maxLoaderHeight
-    property bool useFixedLoaderHeight: false
-    //If maxLoaderHeight is 0, and useFixedLoaderHeight is false
-    //then the loader dynamically auto-resizes to the content height,
-    //and can grow infinitely
-    //If maxLoaderHeight is != 0, and useFixedLoaderHeight is false
-    //then the loader dynamically auto-resizes up to a max of maxLoaderHeight
-    property int maxLoaderHeight: 0
-
-    function calcLoaderHeight() {
-
-        var newHeight;
-        //If we're in fixed mode, just set it
-        if (useFixedLoaderHeight) {
-            newHeight = maxLoaderHeight;
-        } else if (maxLoaderHeight == 0) {
-            //If no max is set, grow to fit
-            newHeight = fpContents.item ? fpContents.item.height : 0
-        } else if (fpContents.item.height > maxLoaderHeight) {
-            newHeight = maxLoaderHeight;
-        } else {
-            newHeight = fpContents.item ? fpContents.item.height : 0
-        }
-        //console.log("calcLoaderHeight, old: " + privateData.savedHeight + ", new: " + newHeight);
-
-        privateData.savedHeight = newHeight;
-    }
-
-    function calcAndSet() {
-        calcLoaderHeight();
-        fpContents.height = privateData.savedHeight;
-    }
-
-    Component.onCompleted: {
-        //console.log("C.onComp, calling calcAndSet");
-        calcAndSet();
-    }
-
-    Connections {
-        target: fpContents.item
-        onHeightChanged: {
-            //console.log("fpContents.item height changed, new height: " + fpContents.item.height)
-            calcAndSet();
-        }
-    }
-
-    Item {
-        id: privateData
-        property int savedHeight
-    }
-
     BorderImage {
         anchors.fill: parent
         // TODO: use .sci once there is support in image provider
@@ -110,6 +59,7 @@ Item {
         Loader{
 
             id:fpContents
+            height: item ? item.height : 0
             z:fpsubheader.z-1
 
             anchors.left: parent.left
