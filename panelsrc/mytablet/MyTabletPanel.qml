@@ -213,7 +213,7 @@ FlipPanel {
             height: fpListTopApps.height +
                     fplvTopApps.height
 
-            FrontPanelColumnView{
+            PanelColumnView{
                 id:fpListTopApps
                 width: parent.width
                 anchors.top: parent.top
@@ -266,7 +266,7 @@ FlipPanel {
 
     Component {
         id: settingsComp
-        FrontPanelColumnView {
+        PanelColumnView {
             width: parent.width
             model: settingsModel
             delegate: TileListItem {

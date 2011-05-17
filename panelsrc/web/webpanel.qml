@@ -257,7 +257,7 @@ FlipPanel {
                         }
                     }
                 }
-                contents:FrontPanelColumnView {
+                contents:PanelColumnView {
                     model:bookmarkmodel
                     onCountChanged: fpecBookmarks.count = count
                     Component.onCompleted: fpecBookmarks.count = count

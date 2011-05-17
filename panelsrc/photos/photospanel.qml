@@ -249,7 +249,7 @@ FlipPanel {
                 visible: backSettingsModel.get(1).isVisible && (count > 0)
                 text: qsTr("Albums")
                 property int count: 0
-                contents: FrontPanelColumnView {
+                contents: PanelColumnView {
                     width: parent.width
                     model: allAlbumsListModel
                     onCountChanged: fpecAlbumList.count = count

@@ -412,7 +412,7 @@ FlipPanel {
                     }
                 }
 
-                contents: FrontPanelColumnView {
+                contents: PanelColumnView {
                     model: playlistsModel
                     width: parent.width
                     onCountChanged: fpPlaylists.count = count
