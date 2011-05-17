@@ -23,12 +23,15 @@ BackPanelGeneric {
         Column {
             width: parent.width
             BackPanelMessageTextItem {
+                visible: settingsRepeater.count > 0
             }
             Repeater {
+                id: settingsRepeater
                 model: settingsListModel
                 delegate: settingsListDelegate
             }
             BackPanelClearButton {
+                separatorVisible: settingsRepeater.count > 0
                 visible: clearButtonVisible
                 onClearHistClicked: {
                     container.clearHistClicked();
