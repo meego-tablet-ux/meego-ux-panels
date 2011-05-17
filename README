@@ -1,0 +1,93 @@
+===========================
+ How to create a new panel
+===========================
+
+
+Basics
+======
+
+At least two files are needed to create a new panel. A qml file which
+contains the panel implementation and a .panel file which contains
+basic information of the panel.
+
+Here is an example of .panel file::
+
+  [Panel]
+  DisplayName=Example
+  DisplayName[fi]=Esimerkki
+  DefaultIndex=6
+  UniqueName=example
+  Path=/usr/share/meego-ux-panels/example/examplepanel.qml
+
+Panels are based on FlipPanel which is found in MeeGo.Panels 0.1
+package. FlipPanel contains basic integration to panels and the two
+sides (front and back) for panel specific content items.
+
+Here is an example of quite minimal panel with empty front side and
+standard back side without any settings::
+
+  import Qt 4.7
+  import MeeGo.Panels 0.1
+
+  FlipPanel {
+      id: container
+
+      front: Panel {
+          id: testPanel
+          panelTitle: qsTr("Test")
+      }
+
+      back: BackPanelStandard {
+          panelTitle: qsTr("Test settings")
+          subheaderText: qsTr("Test panel content")
+
+          onClearHistClicked:{
+             console.log("Clear history clicked!");
+          }
+      }
+  }
+
+Content visual components
+=========================
+
+There are several components that can be used to maintain consistent
+look.
+
+SimplePanel and Panel
+---------------------
+
+SimplePanel and Panel provide basic panel look: header (property
+panelTitle) and content area with proper backgrounds.
+
+Front side header background is::
+
+  image://themedimage/widgets/apps/panels/panel-header-<panel-unique-name>
+
+where <panel-unique-name> can be set in .panel file (UniqueName). If
+unique name is not set in .panel file it is then set to the basename
+of of the .panel (e.g. if you have mypanel.panel then unique name is
+mypanel).
+
+PanelExpandableContent
+----------------------
+
+PanelExpandableContent is the basic component for a block of content
+in Panel or SimplePanel. It contains an optional header (property
+text) and a content component (property contents). Header can be
+hidden by settings showHeader property to false. Width of
+PanelExpandableContent.contents is set by PanelExpandableContent while
+height is determined by contents.
+
+Tiles
+-----
+
+Panel content is organized in three kind of tiles: primary tiles,
+secondary tiles and list items. Each of these has matching component
+available: PrimaryTile, SecondaryTile / SecondaryTileBase /
+SecondaryTileGridItem and TileListItem. Primary tiles should be put
+inside PrimaryTileGrid while secondary tiles can be in list style
+(SecondaryTile and SecondaryTileBase) or in a SecondaryTileGrid. List
+items will naturally be put in list. All tile items are base on
+TileItem that provides support of standard interaction by forwarding
+signals pressAndHold and clicked from internal MouseArea and a
+separator (property separatorVisible) when tile is part of a list.
