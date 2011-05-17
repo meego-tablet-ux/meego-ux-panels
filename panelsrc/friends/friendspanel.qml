@@ -155,7 +155,6 @@ FlipPanel {
                         contentY = 0;
                 }
 
-                clip: true
                 onMovementStarted:  {
                     panelManager.frozen = true;
                     refreshTimer.stop();

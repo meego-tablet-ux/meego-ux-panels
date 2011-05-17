@@ -202,7 +202,6 @@ FlipPanel {
 
 
             id: photoFrontItem
-            clip: true
             anchors.fill: parent
             interactive: (contentHeight > height)
             onInteractiveChanged: {

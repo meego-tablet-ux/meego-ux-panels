@@ -11,10 +11,7 @@ import Qt 4.7
 // Panel.qml
 //
 // The simple version of a panel that expects a VisualItemModel to contain
-// its content. Use DynamicPanel for dynamic loading of panel content from
-// QML files.
-//
-// See: DynamicPanel.qml, myslate/MySlatePanel.qml
+// its content.
 
 SimplePanel {
     id: panelContainer
@@ -30,28 +27,13 @@ SimplePanel {
             anchors.fill: parent
             flickableDirection: Flickable.VerticalFlick
 
-            // lock scroll area width to our width, so no horizontal movement
-//            contentWidth: width
-//            contentHeight: panelContents.height
-            clip: true
-            //boundsBehavior: Flickable.StopAtBounds
-
             // lock all movement when contents don't need to scroll
             interactive: (contentHeight > height)
             onInteractiveChanged: {
                 if (!interactive)
                     contentY = 0;
             }
-
-
-//            Column {
- //               id: panelContents
- //               width: parent.width
-   //             Repeater {
-     //               id: panelRepeater
-                    model: panelContainer.panelContent
-       //         }
-         //   }
+            model: panelContainer.panelContent
         }
     }
 }

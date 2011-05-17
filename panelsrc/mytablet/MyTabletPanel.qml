@@ -140,8 +140,6 @@ FlipPanel {
             }
 
             contentHeight: myContent.height
-            clip: true
-
 
             Item {
                 id: myContent

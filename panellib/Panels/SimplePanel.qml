@@ -127,16 +127,19 @@ Item {
         anchors.bottom: parent.bottom
         anchors.top: panelHeader.bottom
     }
-
-    Loader {
-        id: contentLoader
-        sourceComponent: panelComponent
+    Item {
+        clip: true
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: panelSize.contentSideMargin
         anchors.rightMargin: panelSize.contentSideMargin
         anchors.top: panelHeader.bottom
-        anchors.topMargin: panelSize.contentTopMargin
         anchors.bottom: parent.bottom
+        Loader {
+            id: contentLoader
+            sourceComponent: panelComponent
+            anchors.topMargin: panelSize.contentTopMargin
+            anchors.fill: parent
+        }
     }
 }

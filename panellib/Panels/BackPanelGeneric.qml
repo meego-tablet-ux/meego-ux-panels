@@ -28,7 +28,6 @@ SimplePanel {
             interactive: (height < contentHeight)
             anchors.fill: parent
             contentHeight: myContent.height
-            clip: true
             Column {
                 id: myContent
                 width: parent.width
