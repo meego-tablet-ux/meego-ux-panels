@@ -266,7 +266,8 @@ FlipPanel {
                                 width: parent.width
                                 anchors.bottom: parent.bottom
                                 Text {
-                                    text: "NN photos" // TODO where data?
+                                    // TODO use photocount once available
+                                    text: qsTr("%1 photos").arg("NN"/*photocount*/)
                                     width: parent.width
                                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                                     color: panelColors.tileDescTextColor //THEME - VERIFY
@@ -274,7 +275,9 @@ FlipPanel {
                                     elide: Text.ElideRight
                                 }
                                 Text {
-                                    text: "Created " + creationtime  // TODO creationtime is empty?
+                                    // TODO creationtime is empty. Use Qt.formatDateTime(t,"MMMM yyyy")
+                                    // if we get creationtime as QDateTime instead of ISODate formatted string
+                                    text: qsTr("Created %1").arg(addedtime)
                                     width: parent.width
                                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                                     color: panelColors.tileDescTextColor //THEME - VERIFY
