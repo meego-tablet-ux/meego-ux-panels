@@ -121,7 +121,7 @@ Item {
         visible: false
     }
 
-    ModalContextMenu {
+    ContextMenu {
         id: wifiCtxMenu
 
         content: Item {
