@@ -12,8 +12,9 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    height: panelSize.primaryTileHeight
-    width: panelSize.primaryTileWidth
+    height: panelSize.primaryTileContentHeight + panelSize.primaryTileGridVSpacing
+    width: panelSize.primaryTileContentWidth + (gridIndex % gridColumns == (gridColumns-1) ? 0 : panelSize.primaryTileGridHSpacing)
+    property int gridIndex: index
     property alias imageSource: fpIconBackground.imageSource
     property alias backgroundImageSource: fpIconBackground.source
     property string text
@@ -23,9 +24,10 @@ TileItem {
 
     TileIcon {
         id: fpIconBackground
-        height: parent.height
         width: panelSize.primaryTileContentWidth
-        fillMode: Image.Stretch
+        height: panelSize.primaryTileContentHeight
+        fillMode: Image.PreserveAspectCrop
+        clip: true
         zoomImage: true
         // TODO: use .sci once there is support in image provider
         // (and an .sci file)

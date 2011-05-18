@@ -10,8 +10,9 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    height: panelSize.secondaryTileContentHeight
-    width: panelSize.secondaryTileContentHeight
+    height: panelSize.secondaryTileContentHeight + panelSize.secondaryTileGridVSpacing
+    width: panelSize.secondaryTileContentWidth + (gridIndex % gridColumns == (gridColumns-1) ? 0 : panelSize.secondaryTileGridHSpacing )
+    property int gridIndex: index
     property string imageSource
     property alias imageComponent: tileImage.sourceComponent
     property Component imageEmpty: empty

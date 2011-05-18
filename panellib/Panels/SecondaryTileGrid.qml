@@ -26,7 +26,6 @@ Item {
             id: grid
             clip:true
             width: parent.width
-            spacing: panelSize.secondaryTileGridSpacing
             columns: gridColumns
             children: [repeater, emptyItems]
         }
@@ -40,6 +39,7 @@ Item {
             model: (modelCount % gridColumns != 0 ) ? gridColumns - (modelCount % gridColumns) : 0
             delegate: SecondaryTileGridItem {
                 imageComponent: imageEmpty
+                gridIndex: modelCount + index
             }
         }
     ]

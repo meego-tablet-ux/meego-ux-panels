@@ -149,14 +149,16 @@ Window {
         property int contentAreaTopMargin: 3
         property int contentAreaBottomMargin: 6
         property int contentAreaSideMargin: 10
-        property int primaryTileHeight: 140
-        property int primaryTileContentHeight: 140
-        property int primaryTileWidth: 217
+        property int primaryTileContentHeight: 138
+        property int primaryTileGridVSpacing: 2
         property int primaryTileContentWidth: 214
+        property int primaryTileGridHSpacing: 6
         property int primaryTileTextHeight: 36
         property int secondaryTileHeight: 110
-        property int secondaryTileContentHeight: 104
-        property int secondaryTileGridSpacing: 6
+        property int secondaryTileContentHeight: 108
+        property int secondaryTileGridVSpacing: 2
+        property int secondaryTileContentWidth: 104
+        property int secondaryTileGridHSpacing: 6
         property int secondaryTileGridSideMargin: 7
         property int tileTextLeftMargin: 15
         property int tileTextTopMargin: 15
