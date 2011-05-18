@@ -196,7 +196,7 @@ Window {
             anchors.top: parent.top
             width: parent.width
             height: theme.statusBarHeight
-            active: true
+            active: window.isActiveWindow
             backgroundOpacity: theme.panelStatusBarOpacity
         }
 
