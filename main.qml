@@ -18,36 +18,9 @@ import MeeGo.Sharing.UI 0.1
 Window {
     id: window
     anchors.centerIn: parent
-//    showtoolbar: false
+
     fullContent: true
     fullScreen: true
-
-    // Since this window is inside the meego-ux-daemon process, which
-    // managages multiple top level windows, we can't use the normal 
-    // orientation locking mechanism.  The following is a hack till
-    // a proper per-window orientation mechanism lands in MeeGo.Components
-//    isOrientationLocked: true
-//    Connections {
-//        target: mainWindow
-//        onOrientationChanged: window.orientation = mainWindow.orientation
-//    }
-    // DONE: Once this code is using MeeGo.Component's Window{}, then
-    //       remove the 'orientationLocked: true' and replace the above
-    //       Connections with the code below
-    //
-    Connections {
-        target: mainWindow
-        onOrientationChanged: {
-            if (mainWindow.orientation == 1)
-                window.lockOrientationIn = "landscape";
-            else if (mainWindow.orientation == 2)
-                window.lockOrientationIn = "portrait";
-            else if (mainWindow.orientation == 3)
-                window.lockOrientationIn = "invertedLandscape";
-            else
-                window.lockOrientationIn = "invertedPortrait";
-        }
-    }
 
     Translator {
         catalog: "meego-ux-panels"
@@ -56,7 +29,6 @@ Window {
     Theme {
         id: theme
     }
-
 
     //Temp to get a spinner in for UX review - BEGIN
     //Now we should be able to do "spinnerContainer.startSpinner();"
@@ -182,13 +154,10 @@ Window {
         property string separatorColor: theme.lockscreenDateFontDropshadowColor
     }
 
-    Item {
-        id: deviceScreen
-        parent: window.content
-        x: 0
-        y: 0
-        width: parent.width
-        height: parent.height
+    overlayItem: Item {
+        id: deviceScreen        
+        anchors.fill: parent
+
         clip: true
 
         ShareObj {
@@ -222,11 +191,12 @@ Window {
                 }
             }
         }
+
         StatusBar {
             anchors.top: parent.top
             width: parent.width
             height: theme.statusBarHeight
-            active: window.foreground
+            active: true
             backgroundOpacity: theme.panelStatusBarOpacity
         }
 
