@@ -30,7 +30,7 @@ PanelModel::PanelModel(QObject *parent) :
     roles.insert(PanelObj::PATH, "path");
     roles.insert(PanelObj::ALLOWHIDE, "allowHide");
     roles.insert(PanelObj::DEFAULTINDEX, "defaultIndex");
-    roles.insert(PanelObj::INDEX, "index");
+    roles.insert(PanelObj::INDEX, "pindex");
     roles.insert(PanelObj::VISIBLE, "isVisible");
     roles.insert(PanelObj::PANELOBJ, "panelObj");
     setRoleNames(roles);
