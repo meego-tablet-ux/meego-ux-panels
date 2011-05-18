@@ -430,60 +430,64 @@ FlipPanel {
             height: panelSize.tileListItemHeight
             width: parent ? parent.width : 0
             separatorVisible: true
-            Text {
-                id: nameText
-                anchors.left: parent.left
-                anchors.right: svcButtonLoader.left
-                anchors.rightMargin: panelSize.contentSideMargin
-                text: displayname
-                color: panelColors.tileDescTextColor //THEME - VERIFY
-                anchors.verticalCenter: parent.verticalCenter
-                font.family: panelSize.fontFamily
-                font.pixelSize: panelSize.tileFontSize
-                wrapMode: Text.NoWrap
-                elide: Text.ElideRight
-            }
+            Item {
+                height: panelSize.tileListItemHeight
+                width: parent ? parent.width : 0
+                Text {
+                    id: nameText
+                    anchors.left: parent.left
+                    anchors.right: svcButtonLoader.left
+                    anchors.rightMargin: panelSize.contentSideMargin
+                    text: displayname
+                    color: panelColors.tileDescTextColor //THEME - VERIFY
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.family: panelSize.fontFamily
+                    font.pixelSize: panelSize.tileFontSize
+                    wrapMode: Text.NoWrap
+                    elide: Text.ElideRight
+                }
 
-            Loader {
-                id: svcButtonLoader
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: nameText.anchors.leftMargin
-                anchors.topMargin: (anchors.rightMargin/2)  //THEME - VERIFY
-                anchors.bottomMargin: anchors.topMargin
-            }
-
-            Component {
-                id: serviceToggle
-
-                ToggleButton {
-                    id: tbEnable
+                Loader {
+                    id: svcButtonLoader
+                    anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    on: panelManager.isServiceEnabled(upid)
-                    onToggled: {
-                        console.log("Setting " + name + " to " + (isOn ? "enable" : "disable"));
-                        panelManager.setServiceEnabled(upid, isOn);
+                    anchors.rightMargin: nameText.anchors.leftMargin
+                    anchors.topMargin: (anchors.rightMargin/2)  //THEME - VERIFY
+                    anchors.bottomMargin: anchors.topMargin
+                }
+
+                Component {
+                    id: serviceToggle
+
+                    ToggleButton {
+                        id: tbEnable
+                        anchors.right: parent.right
+                        on: panelManager.isServiceEnabled(upid)
+                        onToggled: {
+                            console.log("Setting " + name + " to " + (isOn ? "enable" : "disable"));
+                            panelManager.setServiceEnabled(upid, isOn);
+                        }
                     }
                 }
-            }
 
-            Component {
-                id: serviceConfigBtn
-                Button {
-                    id: btnConfigure
-                    anchors.right: parent.right
-                    text: qsTr("Go to settings")
-                    onClicked: {
-                        actions.performStandardAction("configure", name);
+                Component {
+                    id: serviceConfigBtn
+                    Button {
+                        id: btnConfigure
+                        anchors.right: parent.right
+                        text: qsTr("Go to settings")
+                        onClicked: {
+                            actions.performStandardAction("configure", name);
+                        }
                     }
                 }
-            }
 
-            Component.onCompleted: {
-                if (configerror) {
-                    svcButtonLoader.sourceComponent = serviceConfigBtn;
-                } else {
-                    svcButtonLoader.sourceComponent = serviceToggle;
+                Component.onCompleted: {
+                    if (configerror) {
+                        svcButtonLoader.sourceComponent = serviceConfigBtn;
+                    } else {
+                        svcButtonLoader.sourceComponent = serviceToggle;
+                    }
                 }
             }
         }
