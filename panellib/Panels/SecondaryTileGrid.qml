@@ -38,6 +38,9 @@ Item {
         Repeater {
             id: emptyItems
             model: (modelCount % gridColumns != 0 ) ? gridColumns - (modelCount % gridColumns) : 0
+            delegate: SecondaryTileGridItem {
+                imageComponent: imageEmpty
+            }
         }
     ]
 }

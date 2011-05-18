@@ -45,15 +45,6 @@ FlipPanel {
         id:  topItem
     }
 
-
-    Labs.ApplicationsModel {
-
-        id: appsModel
-        directories: [ "/usr/share/meego-ux-appgrid/applications",
-                       "/usr/share/applications",
-                       "~/.local/share/applications" ]
-    }
-
     property variant appsModelFavorite: appsModel.favorites
 
 
@@ -222,17 +213,10 @@ FlipPanel {
                 width: parent.width
                 anchors.top: parent.top
                 model: appsModelFavorite
-                emptyItemsDelegate: SecondaryTileGridItem {
-                    imageComponent: imageEmpty
-                }
                 delegate: SecondaryTileGridItem {
-                    //width: fpListTopApps.width
-                    //separatorVisible: index > 0
                     visible: index < privateData.topApplicationsLimit
                     imageComponent: imageEmpty
                     imageSource: icon
-                    //text: title
-                    //description: "Testing"
                     fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
                     onClicked:{
                         spinnerContainer.startSpinner();

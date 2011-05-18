@@ -118,69 +118,68 @@ FlipPanel {
 
             contentHeight: myContent.height
             clip: true
-            PrimaryTileGrid {
+            PanelExpandableContent {
                 id: myContent
                 showHeader: false
-                ContextMenu {
-                    id: ctxMenu
-                    property string currentUrn
-                    property string currentUri
-                    property variant menuPos
+                contents: PrimaryTileGrid {
+                    ContextMenu {
+                        id: ctxMenu
+                        property string currentUrn
+                        property string currentUri
+                        property variant menuPos
 
-                    content: ActionMenu {
-                        model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
+                        content: ActionMenu {
+                            model:[ qsTr("Play"),qsTr("Share"), qsTr("Hide")]
 
 
-                        onTriggered: {
-                            if (model[index] == qsTr("Play")) {
-                                spinnerContainer.startSpinner();
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
-                                container.notifyModel()
-                            } else if (model[index] == qsTr("Hide")){
-                                panelObj.addHiddenItem(ctxMenu.currentUrn)
-                                recentlyViewed.hideItemByURN(ctxMenu.currentUrn)
+                            onTriggered: {
+                                if (model[index] == qsTr("Play")) {
+                                    spinnerContainer.startSpinner();
+                                    appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
+                                    container.notifyModel()
+                                } else if (model[index] == qsTr("Hide")){
+                                    panelObj.addHiddenItem(ctxMenu.currentUrn)
+                                    recentlyViewed.hideItemByURN(ctxMenu.currentUrn)
+                                }
+                                else if (model[index] == qsTr("Share"))
+                                {
+                                    shareObj.clearItems();
+                                    shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
+                                    shareObj.addItem(ctxMenu.currentUri);
+                                    ctxMenu.hide()
+                                    shareObj.showContextTypes(ctxMenu.menuPos.x, ctxMenu.menuPos.y);
+                                }
+                                else {
+                                    console.log("Unhandled context action in Photos: " + model[index]);
+                                }
+                                ctxMenu.hide();
                             }
-                            else if (model[index] == qsTr("Share"))
-                            {
-                                shareObj.clearItems();
-                                shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeVideo
-                                shareObj.addItem(ctxMenu.currentUri);
-                                ctxMenu.hide()
-                                shareObj.showContextTypes(ctxMenu.menuPos.x, ctxMenu.menuPos.y);
-                            }
-                            else {
-                                console.log("Unhandled context action in Photos: " + model[index]);
-                            }
-                            ctxMenu.hide();
                         }
+
                     }
+                    model: recentlyViewed
+                    delegate: PrimaryTile {
+                        id:previewItem
+                        imageSource:thumburi
+                        text:qsTr(title)
 
-                }
-                model: recentlyViewed
-                emptyItemsDelegate: PrimaryTile {
-                    backgroundImageSource: "image://themedimage/widgets/apps/panels/item-border-empty"
-                }
-                delegate: PrimaryTile {
-                    id:previewItem
-                    imageSource:thumburi
-                    text:qsTr(title)
+                        onClicked: {
+                            spinnerContainer.startSpinner();
+                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + urn )
+                            container.notifyModel()
+                        }
 
-                    onClicked: {
-                        spinnerContainer.startSpinner();
-                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + urn )
-                        container.notifyModel()
-                    }
+                                //For the context Menu
+                        onPressAndHold:{
 
-                            //For the context Menu
-                    onPressAndHold:{
+                            var pos = previewItem.mapToItem(window, mouse.x, mouse.y);
+                            ctxMenu.currentUrn=urn;
+                            ctxMenu.currentUri=uri;
+                            ctxMenu.menuPos = pos;
+                            ctxMenu.setPosition(pos.x, pos.y);
+                            ctxMenu.show();
 
-                        var pos = previewItem.mapToItem(window, mouse.x, mouse.y);
-                        ctxMenu.currentUrn=urn;
-                        ctxMenu.currentUri=uri;
-                        ctxMenu.menuPos = pos;
-                        ctxMenu.setPosition(pos.x, pos.y);
-                        ctxMenu.show();
-
+                        }
                     }
                 }
             }

@@ -172,59 +172,57 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOne
 
-            PrimaryTileGrid {
+            PanelExpandableContent {
                 id: fpecRecentSites
                 text: qsTr("Recently visited")
                 visible: backSettingsModel.get(0).isVisible && (count > 0)
                 property int count: 0
+                contents: PrimaryTileGrid {
+                    ContextMenu {
+                        id: ctxMenuRecent
+                        property variant currentUrl
+                        property variant currentId
+                        content: ActionMenu {
+                            model:[ qsTr("View"), qsTr("Hide")]
 
-                ContextMenu {
-                    id: ctxMenuRecent
-                    property variant currentUrl
-                    property variant currentId
-                    content: ActionMenu {
-                        model:[ qsTr("View"), qsTr("Hide")]
-
-                        onTriggered: {
-                            if (model[index] == qsTr("View")) {
-                                spinnerContainer.startSpinner();
-                                recentpagemodel.viewItem(ctxMenuRecent.currentUrl);
-                                container.notifyModel();
-                            } else if (model[index] == qsTr("Hide")){
-                                recentpagemodel.destroyItem(ctxMenuRecent.currentId)
-                            } else {
-                                console.log("Unhandled context action in Web: " + model[index]);
+                            onTriggered: {
+                                if (model[index] == qsTr("View")) {
+                                    spinnerContainer.startSpinner();
+                                    recentpagemodel.viewItem(ctxMenuRecent.currentUrl);
+                                    container.notifyModel();
+                                } else if (model[index] == qsTr("Hide")){
+                                    recentpagemodel.destroyItem(ctxMenuRecent.currentId)
+                                } else {
+                                    console.log("Unhandled context action in Web: " + model[index]);
+                                }
+                                ctxMenuRecent.hide();
                             }
-                            ctxMenuRecent.hide();
                         }
-                    }
 
-                }
-                model: recentpagemodel
-                onModelCountChanged: count = modelCount
-                Component.onCompleted: count = modelCount
-                emptyItemsDelegate: PrimaryTile {
-                    backgroundImageSource: "image://themedimage/widgets/apps/panels/item-border-empty"
-                }
-                delegate: PrimaryTile {
-                    id:webPreviewItem
-                    text: title
-                    imageSource: thumbnailUri
-                    //iconSource:faviconUri
-                    onClicked: {
-                        spinnerContainer.startSpinner();
-                        recentpagemodel.viewItem(url);
-                        container.notifyModel();
                     }
+                    model: recentpagemodel
+                    onModelCountChanged: fpecRecentSites.count = modelCount
+                    Component.onCompleted: fpecRecentSites.count = modelCount
+                    delegate: PrimaryTile {
+                        id:webPreviewItem
+                        text: title
+                        imageSource: thumbnailUri
+                        //iconSource:faviconUri
+                        onClicked: {
+                            spinnerContainer.startSpinner();
+                            recentpagemodel.viewItem(url);
+                            container.notifyModel();
+                        }
 
-                    onPressAndHold:{
-                        var pos = webPreviewItem.mapToItem(scene, mouse.x, mouse.y);
-                        ctxMenuRecent.currentUrl = url
-                        ctxMenuRecent.currentId = id
-                        ctxMenuRecent.setPosition(pos.x, pos.y);
-                        ctxMenuRecent.show();
+                        onPressAndHold:{
+                            var pos = webPreviewItem.mapToItem(scene, mouse.x, mouse.y);
+                            ctxMenuRecent.currentUrl = url
+                            ctxMenuRecent.currentId = id
+                            ctxMenuRecent.setPosition(pos.x, pos.y);
+                            ctxMenuRecent.show();
+                        }
+
                     }
-
                 }
             }
 
