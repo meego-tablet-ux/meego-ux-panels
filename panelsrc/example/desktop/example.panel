@@ -1,0 +1,7 @@
+[Panel]
+DisplayName=Example
+DisplayName[fi]=Esimerkki
+DefaultIndex=6
+UniqueName=example
+Path=/usr/share/meego-ux-panels/example/examplepanel.qml
+
