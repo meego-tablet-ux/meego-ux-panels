@@ -12,27 +12,28 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    height: panelSize.secondaryTileHeight
     property string imageSource
-    property alias imageComponent: tileImage.sourceComponent
-    property alias imageVisible: tileImage.visible
+    property Component imageComponent: empty
+    property bool imageVisible: true
     property Component imageEmpty: empty
     property Component imageNormal: normal
     property Component imageAlbum: album
     property Component imageChildComponent
-    property alias text: fpText.text
-    property alias descriptionComponent: descContent.sourceComponent
+    property string text
+    property Component descriptionComponent
     property bool zoomImage: false
     property string fallBackImage: ""
     property variant fillMode: Image.PreserveAspectCrop
 
     mouseAreaActive: true
 
-    Row {
-        height: parent.height
+    contents: Row {
+        height: panelSize.secondaryTileHeight
+        //height: panelSize.secondaryTileContentHeight
         Loader {
             id: tileImage
-            sourceComponent: empty
+            visible: imageVisible
+            sourceComponent: imageComponent
             anchors.verticalCenter: parent.verticalCenter
         }
         Item {
@@ -49,6 +50,7 @@ TileItem {
             }
             Text {
                 id: fpText
+                text: fpITI.text
                 font.family: panelSize.fontFamily
                 font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                 color: panelColors.tileMainTextColor //THEME - VERIFY
@@ -58,6 +60,7 @@ TileItem {
             }
             Loader {
                 id: descContent
+                sourceComponent: descriptionComponent
                 width: parent.width
                 height: fpITI.height - topMargin.height - fpText.height - bottomMargin.height
             }

@@ -145,9 +145,9 @@ Window {
 
         property int contentSideMargin: 12
         property int contentTopMargin: 8
-        property int contentTitleHeight: 56
-        property int contentAreaTopMargin: 3
-        property int contentAreaBottomMargin: 6
+        property int contentTitleHeight: 53
+        property int contentAreaTopMargin: 8
+        property int contentAreaBottomMargin: 8
         property int contentAreaSideMargin: 10
         property int primaryTileContentHeight: 138
         property int primaryTileGridVSpacing: 2
@@ -165,6 +165,7 @@ Window {
         property int tileTextLineSpacing: 2
         property int tileListItemHeight: 63
         property int tileListItemContentHeight: 49
+        property int tileListSpacing: 6
         property int serviceIconSize: 40
         property int tileFontSize: theme.fontPixelSizeNormal
         property string fontFamily: theme.fontFamily

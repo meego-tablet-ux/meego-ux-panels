@@ -10,10 +10,9 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    height: panelSize.secondaryTileContentHeight + panelSize.secondaryTileGridVSpacing
     width: panelSize.secondaryTileContentWidth + panelSize.secondaryTileGridHSpacing
     property string imageSource
-    property alias imageComponent: tileImage.sourceComponent
+    property Component imageComponent: item
     property Component imageEmpty: empty
     property Component imageNormal: normal
     property bool zoomImage: false
@@ -23,10 +22,11 @@ TileItem {
 
     mouseAreaActive: true
 
-    Loader {
+    contents: Loader {
         id: tileImage
         visible: hasImage
-        sourceComponent: item
+        height: panelSize.secondaryTileContentHeight + panelSize.secondaryTileGridVSpacing
+        sourceComponent: imageComponent
         anchors.verticalCenter: parent.verticalCenter
     }
     resources: [

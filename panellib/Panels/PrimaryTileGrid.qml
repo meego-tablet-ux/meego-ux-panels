@@ -17,7 +17,7 @@ Item {
     property alias emptyItemsDelegate: emptyItems.delegate
     property int gridColumns: 2
     width: parent.width
-    height: col.height + 2*panelSize.contentAreaSideMargin
+    height: col.height
     Column {
         id: col
         width: parent.width

@@ -14,14 +14,16 @@ import Qt 4.7
 Item {
     id: container
     width: parent ? parent.width : 0
+    height: col.height
     property alias mouseAreaActive: fpMouseArea.visible
     property bool separatorVisible: false
-    property alias children: tileContent.children
+    default property alias contents: tileContent.sourceComponent
 
     signal pressAndHold(variant mouse)
     signal clicked(variant mouse)
 
     Column {
+        id: col
         width: parent.width
         Image {
             id: separator
@@ -31,9 +33,17 @@ Item {
             source: "image://themedimage/widgets/apps/panels/panel-content-separator"
         }
         Item {
-            id: tileContent
-            height: container.height - separator.height
             width: parent.width
+            height: panelSize.tileListSpacing
+            visible: separatorVisible
+        }
+        Loader {
+            id: tileContent
+            width: parent.width
+        }
+        Item {
+            width: parent.width
+            height: panelSize.tileListSpacing
         }
     }
     MouseArea{

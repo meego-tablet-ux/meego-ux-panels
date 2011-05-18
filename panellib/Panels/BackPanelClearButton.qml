@@ -13,20 +13,22 @@ TileItem {
     id: container
     separatorVisible: true
     width: parent.width
-    height: bpClearButton.height + 2*panelSize.contentTopMargin
     signal clearHistClicked()
-    Button {
-        id: bpClearButton
-        text: qsTr("Clear history")
-        font.family: panelSize.fontFamily
-        font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
-        maxWidth: parent.width
-        anchors.bottomMargin: panelSize.contentTopMargin
-        anchors.topMargin: panelSize.contentTopMargin
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        onClicked: {
-            container.clearHistClicked()
+    contents: Item {
+        height: bpClearButton.height + 2*panelSize.contentTopMargin
+        Button {
+            id: bpClearButton
+            text: qsTr("Clear history")
+            font.family: panelSize.fontFamily
+            font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+            maxWidth: parent.width
+            anchors.bottomMargin: panelSize.contentTopMargin
+            anchors.topMargin: panelSize.contentTopMargin
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                container.clearHistClicked()
+            }
         }
     }
 }

@@ -14,11 +14,9 @@ import MeeGo.Components 0.1
 
 TileItem {
     id: backPanelTextToggleItem
-    height: panelSize.tileListItemHeight
-    width: parent.width
     property variant defaultVal: true
-    property alias text: bpText.text
-    property alias on: bpToggleButton.on
+    property string text
+    property bool on
 
     signal toggled(bool isOn)
 
@@ -27,27 +25,36 @@ TileItem {
         on = initialVal
         backPanelTextToggleItem.toggled(backPanelTextToggleItem.on);
     }
-    Text {
-        id: bpText
-        font.family: panelSize.fontFamily
-        font.pixelSize: panelSize.tileFontSize
-        color: panelColors.tileDescTextColor //THEME - VERIFY
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.right: bpToggleButton.left
-        anchors.rightMargin: anchors.leftMargin
-        wrapMode: Text.NoWrap
-        elide: Text.ElideRight
-    }
+    contents: Item {
+        height: panelSize.tileListItemContentHeight
+        //width: parent.width
+        Text {
+            id: bpText
+            text: backPanelTextToggleItem.text
+            font.family: panelSize.fontFamily
+            font.pixelSize: panelSize.tileFontSize
+            color: panelColors.tileDescTextColor //THEME - VERIFY
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.right: bpToggleButton.left
+            anchors.rightMargin: anchors.leftMargin
+            wrapMode: Text.NoWrap
+            elide: Text.ElideRight
+        }
 
-    ToggleButton{
-        id: bpToggleButton
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: panelSize.contentSideMargin
-        onToggled:{
-            backPanelTextToggleItem.toggled(isOn);
-            panelObj.setCustomProp(custPropName, isOn);
+        ToggleButton{
+            id: bpToggleButton
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: panelSize.contentSideMargin
+            on: backPanelTextToggleItem.on
+            onOnChanged: {
+                backPanelTextToggleItem.on = on;
+            }
+            onToggled:{
+                backPanelTextToggleItem.toggled(isOn);
+                panelObj.setCustomProp(custPropName, isOn);
+            }
         }
     }
 }

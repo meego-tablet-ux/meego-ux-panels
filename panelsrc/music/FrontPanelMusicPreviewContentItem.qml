@@ -24,7 +24,7 @@ SecondaryTile {
     fallBackImage: "image://themedimage/images/media/music_thumb_med"
     imageComponent: imageAlbum
     imageChildComponent: playPauseComponent
-    Component {
+    resources: Component {
         id: playPauseComponent
         Image{
             id: playPauseButton

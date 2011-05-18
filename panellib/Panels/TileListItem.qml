@@ -14,9 +14,8 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    height: panelSize.tileListItemHeight
     property string imageSource
-    property alias imageComponent: tileImage.sourceComponent
+    property Component imageComponent: empty
     property Component imageEmpty: empty
     property Component imageNormal: normal
     property string text: ""
@@ -28,13 +27,13 @@ TileItem {
 
     mouseAreaActive: true
 
-    Row {
-        height: parent.height
+    contents: Row {
+        height: panelSize.tileListItemContentHeight
         width: parent.width
         Loader {
             id: tileImage
             visible: hasImage
-            sourceComponent: empty
+            sourceComponent: imageComponent
             anchors.verticalCenter: parent.verticalCenter
         }
         Item {
