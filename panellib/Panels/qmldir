@@ -1,6 +1,5 @@
 plugin Panels
 BackPanelClearButton 0.1 BackPanelClearButton.qml
-BackPanelDivider 0.1 BackPanelDivider.qml
 BackPanelTextToggleItem 0.1 BackPanelTextToggleItem.qml
 BackPanelMessageTextItem 0.1 BackPanelMessageTextItem.qml
 BackPanelGeneric 0.1 BackPanelGeneric.qml

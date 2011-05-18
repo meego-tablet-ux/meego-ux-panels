@@ -10,6 +10,8 @@ At least two files are needed to create a new panel. A qml file which
 contains the panel implementation and a .panel file which contains
 basic information of the panel.
 
+See panelsrc/example/ for full panel example.
+
 Here is an example of .panel file::
 
   [Panel]
@@ -68,6 +70,41 @@ unique name is not set in .panel file it is then set to the basename
 of of the .panel (e.g. if you have mypanel.panel then unique name is
 mypanel).
 
+Example snippet of using Panel::
+
+    .
+    .
+    .
+    front: Panel {
+        id: examplePanel
+        panelTitle: qsTr("Example")
+        panelContent: contents
+    }
+    .
+    .
+    .
+    VisualItemModel {
+        id: contents
+	<insert your contents here>
+    }
+    .
+    .
+    .
+
+Example snippet of using SimplePanel::
+
+    .
+    .
+    .
+    front: SimplePanel {
+        id: examplePanel
+        panelTitle: qsTr("Example")
+        panelComponent: <insert your content Component here>
+    }
+    .
+    .
+    .
+
 PanelExpandableContent
 ----------------------
 
@@ -91,3 +128,19 @@ items will naturally be put in list. All tile items are base on
 TileItem that provides support of standard interaction by forwarding
 signals pressAndHold and clicked from internal MouseArea and a
 separator (property separatorVisible) when tile is part of a list.
+
+PrimaryTileGrid organizes PrimaryTiles in a grid with 2 columns.
+
+SecondaryTileGrid organizes SecondaryTileGridItems in a grid with 4 columns.
+
+PanelColumnView organizes SecondaryTiles or TileListItems in a column.
+
+BackPanelStandard and BackPanelGeneric
+-----------------------------------
+
+These helper classes for creating a standard looking panel back side.
+
+Other components
+----------------
+
+There some other components that can be used to keep consistent look.

@@ -14,6 +14,8 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: fpContainer
 
+    property variant upids: [];
+
     signal checkVisible()
 
     Translator {
@@ -274,146 +276,17 @@ FlipPanel {
                     width: parent.width
                 }
                 Repeater {
+                    id: serviceSettings
                     model: panelManager.serviceModel
                     delegate: servicesDelegate
                 }
                 BackPanelClearButton {
                     onClearHistClicked: {
-                        mdlClearHist.show();
-                    }
-                }
-            }
-
-            ModalFog {
-                id: mdlClearHist
-                autoCenter: true
-                modalSurface: BorderImage {
-                    id: rectClearHist
-                    source: "image://themedimage/images/notificationBox_bg"
-                    border.top: 14
-                    border.left: 20
-                    border.right: 20
-                    border.bottom: 20
-                    width: panelSize.oneHalf
-                    height: panelSize.baseSize
-                    anchors.centerIn: parent
-
-                    property variant svcsToClear: []
-
-                    function setClearHist(svcUpid, enabled) {
-                        console.log("setClearHist called for " + svcUpid + ", val " + enabled);
+                        //console.log("Service settings count: " + upids.length);
                         var x;
-                        var foundIt;
-
-                        for (x in svcsToClear) {
-                            if (svcsToClear[x] == svcUpid) {
-                                foundIt = true;
-                                if (enabled) {
-                                    break;
-                                } else {
-                                    //Remove the item
-                                    svcsToClear = svcsToClear.splice(x, 1);
-                                    break;
-                                }
-                            }
-                        }
-                        if (enabled && !foundIt) {
-                            svcsToClear = svcsToClear.concat(svcUpid);
-                        }
-                    }
-
-                    Item {
-                        id: mdlClearHeader
-                        height: (textClear.height + bpdTextClear.height + bpdTextClear.topMargin)
-                        width: parent.width
-                        anchors.top: parent.top
-                        anchors.topMargin: panelSize.contentTopMargin
-                        Text {
-                            id: textClear
-                            anchors.left: parent.left
-                            anchors.leftMargin: panelSize.contentSideMargin
-                            anchors.right: parent.right
-                            anchors.rightMargin: panelSize.contentSideMargin
-                            text: qsTr("Clear history from:")
-                            font.pixelSize: theme.fontPixelSizeLarge
-                            wrapMode: Text.NoWrap
-                            elide: Text.ElideNone
-                            clip: true
-                        }
-
-                        BackPanelDivider {
-                            id: bpdTextClear
-                            width: parent.width
-                            anchors.top: textClear.bottom
-                            anchors.topMargin: panelSize.contentTopMargin
-                        }
-                    }
-
-                    ListView {
-                        id: lvClearSvcs
-                        width: parent.width
-                        anchors.top: mdlClearHeader.bottom
-                        anchors.topMargin: panelSize.oneTenth
-                        anchors.bottom: btnModalClear.top
-                        anchors.bottomMargin: panelSize.oneTenth
-                        interactive: (height < contentHeight)
-                        model: panelManager.serviceModel
-                        clip: true
-                        delegate: Item {
-                            width: parent.width
-                            height: (textDName.height + bpdDel.height + bpdDel.anchors.topMargin + 10)
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    ckBox.isChecked = !ckBox.isChecked
-                                }
-                            }
-
-                            CheckBox {
-                                id: ckBox
-                                isChecked: false
-                                anchors.left: parent.left
-                                anchors.leftMargin: panelSize.contentSideMargin
-                                anchors.verticalCenter: parent.verticalCenter
-                                onIsCheckedChanged: {
-                                    rectClearHist.setClearHist(upid, isChecked);
-                                }
-                            }
-
-                            Text {
-                                id: textDName
-                                text: displayname
-                                font.pixelSize: theme.fontPixelSizeLarge
-                                anchors.left: ckBox.right
-                                anchors.leftMargin: panelSize.contentSideMargin
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.right: parent.right
-                                anchors.rightMargin: panelSize.contentSideMargin
-                                wrapMode: Text.NoWrap
-                                elide: Text.ElideRight
-                            }
-
-                            BackPanelDivider {
-                                id: bpdDel
-                                anchors.top: textDName.bottom
-                                anchors.topMargin: panelSize.contentTopMargin
-                            }
-                        }
-                    }
-
-                    Button {
-                        id: btnModalClear
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: panelSize.contentTopMargin
-                        text: qsTr("Clear")
-                        onClicked: {
-                            var x;
-                            for (x in rectClearHist.svcsToClear) {
-                                panelManager.clearHistory(rectClearHist.svcsToClear[x]);
-                            }
-                            mdlClearHist.hide();
+                        for( x in upids) {
+                            //console.log("Clearing history from: " + upids[x]);
+                            panelManager.clearHistory(upids[x]);
                         }
                     }
                 }
@@ -427,11 +300,18 @@ FlipPanel {
 
         TileItem {
             id: contentDel
-            height: panelSize.tileListItemHeight
-            width: parent ? parent.width : 0
             separatorVisible: true
+            Component.onCompleted: {
+                // TODO fix this ugly workaround
+                // Maybe with different api in panelmanager or panelManager.serviceModel?
+                //console.log("index: " + index + " = " + upid);
+                if (panelManager.isServiceEnabled(upid)) {
+                    upids = upids.concat(upid);
+                }
+                //console.log("lenght: " + upids.length);
+            }
             Item {
-                height: panelSize.tileListItemHeight
+                height: panelSize.tileListItemContentHeight
                 width: parent ? parent.width : 0
                 Text {
                     id: nameText

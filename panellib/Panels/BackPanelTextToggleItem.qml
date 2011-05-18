@@ -46,7 +46,6 @@ TileItem {
             id: bpToggleButton
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: panelSize.contentSideMargin
             on: backPanelTextToggleItem.on
             onOnChanged: {
                 backPanelTextToggleItem.on = on;
