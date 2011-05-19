@@ -19,7 +19,6 @@ Window {
     id: window
     anchors.centerIn: parent
 
-    orientation: 1
     fullContent: true
     fullScreen: true
 
@@ -44,10 +43,6 @@ Window {
 
     Labs.WindowModel {
         id: windowModel
-    }
-
-    Loader {
-        id: appSwitcherLoader
     }
 
     Image {
