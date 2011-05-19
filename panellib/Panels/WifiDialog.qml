@@ -100,7 +100,7 @@ Item {
                      || (networkListModel.defaultTechnology == "bluetooth"))
                 connectedText = qsTr("Connected to %1").arg(defaultNetRoute.name);
             else if (networkListModel.defaultTechnology == "")
-               	connectedText = qsTr("Not connected");
+               	connectedText = qsTr("No connection currently");
             else {
                 console.log("Unhandled technology type: " + networkListModel.defaultTechnology + ", dNR.name: " + defaultNetRoute.name)
                 connectedText = qsTr("Connected by %1").arg(networkListModel.defaultTechnology);
