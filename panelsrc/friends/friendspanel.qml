@@ -47,6 +47,18 @@ FlipPanel {
         readTimer.stop();
     }
 
+    Connections {
+        target: window
+        onIsActiveWindowChanged: {
+            panelManager.frozen = false;
+            refreshTimer.stop();
+            if (window.isActiveWindow)
+                readTimer.restart();
+            else
+                readTimer.stop();
+        }
+    }
+
     TopItem {
         id: topItem
         parent: fpContainer
