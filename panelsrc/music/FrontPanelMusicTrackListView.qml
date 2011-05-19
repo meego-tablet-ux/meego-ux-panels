@@ -18,6 +18,11 @@ PanelColumnView {
 
     property variant contextMenu
 
+
+    TopItem {
+        id: topItem
+    }
+
     Component {
         id: trackComponent
 
@@ -62,7 +67,7 @@ PanelColumnView {
                 }
                 //For the context Menu
                 onPressAndHold:{
-                    var pos = trackItem.mapToItem(scene, mouse.x, mouse.y);
+                    var pos = trackItem.mapToItem(topItem.topItem, mouse.x, mouse.y);
 
                     contextMenu.currentUrn=urn;
                     contextMenu.currentUri=uri;

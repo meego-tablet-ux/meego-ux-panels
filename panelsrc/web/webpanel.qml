@@ -25,6 +25,10 @@ FlipPanel {
         catalog: "meego-ux-panels-web"
     }
 
+    TopItem {
+        id: topItem
+    }
+
     ListModel{
         id: backSettingsModel
 
@@ -215,7 +219,7 @@ FlipPanel {
                         }
 
                         onPressAndHold:{
-                            var pos = webPreviewItem.mapToItem(scene, mouse.x, mouse.y);
+                            var pos = webPreviewItem.mapToItem(topItem.topItem, mouse.x, mouse.y);
                             ctxMenuRecent.currentUrl = url
                             ctxMenuRecent.currentId = id
                             ctxMenuRecent.setPosition(pos.x, pos.y);

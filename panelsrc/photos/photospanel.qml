@@ -25,6 +25,10 @@ FlipPanel {
         catalog: "meego-ux-panels-photos"
     }
 
+    TopItem {
+        id: topItem
+    }
+
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
     function notifyModel()
@@ -229,7 +233,7 @@ FlipPanel {
                         }
                         //For the context Menu
                         onPressAndHold:{
-                            var pos = photoPreview.mapToItem(scene, mouse.x, mouse.y);
+                            var pos = photoPreview.mapToItem(topItem.topItem, mouse.x, mouse.y);
 
                             ctxMenuPhoto.currentUrn= urn
                             ctxMenuPhoto.currentUri=uri;
