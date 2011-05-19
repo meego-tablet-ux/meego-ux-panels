@@ -19,6 +19,7 @@ Window {
     id: window
     anchors.centerIn: parent
 
+    //orientation: 1
     fullContent: true
     fullScreen: true
 
@@ -266,8 +267,8 @@ Window {
 
                         function amIVisible() {
                             //console.log("amIVisiblePanel")
-                            var minX = panelsContainerFlickable.visibleArea.xPosition * panelsContainerFlickable.contentWidth;
-                            var maxX = minX + panelsContainerFlickable.width;
+                            var minX = allPanels.visibleArea.xPosition * allPanels.contentWidth;
+                            var maxX = minX + allPanels.width;
                             var myMinX = index * (item.width + panelSize.panelOuterSpacing);
                             var myMaxX = ((index+1) * (item.width + panelSize.panelOuterSpacing))-panelSize.panelOuterSpacing;
                             //console.log("amIVisiblePanel? minX: ", minX, "maxX: ", maxX);
@@ -301,8 +302,8 @@ Window {
                         onOpacityChanged: {
                             if (opacity == 0) {
                             panelsModel.remove(index)
-//                                    panelsContainerFlickable.contentWidth
-//                                    = panelsContainerFlickable.contentWidth -(item.width + panelView.spacing)
+//                                    allPanels.contentWidth
+//                                    = allPanels.contentWidth -(item.width + panelView.spacing)
                             }
 
                         }
