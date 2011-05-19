@@ -48,7 +48,7 @@ FlipPanel {
             title: "Title 1"
             desc: "Description 1"
             image: ""
-            //background: "empty" default
+            background: "empty"
         }
         ListElement {
             title: "Title 2"
@@ -72,7 +72,7 @@ FlipPanel {
             title: "Title 5"
             desc: "Description 5"
             image: ""
-            //background: "album"
+            background: "album"
         }
     }
 

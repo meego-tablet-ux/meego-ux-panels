@@ -135,9 +135,6 @@ SecondaryTileGrid organizes SecondaryTileGridItems in a grid with 4 columns.
 
 PanelColumnView organizes SecondaryTiles or TileListItems in a column.
 
-TileIcon
---------
-
 TileIcon provides 4 types of background to panel icons: empty, normal,
 item and album. The background is selected by setting imageBackground
 property. The image set to imageSource property is given space that
