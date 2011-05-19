@@ -19,7 +19,6 @@ Window {
     id: window
     anchors.centerIn: parent
 
-    fullContent: true
     fullScreen: true
 
     Translator {
