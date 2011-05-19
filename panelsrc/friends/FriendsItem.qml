@@ -187,16 +187,14 @@ SecondaryTileBase {
                     smooth: !friendItemText.moving
                     asynchronous: true
                 }
-                Item {
+                Flow {
                     id: requestBtns
                     width: parent.width
-                    height: acceptBtn.height
+                    spacing: panelSize.contentAreaSideMargin
                     visible: (friendItemText.itemType == "request")
                     Button {
                         id: acceptBtn
-                        anchors.left: parent.left
-                        anchors.leftMargin: panelSize.secondaryTileGridSideMargin // TODO
-                        maxWidth: parent.width/2 - 1.5*anchors.leftMargin
+                        maxWidth: parent.width
                         text: qsTr("Accept")
                         onClicked: {
                             friendItemText.acceptClicked(itemID);
@@ -205,9 +203,7 @@ SecondaryTileBase {
 
                     Button {
                         id: rejectBtn
-                        anchors.right: parent.right
-                        anchors.rightMargin: panelSize.secondaryTileGridSideMargin // TODO
-                        maxWidth: parent.width/2 - 1.5*anchors.rightMargin
+                        maxWidth: parent.width
                         text: qsTr("Decline")
                         onClicked: {
                             friendItemText.rejectClicked(itemID);
