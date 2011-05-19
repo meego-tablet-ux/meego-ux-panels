@@ -18,12 +18,15 @@ BorderImage {
 
     Image {
         id: fpImage
+        property int vspace: parent.height - parent.border.bottom - parent.border.top
+        property int hspace: parent.width - parent.border.right - parent.border.left
         anchors.centerIn: parent
-        height: (tileIcon.zoomImage ? parent.height - parent.border.bottom - parent.border.top : sourceSize.height)
-        width: (tileIcon.zoomImage ? parent.width - parent.border.right - parent.border.left : sourceSize.width)
+        height: (tileIcon.zoomImage ? vspace : Math.min(vspace, sourceSize.height))
+        width: (tileIcon.zoomImage ? hspace : Math.min(hspace,sourceSize.width))
         anchors.verticalCenterOffset: parent.border.top - parent.border.bottom
         fillMode: Image.PreserveAspectCrop
         clip: fillMode == Image.PreserveAspectCrop
+        smooth: true
         asynchronous: true
 
         Component.onCompleted: {
