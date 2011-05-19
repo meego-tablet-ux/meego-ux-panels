@@ -31,67 +31,6 @@ Window {
         id: theme
     }
 
-    //Temp to get a spinner in for UX review - BEGIN
-    //Now we should be able to do "spinnerContainer.startSpinner();"
-
-    Item {
-        id: spinnerContainer
-        parent: window.content
-        anchors.fill: window.content
-        property variant overlay: null
-
-        TopItem {
-            id: topItem
-        }
-
-        Component {
-            id: spinnerOverlayComponent
-            Item {
-                id: spinnerOverlayInstance
-                anchors.fill: parent
-
-                Connections {
-                    target: qApp
-                    onWindowListUpdated: {
-                        spinnerOverlayInstance.destroy();
-                    }
-                }
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: "black"
-                    opacity: 0.7
-                }
-                Spinner {
-                    anchors.centerIn: parent
-                    spinning: true
-                    onSpinningChanged: {
-                        if (!spinning)
-                        {
-                            spinnerOverlayInstance.destroy()
-                        }
-                    }
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    // eat all mouse events
-                }
-            }
-        }
-
-        function startSpinner() {
-            if (overlay == null)
-            {
-                overlay = spinnerOverlayComponent.createObject(spinnerContainer);
-                overlay.parent = topItem.topItem;
-            }
-        }
-    }
-
-    //Temp to get a spinner in for UX review - END
-
-    //onStatusBarTriggered: orientation = (orientation +1)%4;
-
     PanelProxyModel {
         id: panelsModel
         filterType: PanelProxyModel.FilterTypeHidden
@@ -190,6 +129,25 @@ Window {
 
         ShareObj {
             id: shareObj
+        }
+
+        ModalSpinner {
+            id: spinnerContainer
+
+            function startSpinner() {
+                spinnerContainer.show();
+                spinnerTimer.restart();
+            }
+            Timer {
+                id: spinnerTimer
+                interval: 6000
+                repeat: false
+                onTriggered: spinnerContainer.hide()
+            }
+            Connections {
+                target: qApp
+                onWindowListUpdated: spinnerContainer.hide()
+            }
         }
 
         Rectangle {
