@@ -214,7 +214,9 @@ FlipPanel {
                 anchors.top: parent.top
                 model: appsModelFavorite
                 delegate: SecondaryTileGridItem {
+                    // Don't show meego-ux-settings here
                     visible: index < privateData.topApplicationsLimit
+                             && filename != "/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"
                     imageBackground: "empty"
                     imageSource: icon
                     fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
