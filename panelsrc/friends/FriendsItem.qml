@@ -105,8 +105,14 @@ SecondaryTileBase {
                         height: Math.min(panelSize.serviceIconSize, sourceSize.height)
                         width: Math.min(panelSize.serviceIconSize, sourceSize.height)
                         fillMode: Image.PreserveAspectCrop
+                        clip: true
                         asynchronous: true
                         source: (serviceIcon == "" ? "image://themedimage/icons/services/generic" : serviceIcon)
+                        onStatusChanged: {
+                            if (status == Image.Error) {
+                                source = "image://themedimage/icons/services/generic";
+                            }
+                        }
                     }
                 }
             }
@@ -155,11 +161,10 @@ SecondaryTileBase {
                     height: panelSize.tileTextLineSpacing
                 }
                 Text {
-                    // TODO multiline text elide. support available in Qt 4.8
+                    // Should we use multiline text elide? support available in Qt 4.8
                     id: contentText
                     text: messageText
                     width: parent.width
-                    height: Math.min(paintedHeight, panelSize.secondaryTileHeight - heading.height - 2*topMargin.height)
                     font.family: panelSize.fontFamily
                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                     color: panelColors.tileDescTextColor //THEME - VERIFY
