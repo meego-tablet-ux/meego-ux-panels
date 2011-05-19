@@ -13,11 +13,8 @@ import Qt 4.7
 TileItem {
     id: fpITI
     property string imageSource
-    property Component imageComponent: empty
+    property string imageBackground: "empty"
     property bool imageVisible: true
-    property Component imageEmpty: empty
-    property Component imageNormal: normal
-    property Component imageAlbum: album
     property Component imageChildComponent
     property string text
     property Component descriptionComponent
@@ -30,12 +27,22 @@ TileItem {
     contents: Row {
         height: panelSize.secondaryTileHeight
         //height: panelSize.secondaryTileContentHeight
-        Loader {
-            id: tileImage
-            visible: imageVisible
-            sourceComponent: imageComponent
-            anchors.verticalCenter: parent.verticalCenter
-        }
+            TileIcon {
+                id: tileImage
+                imageBackground: fpITI.imageBackground
+                imageSource: fpITI.imageSource
+                fillMode: fpITI.fillMode
+                zoomImage: fpITI.zoomImage
+                height: panelSize.secondaryTileContentHeight
+                width: height
+                fallBackImage: fpITI.fallBackImage
+            }
+        // Loader {
+        //     id: tileImage
+        //     visible: imageVisible
+        //     sourceComponent: imageBackground
+        //     anchors.verticalCenter: parent.verticalCenter
+        // }
         Item {
             id: leftMargin
             width: panelSize.tileTextLeftMargin
@@ -71,80 +78,4 @@ TileItem {
             }
         }
     }
-    resources: [
-        Component {
-            id: empty
-            TileIcon {
-                imageSource: fpITI.imageSource
-                // TODO: use .sci once there is support in image provider
-                // (and an .sci file)
-                source: "image://themedimage/widgets/apps/panels/item-border-empty"
-                border.top: 6
-                border.bottom: 6
-                border.left: 6
-                border.right: 6
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                height: panelSize.secondaryTileContentHeight
-                width: height
-                fallBackImage: fpITI.fallBackImage
-            }
-        },
-        Component {
-            id: item
-            TileIcon {
-                height: panelSize.secondaryTileContentHeight
-                width: height
-                imageSource: fpITI.imageSource
-                fallBackImage: fpITI.fallBackImage
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                // TODO: use .sci once there is support in image provider
-                // (and an .sci file)
-                source: "image://themedimage/widgets/apps/panels/item-border-item"
-                border.top: 3
-                border.bottom: 3
-                border.left: 3
-                border.right: 3
-            }
-        },
-        Component {
-            id: album
-            TileIcon {
-                height: panelSize.secondaryTileContentHeight
-                width: height
-                imageSource: fpITI.imageSource
-                fallBackImage: fpITI.fallBackImage
-                imageChild: imageChildComponent
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                // TODO: use .sci once there is support in image provider
-                // (and an .sci file)
-                source: "image://themedimage/widgets/apps/panels/item-border-album"
-                border.top: 12
-                border.bottom: 10
-                border.left: 4
-                border.right: 4
-            }
-        },
-        Component {
-            id: normal
-            TileIcon {
-                height: panelSize.secondaryTileContentHeight
-                width: height
-                imageSource: fpITI.imageSource
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                fallBackImage: fpITI.fallBackImage
-                // TODO: use .sci once there is support in image provider
-                // (and an .sci file)
-                source: "image://themedimage/widgets/apps/panels/item-border"
-                border.top: 6
-                border.bottom: 8
-                border.left: 5
-                border.right: 5
-            }
-        }
-
-    ]
 }

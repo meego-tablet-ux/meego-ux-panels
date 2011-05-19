@@ -19,7 +19,7 @@ Window {
     id: window
     anchors.centerIn: parent
 
-    //orientation: 1
+    orientation: 1
     fullContent: true
     fullScreen: true
 
@@ -160,7 +160,6 @@ Window {
         property int secondaryTileGridVSpacing: 2
         property int secondaryTileContentWidth: 104
         property int secondaryTileGridHSpacing: 6
-        property int secondaryTileGridSideMargin: 7
         property int tileTextLeftMargin: 15
         property int tileTextTopMargin: 15
         property int tileTextLineSpacing: 2

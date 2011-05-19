@@ -173,13 +173,13 @@ SecondaryTileBase {
                 }
                 Item {
                     width: 1
-                    height: panelSize.secondaryTileGridSideMargin
+                    height: panelSize.contentAreaSideMargin
                     visible: pictureImage.visible || requestBtns.visible
                 }
                 TileIcon {
                     id: pictureImage
-                    source: picImage
-                    visible: (pictureImage.source == "" ? false : true)
+                    imageSource: picImage
+                    visible: (imageSource == "" ? false : true)
                     height: panelSize.tileListItemContentHeight
                     width: panelSize.tileListItemContentHeight
                     zoomImage: true

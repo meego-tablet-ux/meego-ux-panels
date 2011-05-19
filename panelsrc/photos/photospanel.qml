@@ -257,7 +257,7 @@ FlipPanel {
                         id:albumPreview
                         separatorVisible: index > 0
                         imageSource: thumburi
-                        imageComponent: imageNormal
+                        imageBackground: "normal"
                         fillMode: Image.PreserveAspectCrop
                         text: title
                         zoomImage: true

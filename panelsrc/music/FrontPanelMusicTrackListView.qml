@@ -37,6 +37,7 @@ PanelColumnView {
                 id: listItem
                 visible: !isFirstItem
                 separatorVisible: true
+                imageBackground: "item"
                 imageSource: thumburi
                 zoomImage: true
                 text: title

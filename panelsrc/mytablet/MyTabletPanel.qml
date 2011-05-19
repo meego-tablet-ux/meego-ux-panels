@@ -215,7 +215,7 @@ FlipPanel {
                 model: appsModelFavorite
                 delegate: SecondaryTileGridItem {
                     visible: index < privateData.topApplicationsLimit
-                    imageComponent: imageEmpty
+                    imageBackground: "empty"
                     imageSource: icon
                     fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
                     onClicked:{

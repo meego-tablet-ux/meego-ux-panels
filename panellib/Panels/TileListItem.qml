@@ -15,9 +15,7 @@ import Qt 4.7
 TileItem {
     id: fpITI
     property string imageSource
-    property Component imageComponent: empty
-    property Component imageEmpty: empty
-    property Component imageNormal: normal
+    property string imageBackground: "empty"
     property string text: ""
     property string description: ""
     property bool zoomImage: false
@@ -30,11 +28,17 @@ TileItem {
     contents: Row {
         height: panelSize.tileListItemContentHeight
         width: parent.width
-        Loader {
+        TileIcon {
             id: tileImage
             visible: hasImage
-            sourceComponent: imageComponent
+            height: panelSize.tileListItemContentHeight
+            width: height
             anchors.verticalCenter: parent.verticalCenter
+            imageBackground: fpITI.imageBackground
+            imageSource: fpITI.imageSource
+            fillMode: fpITI.fillMode
+            zoomImage: fpITI.zoomImage
+            fallBackImage: fpITI.fallBackImage
         }
         Item {
             visible: hasImage
@@ -68,42 +72,4 @@ TileItem {
             wrapMode: Text.NoWrap
         }
     }
-    resources: [
-        Component {
-            id: empty
-            TileIcon {
-                height: panelSize.tileListItemContentHeight
-                width: height
-                imageSource: fpITI.imageSource
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                fallBackImage: fpITI.fallBackImage
-                // TODO: use .sci once there is support in image provider
-                // (and an .sci file)
-                source: "image://themedimage/widgets/apps/panels/item-border-empty"
-                border.top: 3
-                border.bottom: 3
-                border.left: 3
-                border.right: 3
-            }
-        },
-        Component {
-            id: normal
-            TileIcon {
-                height: panelSize.tileListItemContentHeight
-                width: height
-                imageSource: fpITI.imageSource
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                fallBackImage: fpITI.fallBackImage
-                // TODO: use .sci once there is support in image provider
-                // (and an .sci file)
-                source: "image://themedimage/widgets/apps/panels/item-border"
-                border.top: 5
-                border.bottom: 7
-                border.left: 4
-                border.right: 4
-            }
-        }
-    ]
 }

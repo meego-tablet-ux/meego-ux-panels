@@ -422,6 +422,7 @@ FlipPanel {
                         text: title
                         description: "" + artist
                         separatorVisible: index > 0
+                        imageBackground: "item"
                         imageSource: thumburi
                         fallBackImage: "image://themedimage/images/media/music_thumb_med"
                         zoomImage: true

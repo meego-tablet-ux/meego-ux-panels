@@ -38,7 +38,7 @@ Item {
             id: emptyItems
             model: (modelCount % gridColumns != 0 ) ? gridColumns - (modelCount % gridColumns) : 0
             delegate: PrimaryTile {
-                backgroundImageSource: "image://themedimage/widgets/apps/panels/item-border-empty"
+                imageBackground: "empty"
             }
         }
     ]

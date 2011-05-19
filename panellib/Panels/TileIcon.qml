@@ -15,6 +15,7 @@ BorderImage {
     property alias fillMode: fpImage.fillMode
     property string fallBackImage: ""
     property alias imageChild: imageChildComp.sourceComponent
+    property alias imageBackground: tileIcon.state
 
     Image {
         id: fpImage
@@ -40,4 +41,51 @@ BorderImage {
             anchors.fill: parent
         }
     }
+    state: "empty"
+    states: [
+        State {
+            name: "empty"
+            PropertyChanges {
+                target: tileIcon
+                source: "image://themedimage/widgets/apps/panels/item-border-empty"
+                border.top: 6
+                border.bottom: 6
+                border.left: 6
+                border.right: 6
+            }
+        },
+        State {
+            name: "normal"
+            PropertyChanges {
+                target: tileIcon
+                source: "image://themedimage/widgets/apps/panels/item-border"
+                border.top: 6
+                border.bottom: 8
+                border.left: 5
+                border.right: 5
+            }
+        },
+        State {
+            name: "album"
+            PropertyChanges {
+                target: tileIcon
+                source: "image://themedimage/widgets/apps/panels/item-border-album"
+                border.top: 12
+                border.bottom: 10
+                border.left: 4
+                border.right: 4
+            }
+        },
+        State {
+            name: "item"
+            PropertyChanges {
+                target: tileIcon
+                source: "image://themedimage/widgets/apps/panels/item-border-item"
+                border.top: 3
+                border.bottom: 3
+                border.left: 3
+                border.right: 3
+            }
+        }
+    ]
 }

@@ -14,7 +14,7 @@ TileItem {
     id: fpITI
     width: panelSize.primaryTileContentWidth + panelSize.primaryTileGridHSpacing
     property string imageSource
-    property string backgroundImageSource: "image://themedimage/widgets/apps/panels/item-border"
+    property string imageBackground: "normal"
     property string text
     property string fallBackImage
 
@@ -30,14 +30,10 @@ TileItem {
             imageSource: fpITI.imageSource
             fillMode: Image.PreserveAspectCrop
             zoomImage: true
+            imageBackground: fpITI.imageBackground
             fallBackImage: fpITI.fallBackImage
             // TODO: use .sci once there is support in image provider
             // (and an .sci file)
-            source: fpITI.backgroundImageSource
-            border.top: 6
-            border.bottom: 8
-            border.left: 6
-            border.right: 6
             anchors.verticalCenter: parent.verticalCenter
             imageChild: Item {
                 anchors.fill: parent

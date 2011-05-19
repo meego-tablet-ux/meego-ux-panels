@@ -21,7 +21,6 @@ Item {
     Column {
         id: col
         width: parent.width
-        anchors.verticalCenter: parent.verticalCenter
         Grid {
             id: grid
             width: parent.width
@@ -37,7 +36,7 @@ Item {
             id: emptyItems
             model: (modelCount % gridColumns != 0 ) ? gridColumns - (modelCount % gridColumns) : 0
             delegate: SecondaryTileGridItem {
-                imageComponent: imageEmpty
+                imageBackground: "empty"
             }
         }
     ]
