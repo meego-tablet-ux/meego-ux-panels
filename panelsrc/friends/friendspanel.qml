@@ -67,7 +67,7 @@ FlipPanel {
             interval: 5000
             onTriggered: {
                 //console.log("fpContainer.state: ", fpContainer.state);
-                if (contentLoader.amIVisible() && fpContainer.state != "back")
+                if (contentLoader.amIVisible() && fpContainer.state != "back" && window.isActiveWindow)
                     fpContainer.checkVisible();
             }
         }
@@ -253,7 +253,7 @@ FlipPanel {
                             }
                             onRead: {
                                 //console.log("onRead for ID " + myID);
-                                actions.performStandardAction("setRead", myID);
+                                actions.performStandardAction("setViewed", myID);
                             }
                         }
                     }
