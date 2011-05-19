@@ -151,6 +151,7 @@ FlipPanel {
                 delegate: recentUpdatesDelegate
                 anchors.fill: parent
                 interactive: (contentHeight > height)
+                cacheBuffer: panelSize.friendpanelsCacheBuffer
                 snapMode: ListView.SnapToItem
                 onInteractiveChanged: {
                     if (!interactive)

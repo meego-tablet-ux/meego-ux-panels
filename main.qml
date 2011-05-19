@@ -170,6 +170,8 @@ Window {
         property int tileFontSize: theme.fontPixelSizeNormal
         property string fontFamily: theme.fontFamily
         property int timestampFontSize: theme.fontPixelSizeSmall
+
+        property int friendpanelsCacheBuffer: 8000
     }
 
     Item {

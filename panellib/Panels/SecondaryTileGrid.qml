@@ -24,7 +24,6 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         Grid {
             id: grid
-            clip:true
             width: parent.width
             columns: gridColumns
             children: [repeater, emptyItems]
