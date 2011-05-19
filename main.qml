@@ -19,7 +19,7 @@ Window {
     id: window
     anchors.centerIn: parent
 
-    orientation: 1
+    //orientation: 1
     fullContent: true
     fullScreen: true
 
