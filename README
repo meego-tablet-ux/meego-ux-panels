@@ -10,7 +10,7 @@ At least two files are needed to create a new panel. A qml file which
 contains the panel implementation and a .panel file which contains
 basic information of the panel.
 
-See panelsrc/example/ for full panel example.
+See panelsrc/example/ for a full panel example.
 
 Here is an example of .panel file::
 
@@ -138,9 +138,58 @@ PanelColumnView organizes SecondaryTiles or TileListItems in a column.
 BackPanelStandard and BackPanelGeneric
 -----------------------------------
 
-These helper classes for creating a standard looking panel back side.
+These helper classes for creating a standard looking panel back
+side. BackPanelStandard helps you create multiple sections that can be
+toggled on and off. You just have create a list model which contains
+the section names and visibility settings and set it to
+BackPanelStandard.settingsListModel property. In this back settings
+model each ListElement should contain settingsTitle, custPropName and
+isVisible properties. Additionally the visibility of the sections
+(typically PanelExpandableContent) should set their visibility based
+on this model. Panels common code will take care of storing these
+values across boot.
 
-Other components
-----------------
+Example::
 
-There some other components that can be used to keep consistent look.
+    ListModel{
+        id: backSettingsModel
+
+        ListElement {
+            settingsTitle: QT_TR_NOOP("Primary grid")
+            custPropName: QT_TR_NOOP("PrimaryGrid")
+            isVisible: true
+        }
+        ListElement {
+            settingsTitle: QT_TR_NOOP("Secondary grid")
+            custPropName: QT_TR_NOOP("SecondaryGrid")
+            isVisible: true
+        }
+        ListElement {
+            settingsTitle: QT_TR_NOOP("Secondary list")
+            custPropName: QT_TR_NOOP("SecondaryList")
+            isVisible: true
+        }
+        ListElement {
+            settingsTitle: QT_TR_NOOP("ListItem list")
+            custPropName: QT_TR_NOOP("ListItemList")
+            isVisible: true
+        }
+
+    }
+
+BackPanelStandard also includes an optional "Clear history" button
+which will send clearHistClicked() signal.
+
+If you don't need these or want to add something of your own you can
+use BackPanelGeneric and it's bpContent property. BackPanelGeneric
+includes standard panel settings section.
+
+For something completely custom you can base your back panel to Panel or
+SimplePanel and set isBackPanel property true.
+
+TileIcon
+--------
+
+TileIcon provides 4 types of borders to panel icons: empty, normal,
+item and album.
+

@@ -21,13 +21,23 @@ FlipPanel {
         id: backSettingsModel
 
         ListElement {
-            settingsTitle: QT_TR_NOOP("Example setting 1")
-            custPropName: QT_TR_NOOP("ExampleSetting1")
+            settingsTitle: QT_TR_NOOP("Primary grid")
+            custPropName: QT_TR_NOOP("PrimaryGrid")
             isVisible: true
         }
         ListElement {
-            settingsTitle: QT_TR_NOOP("Example setting 2")
-            custPropName: QT_TR_NOOP("ExampleSetting2")
+            settingsTitle: QT_TR_NOOP("Secondary grid")
+            custPropName: QT_TR_NOOP("SecondaryGrid")
+            isVisible: true
+        }
+        ListElement {
+            settingsTitle: QT_TR_NOOP("Secondary list")
+            custPropName: QT_TR_NOOP("SecondaryList")
+            isVisible: true
+        }
+        ListElement {
+            settingsTitle: QT_TR_NOOP("ListItem list")
+            custPropName: QT_TR_NOOP("ListItemList")
             isVisible: true
         }
 
@@ -38,16 +48,31 @@ FlipPanel {
             title: "Title 1"
             desc: "Description 1"
             image: ""
+            //background: "empty" default
         }
         ListElement {
             title: "Title 2"
             desc: "Description 3"
             image: ""
+            background: "normal"
         }
         ListElement {
             title: "Title 3"
             desc: "Description 3"
             image: ""
+            background: "empty"
+        }
+        ListElement {
+            title: "Title 4"
+            desc: "Description 4"
+            image: ""
+            background: "item"
+        }
+        ListElement {
+            title: "Title 5"
+            desc: "Description 5"
+            image: ""
+            //background: "album"
         }
     }
 
@@ -72,11 +97,13 @@ FlipPanel {
         PanelExpandableContent {
             id: primaryGrid
             text: qsTr("Primary grid")
+            visible: backSettingsModel.get(0).isVisible
             contents: PrimaryTileGrid {
                 model: exampleModel
                 delegate: PrimaryTile {
                     text: title
                     imageSource: image
+                    imageBackground: background
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
@@ -89,10 +116,12 @@ FlipPanel {
         PanelExpandableContent {
             id: secondaryGrid
             text: qsTr("Secondary grid")
+            visible: backSettingsModel.get(1).isVisible
             contents: SecondaryTileGrid {
                 model: exampleModel
                 delegate: SecondaryTileGridItem {
                     imageSource: image
+                    imageBackground: background
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
@@ -106,6 +135,7 @@ FlipPanel {
         PanelExpandableContent {
             id: secondaryList
             text: qsTr("Secondary list")
+            visible: backSettingsModel.get(2).isVisible
             contents: PanelColumnView {
                 model: exampleModel
                 delegate: SecondaryTile {
@@ -113,6 +143,7 @@ FlipPanel {
                     text: title
                     description: desc
                     imageSource: image
+                    imageBackground: background
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
@@ -126,6 +157,7 @@ FlipPanel {
         PanelExpandableContent {
             id: listItemList
             text: qsTr("ListItem list")
+            visible: backSettingsModel.get(3).isVisible
             contents: PanelColumnView {
                 model: exampleModel
                 delegate: TileListItem {
@@ -133,6 +165,7 @@ FlipPanel {
                     text: title
                     description: desc
                     imageSource: image
+                    imageBackground: background
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
