@@ -8,6 +8,7 @@
 
 import Qt 4.7
 import MeeGo.Panels 0.1
+import MeeGo.Components 0.1
 import MeeGo.Media 0.1
 
 PanelColumnView {
