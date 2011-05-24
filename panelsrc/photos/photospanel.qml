@@ -260,7 +260,7 @@ FlipPanel {
                     delegate: SecondaryTileBase {
                         id:albumPreview
                         separatorVisible: index > 0
-                        imageSource: thumburi
+                        imageSource: thumburi == qsTr("")? "image://themedimage/images/media/photo_thumb_default":thumburi
                         imageBackground: "normal"
                         fillMode: Image.PreserveAspectCrop
                         text: title
