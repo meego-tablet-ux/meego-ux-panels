@@ -280,7 +280,7 @@ FlipPanel {
                                 Text {
                                     // TODO creationtime is empty. Use Qt.formatDateTime(t,"MMMM yyyy")
                                     // if we get creationtime as QDateTime instead of ISODate formatted string
-                                    text: qsTr("Created %1").arg(addedtime)
+                                    text: qsTr("Created %1").arg(""+Qt.formatDateTime(addedtime, "MMMM yyyy"))
                                     width: parent.width
                                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                                     color: panelColors.tileDescTextColor //THEME - VERIFY
