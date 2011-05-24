@@ -38,6 +38,8 @@ Window {
     Labs.ApplicationsModel {
         id: appsModel
         directories: [ "/usr/share/meego-ux-appgrid/applications", "/usr/share/applications", "~/.local/share/applications" ]
+        favorites.limit: 8
+        favorites.filter: ["/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"]
     }
 
     Labs.WindowModel {
