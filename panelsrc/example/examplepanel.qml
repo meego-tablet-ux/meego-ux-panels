@@ -48,31 +48,26 @@ FlipPanel {
             title: "Title 1"
             desc: "Description 1"
             image: ""
-            background: "empty"
         }
         ListElement {
             title: "Title 2"
             desc: "Description 3"
             image: ""
-            background: "normal"
         }
         ListElement {
             title: "Title 3"
             desc: "Description 3"
             image: ""
-            background: "empty"
         }
         ListElement {
             title: "Title 4"
             desc: "Description 4"
             image: ""
-            background: "item"
         }
         ListElement {
             title: "Title 5"
             desc: "Description 5"
             image: ""
-            background: "album"
         }
     }
 
@@ -103,7 +98,7 @@ FlipPanel {
                 delegate: PrimaryTile {
                     text: title
                     imageSource: image
-                    imageBackground: background
+                    imageBackground: "normal"
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
@@ -121,7 +116,7 @@ FlipPanel {
                 model: exampleModel
                 delegate: SecondaryTileGridItem {
                     imageSource: image
-                    imageBackground: background
+                    imageBackground: "item"
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
@@ -143,7 +138,7 @@ FlipPanel {
                     text: title
                     description: desc
                     imageSource: image
-                    imageBackground: background
+                    imageBackground: "normal"
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }
@@ -165,7 +160,7 @@ FlipPanel {
                     text: title
                     description: desc
                     imageSource: image
-                    imageBackground: background
+                    imageBackground: "item"
                     onClicked: {
                         console.log("Item clicked: " + title);
                     }

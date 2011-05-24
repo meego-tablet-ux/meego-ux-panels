@@ -26,13 +26,13 @@ TileItem {
     mouseAreaActive: true
 
     contents: Row {
-        height: panelSize.tileListItemContentHeight
+        height: tileImage.height
         width: parent.width
         TileIcon {
             id: tileImage
             visible: hasImage
-            height: panelSize.tileListItemContentHeight
-            width: height
+            imageHeight: panelSize.tileListIconImageSize
+            imageWidth: panelSize.tileListIconImageSize
             anchors.verticalCenter: parent.verticalCenter
             imageBackground: fpITI.imageBackground
             imageSource: fpITI.imageSource

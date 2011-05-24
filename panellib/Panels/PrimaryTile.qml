@@ -12,7 +12,6 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    width: panelSize.primaryTileContentWidth + panelSize.primaryTileGridHSpacing
     property string imageSource
     property string imageBackground: "normal"
     property string text
@@ -21,12 +20,19 @@ TileItem {
     mouseAreaActive: true
 
     contents: Item {
-        height: panelSize.primaryTileContentHeight + panelSize.primaryTileGridVSpacing
-        width: fpITI.width
+        height: fpIconBackground.height + panelSize.primaryTileGridVSpacing
+        width: fpIconBackground.width + panelSize.primaryTileGridHSpacing
+        onWidthChanged: {
+            fpITI.width = width
+            // console.log("size: " + width+" x "+height)
+        }
+        // onHeightChanged: {
+        //     console.log("size: " + width+" x "+height)
+        // }
         TileIcon {
             id: fpIconBackground
-            width: panelSize.primaryTileContentWidth
-            height: panelSize.primaryTileContentHeight
+            imageWidth: panelSize.primaryTileContentWidth
+            imageHeight: panelSize.primaryTileContentHeight
             imageSource: fpITI.imageSource
             fillMode: Image.PreserveAspectCrop
             zoomImage: true

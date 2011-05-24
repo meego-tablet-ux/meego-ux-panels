@@ -25,24 +25,17 @@ TileItem {
     mouseAreaActive: true
 
     contents: Row {
-        height: panelSize.secondaryTileHeight
-        //height: panelSize.secondaryTileContentHeight
-            TileIcon {
-                id: tileImage
-                imageBackground: fpITI.imageBackground
-                imageSource: fpITI.imageSource
-                fillMode: fpITI.fillMode
-                zoomImage: fpITI.zoomImage
-                height: panelSize.secondaryTileContentHeight
-                width: height
-                fallBackImage: fpITI.fallBackImage
-            }
-        // Loader {
-        //     id: tileImage
-        //     visible: imageVisible
-        //     sourceComponent: imageBackground
-        //     anchors.verticalCenter: parent.verticalCenter
-        // }
+        height: tileImage.height
+        TileIcon {
+            id: tileImage
+            imageBackground: fpITI.imageBackground
+            imageSource: fpITI.imageSource
+            fillMode: fpITI.fillMode
+            zoomImage: fpITI.zoomImage
+            imageHeight: panelSize.secondaryIconImageSize
+            imageWidth: panelSize.secondaryIconImageSize
+            fallBackImage: fpITI.fallBackImage
+        }
         Item {
             id: leftMargin
             width: panelSize.tileTextLeftMargin

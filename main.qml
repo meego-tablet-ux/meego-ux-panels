@@ -83,21 +83,21 @@ Window {
         property int contentAreaTopMargin: 8
         property int contentAreaBottomMargin: 8
         property int contentAreaSideMargin: 10
-        property int primaryTileContentHeight: 138
+        property int primaryTileContentHeight: 124
         property int primaryTileGridVSpacing: 2
-        property int primaryTileContentWidth: 214
+        property int primaryTileContentWidth: 204
         property int primaryTileGridHSpacing: 6
         property int primaryTileTextHeight: 36
-        property int secondaryTileHeight: 110
-        property int secondaryTileContentHeight: 108
+        property int secondaryIconImageSize: 98
         property int secondaryTileGridVSpacing: 2
-        property int secondaryTileContentWidth: 104
         property int secondaryTileGridHSpacing: 6
+        property int secondaryTileTopMargin: 10
         property int tileTextLeftMargin: 15
         property int tileTextTopMargin: 15
         property int tileTextLineSpacing: 2
         property int tileListItemHeight: 63
         property int tileListItemContentHeight: 49
+        property int tileListIconImageSize: 43
         property int tileListSpacing: 6
         property int serviceIconSize: 40
         property int tileFontSize: theme.fontPixelSizeNormal

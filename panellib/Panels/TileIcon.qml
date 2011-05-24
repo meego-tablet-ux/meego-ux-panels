@@ -16,14 +16,16 @@ BorderImage {
     property string fallBackImage: ""
     property alias imageChild: imageChildComp.sourceComponent
     property alias imageBackground: tileIcon.state
+    property int imageWidth: 0
+    property int imageHeight: 0
+    height: imageHeight + border.bottom + border.top
+    width: imageWidth + border.right + border.left
 
     Image {
         id: fpImage
-        property int vspace: parent.height - parent.border.bottom - parent.border.top
-        property int hspace: parent.width - parent.border.right - parent.border.left
         anchors.centerIn: parent
-        height: (tileIcon.zoomImage ? vspace : Math.min(vspace, sourceSize.height))
-        width: (tileIcon.zoomImage ? hspace : Math.min(hspace,sourceSize.width))
+        height: (tileIcon.zoomImage ? imageHeight : Math.min(imageHeight, sourceSize.height))
+        width: (tileIcon.zoomImage ? imageWidth : Math.min(imageWidth,sourceSize.width))
         anchors.verticalCenterOffset: parent.border.top - parent.border.bottom
         fillMode: Image.PreserveAspectCrop
         clip: fillMode == Image.PreserveAspectCrop
@@ -48,10 +50,10 @@ BorderImage {
             PropertyChanges {
                 target: tileIcon
                 source: "image://themedimage/widgets/apps/panels/item-border-empty"
-                border.top: 6
-                border.bottom: 6
-                border.left: 6
-                border.right: 6
+                border.top: 3
+                border.bottom: 3
+                border.left: 3
+                border.right: 3
             }
         },
         State {

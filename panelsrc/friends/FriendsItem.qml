@@ -76,14 +76,15 @@ SecondaryTileBase {
         }
         Row {
             id: row
-            height: Math.max(panelSize.secondaryTileHeight, col.height)
+            height: Math.max(author.height, col.height)
             Item {
-                height: panelSize.secondaryTileHeight
+                id: author
+                height: authorIconImage.height + panelSize.secondaryTileTopMargin
                 width: authorIconImage.width
                 TileIcon {
                     id: authorIconImage
-                    height: panelSize.secondaryTileContentHeight
-                    width: height
+                    imageHeight: panelSize.secondaryIconImageSize
+                    imageWidth: panelSize.secondaryIconImageSize
                     anchors.verticalCenter: parent.verticalCenter
                     imageSource: (authorIcon == "" ? "image://themedimage/widgets/apps/panels/avatar-default" : authorIcon)
 
@@ -180,8 +181,8 @@ SecondaryTileBase {
                     id: pictureImage
                     imageSource: picImage
                     visible: (imageSource == "" ? false : true)
-                    height: panelSize.tileListItemContentHeight
-                    width: panelSize.tileListItemContentHeight
+                    imageHeight: panelSize.secondaryIconImageSize
+                    imageWidth: panelSize.secondaryIconImageSize
                     zoomImage: true
                     fillMode: Image.PreserveAspectCrop
                     smooth: !friendItemText.moving

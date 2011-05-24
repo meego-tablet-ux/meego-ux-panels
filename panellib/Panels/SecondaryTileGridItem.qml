@@ -10,7 +10,6 @@ import Qt 4.7
 
 TileItem {
     id: fpITI
-    width: panelSize.secondaryTileContentWidth + panelSize.secondaryTileGridHSpacing
     property string imageSource
     property string imageBackground: "item"
     property bool zoomImage: false
@@ -23,10 +22,19 @@ TileItem {
     contents: Item {
         id: tileImage
         visible: hasImage
-        height: panelSize.secondaryTileContentHeight + panelSize.secondaryTileGridVSpacing
+        height: icon.height + panelSize.secondaryTileGridVSpacing
+        width: icon.width + panelSize.secondaryTileGridHSpacing
+        onWidthChanged: {
+            fpITI.width = width
+            // console.log("size: " + width+" x "+height)
+        }
+        // onHeightChanged: {
+        //     console.log("size: " + width+" x "+height)
+        // }
         TileIcon {
-            height: panelSize.secondaryTileContentHeight
-            width: panelSize.secondaryTileContentWidth
+            id: icon
+            imageHeight: panelSize.secondaryIconImageSize
+            imageWidth: panelSize.secondaryIconImageSize
             imageSource: fpITI.imageSource
             imageBackground: fpITI.imageBackground
             fillMode: fpITI.fillMode
