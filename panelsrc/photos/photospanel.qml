@@ -270,8 +270,7 @@ FlipPanel {
                                 width: parent.width
                                 anchors.bottom: parent.bottom
                                 Text {
-                                    // TODO use photocount once available
-                                    text: qsTr("%1 photos").arg("NN"/*photocount*/)
+                                    text: qsTr("%1 photos").arg(photocount)
                                     width: parent.width
                                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
                                     color: panelColors.tileDescTextColor //THEME - VERIFY
