@@ -15,6 +15,7 @@ SecondaryTileBase {
 
     width: parent.width
     imageVisible: false
+    mouseAreaActive: false
 
     property string authorIcon: ""
     property string openUrl: ""
