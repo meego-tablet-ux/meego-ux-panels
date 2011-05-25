@@ -61,6 +61,9 @@ FlipPanel {
         type:MusicListModel.ListofRecentlyPlayed
         limit: 2
         sort: MusicListModel.SortByDefault
+        Component.onCompleted: {
+            hideItemsByURN(panelObj.HiddenItems)
+        }
     }
 
     onPanelObjChanged: {
@@ -75,6 +78,9 @@ FlipPanel {
         type:MusicListModel.ListofPlaylists
         limit: 0
         sort: MusicListModel.SortByDefault
+        Component.onCompleted: {
+            hideItemsByURN(panelObj.HiddenItems)
+        }
     }
 
 

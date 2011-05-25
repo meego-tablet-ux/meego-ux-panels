@@ -65,6 +65,9 @@ FlipPanel {
         type: PhotoListModel.ListofRecentlyViewed
         limit: 16
         sort: PhotoListModel.SortByDefault
+        Component.onCompleted: {
+            hideItemsByURN(panelObj.HiddenItems)
+        }
     }
 
     PhotoListModel {
@@ -72,6 +75,9 @@ FlipPanel {
         type: PhotoListModel.ListofUserAlbums
         limit: 0
         sort: PhotoListModel.SortByDefault
+        Component.onCompleted: {
+            hideItemsByURN(panelObj.HiddenItems)
+        }
     }
 
     front: SimplePanel {

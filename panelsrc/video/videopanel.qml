@@ -46,6 +46,9 @@ FlipPanel {
         type: VideoListModel.ListofRecentlyViewed
         limit: 4
         sort: VideoListModel.SortByDefault
+        Component.onCompleted: {
+            hideItemsByURN(panelObj.HiddenItems)
+        }
     }
 
     onPanelObjChanged: {
