@@ -36,10 +36,6 @@ FlipPanel {
         parent: topItem.topItem
     }
 
-    TopItem {
-        id:  topItem
-    }
-
     property variant appsModelFavorite: appsModel.favorites
 
 

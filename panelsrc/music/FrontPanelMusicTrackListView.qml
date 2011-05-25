@@ -20,10 +20,6 @@ PanelColumnView {
     property variant contextMenu
 
 
-    TopItem {
-        id: topItem
-    }
-
     Component {
         id: trackComponent
 

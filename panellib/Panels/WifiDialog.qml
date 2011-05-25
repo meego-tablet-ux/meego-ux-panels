@@ -22,10 +22,6 @@ Item {
         wifiCtxMenu.show()
     }
 
-    TopItem {
-        id: topItem
-    }
-
     Theme{ id: theme }
 
     NetworkListModel {

@@ -25,10 +25,6 @@ FlipPanel {
         catalog: "meego-ux-panels-web"
     }
 
-    TopItem {
-        id: topItem
-    }
-
     ListModel{
         id: backSettingsModel
 

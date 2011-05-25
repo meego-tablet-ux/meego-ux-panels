@@ -19,7 +19,15 @@ Window {
     id: window
     anchors.centerIn: parent
 
+    fullContent: true
     fullScreen: true
+
+    bookMenuModel: ["MainPage"]
+    bookMenuPayload: [mainPage]
+
+    Component.onCompleted: {
+        switchBook(mainPage)
+    }
 
     Translator {
         catalog: "meego-ux-panels"
@@ -127,6 +135,10 @@ Window {
             id: shareObj
         }
 
+        TopItem {
+            id: topItem
+        }
+
         ModalSpinner {
             id: spinnerContainer
 
@@ -146,46 +158,51 @@ Window {
             }
         }
 
-        Rectangle {
-            id: background
-            anchors.fill: parent
-            color: "black"
-            property variant backgroundImage: null
-            Labs.BackgroundModel {
-                id: backgroundModel
-                Component.onCompleted: {
-                    background.backgroundImage = backgroundImageComponent.createObject(background);
+    }
+    Component {
+        id: mainPage
+        AppPage {
+            fullContent: true
+            fullScreen: true
+            Rectangle {
+                id: background
+                anchors.fill: parent
+                color: "black"
+                property variant backgroundImage: null
+                Labs.BackgroundModel {
+                    id: backgroundModel
+                    Component.onCompleted: {
+                        background.backgroundImage = backgroundImageComponent.createObject(background);
+                    }
+                    onActiveWallpaperChanged: {
+                        background.backgroundImage.destroy();
+                        background.backgroundImage = backgroundImageComponent.createObject(background);
+                    }
                 }
-                onActiveWallpaperChanged: {
-                    background.backgroundImage.destroy();
-                    background.backgroundImage = backgroundImageComponent.createObject(background);       
+                Component {
+                    id: backgroundImageComponent
+                    Image {
+                        //anchors.centerIn: parent
+                        anchors.fill: parent
+                        asynchronous: true
+                        source: backgroundModel.activeWallpaper
+                        sourceSize.height: background.height
+                        fillMode: Image.PreserveAspectCrop
+                    }
                 }
             }
-            Component {
-                id: backgroundImageComponent
-                Image {
-                    //anchors.centerIn: parent
-                    anchors.fill: parent
-                    asynchronous: true
-                    source: backgroundModel.activeWallpaper
-                    sourceSize.height: background.height
-                    fillMode: Image.PreserveAspectCrop
-                }
+
+            StatusBar {
+                anchors.top: parent.top
+                width: parent.width
+                height: theme.statusBarHeight
+                active: window.isActiveWindow
+                backgroundOpacity: theme.panelStatusBarOpacity
             }
-        }
-
-        StatusBar {
-            anchors.top: parent.top
-            width: parent.width
-            height: theme.statusBarHeight
-            active: window.isActiveWindow
-            backgroundOpacity: theme.panelStatusBarOpacity
-        }
-
-        Item {
-            id: panelsContainer
-            anchors.fill: parent
-            anchors.topMargin: theme.statusBarHeight
+            Item {
+                id: panelsContainer
+                anchors.fill: parent
+                anchors.topMargin: theme.statusBarHeight
 
                 ListView {
                     id: allPanels
@@ -291,8 +308,9 @@ Window {
                                 panelsModel.move(oldIndex, newIndex)
                             } //onDraggingFinished
                         }
-                    } //Delegate - panel loader
+                    } //Delegate - panel nloader
                 }
+            }
         }
     }
 }

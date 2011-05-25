@@ -20,10 +20,6 @@ Item{
     property alias dlgY: bubble.y
     property alias offset: bubble.offset
 
-    TopItem {
-        id: topItem
-    }
-
     MouseArea {
         id: maDlg
         parent: topItem.topItem

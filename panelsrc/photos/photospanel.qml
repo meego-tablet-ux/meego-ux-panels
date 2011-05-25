@@ -25,10 +25,6 @@ FlipPanel {
         catalog: "meego-ux-panels-photos"
     }
 
-    TopItem {
-        id: topItem
-    }
-
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
     function notifyModel()

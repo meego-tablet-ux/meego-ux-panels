@@ -59,11 +59,6 @@ FlipPanel {
         }
     }
 
-    TopItem {
-        id: topItem
-        parent: fpContainer
-    }
-
     resources: [
 
         Timer {
