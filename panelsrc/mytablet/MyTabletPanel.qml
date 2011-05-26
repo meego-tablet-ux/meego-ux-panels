@@ -264,7 +264,8 @@ FlipPanel {
                         wifiDialog.show();
                     } else if (type == "sound") {
                         volumeDialog.dlgX = posInWindow.x;
-                        volumeDialog.dlgY = posInWindow.y - volumeDialog.height;
+			var volume_dglY=posInWindow.y - volumeDialog.height;
+			volumeDialog.dlgY = volume_dglY>0?volume_dglY:posInWindow.y;
                         volumeDialog.visible = true;
                     } else if (type == "allSettings") {
                         spinnerContainer.startSpinner();
