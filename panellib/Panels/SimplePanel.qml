@@ -118,10 +118,7 @@ Item {
     Image {
         id: panelBG
         source: "image://themedimage/widgets/apps/panels/panel-background"
-        width: sourceSize.width
         anchors.left:  parent.left
-        height: parent.height
-        anchors.bottom: parent.bottom
         anchors.top: panelHeader.bottom
     }
     Item {
