@@ -42,6 +42,12 @@ FlipPanel {
         }
         ListElement {
             //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+            settingsTitle: "Coming up in play queue"
+            custPropName: "PlayQueue"
+            isVisible: true
+        }
+        ListElement {
+            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
             settingsTitle: "Playlists"
             custPropName: "Playlists"
             isVisible: true
@@ -50,7 +56,8 @@ FlipPanel {
         //Get around i18n issues w/ the qsTr of the strings being in a different file
         Component.onCompleted: {
             backSettingsModel.setProperty(0, "settingsTitle", qsTr("Recently played"));
-            backSettingsModel.setProperty(1, "settingsTitle", qsTr("Playlists"));
+            backSettingsModel.setProperty(1, "settingsTitle", qsTr("Coming up in play queue"));
+            backSettingsModel.setProperty(2, "settingsTitle", qsTr("Playlists"));
         }
     }
 
@@ -286,9 +293,10 @@ FlipPanel {
 
                 id: playqueueItem
                 property int count: 0
+                visible: backSettingsModel.get(1).isVisible
                 //visible: (musicIntf.nextTrackCount > 0)
 
-                text:qsTr("Play queue")
+                text:qsTr("Coming up in play queue")
                 ContextMenu {
                     id: ctxMenuQueue
                     property string currentUrn
@@ -368,7 +376,7 @@ FlipPanel {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     onClicked: {
                                         spinnerContainer.startSpinner();
-                                        qApp.launchDesktopByName(privateData.musicDesktop);
+                                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --app meego-app-music --cmd show --cdata playqueue")
                                         container.notifyModel();
                                     }
                                 }
@@ -390,7 +398,7 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: fpPlaylists
-                visible: backSettingsModel.get(1).isVisible && (count > 0)
+                visible: backSettingsModel.get(2).isVisible && (count > 0)
                 text: qsTr("Playlists")
                 property int count: 0
 
