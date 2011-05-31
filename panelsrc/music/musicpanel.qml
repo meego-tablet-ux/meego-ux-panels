@@ -175,6 +175,7 @@ FlipPanel {
 
                 Button {
                     id: btnOOBE
+                    active: true
                     anchors.top:  textOOBE.bottom
                     anchors.topMargin: panelSize.contentTopMargin
                     text: qsTr("Open Music!")
@@ -366,6 +367,7 @@ FlipPanel {
                                 height: addMusicToPlayQueue.height + 2*panelSize.contentTopMargin
                                 Button {
                                     id: addMusicToPlayQueue
+                                    active: true
                                     text: qsTr("Add music to the play queue")
                                     font.family: panelSize.fontFamily
                                     font.pixelSize: panelSize.tileFontSize //THEME - VERIFY

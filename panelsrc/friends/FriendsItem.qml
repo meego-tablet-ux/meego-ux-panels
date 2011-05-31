@@ -196,6 +196,7 @@ SecondaryTileBase {
                     visible: (friendItemText.itemType == "request")
                     Button {
                         id: acceptBtn
+                        active: true
                         maxWidth: parent.width
                         text: qsTr("Accept")
                         onClicked: {
@@ -205,6 +206,7 @@ SecondaryTileBase {
 
                     Button {
                         id: rejectBtn
+                        active: true
                         maxWidth: parent.width
                         text: qsTr("Decline")
                         onClicked: {

@@ -18,6 +18,7 @@ TileItem {
         height: bpClearButton.height + 2*panelSize.contentTopMargin
         Button {
             id: bpClearButton
+            active: true
             text: qsTr("Clear history")
             font.family: panelSize.fontFamily
             font.pixelSize: panelSize.tileFontSize //THEME - VERIFY

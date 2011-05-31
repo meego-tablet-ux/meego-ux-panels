@@ -187,6 +187,7 @@ Item {
                     width: parent.width
                     Button {
                         id : wifiSettings
+                        active: true
                         text: qsTr("Wi-Fi settings")
                         anchors.centerIn: parent
 

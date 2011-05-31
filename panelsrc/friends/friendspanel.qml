@@ -133,6 +133,7 @@ FlipPanel {
 
             Button {
                 id: btnOOBE
+                active: true
                 anchors.top:  textOOBE.bottom
                 anchors.topMargin: panelSize.contentTopMargin
                 text: qsTr("Tap here!")
@@ -362,6 +363,7 @@ FlipPanel {
                     id: serviceConfigBtn
                     Button {
                         id: btnConfigure
+                        active: true
                         anchors.right: parent.right
                         text: qsTr("Go to settings")
                         onClicked: {

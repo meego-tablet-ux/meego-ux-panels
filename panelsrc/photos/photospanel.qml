@@ -134,6 +134,7 @@ FlipPanel {
 
             Button {
                 id: btnOOBE
+                active: true
                 anchors.top:  textOOBE.bottom
                 anchors.topMargin: panelSize.contentTopMargin
                 text: qsTr("Open Photos!")
