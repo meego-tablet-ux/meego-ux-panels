@@ -96,17 +96,10 @@ FlipPanel {
             custPropName: "TopApps"
             isVisible: true
         }
-        ListElement {
-            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
-            settingsTitle: "Settings"
-            custPropName: "Settings"
-            isVisible: true
-        }
 
         //Get around i18n issues w/ the qsTr of the strings being in a different file
         Component.onCompleted: {
             backSettingsModel.setProperty(0, "settingsTitle", qsTr("Top applications"));
-            backSettingsModel.setProperty(1, "settingsTitle", qsTr("Settings"));
         }
     }
 
@@ -156,7 +149,6 @@ FlipPanel {
                     anchors.top: topAppSection.bottom
                     text: qsTr("Settings")
                     contents: settingsComp
-                    visible: backSettingsModel.get(1).isVisible
                 }
             }
         }
