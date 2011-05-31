@@ -189,6 +189,7 @@ bool PanelObj::readDesktopFile()
 {
     QSettings dt(mDesktopFileName, QSettings::IniFormat);
 
+    dt.setIniCodec("UTF-8");
     dt.beginGroup("Panel");
 
     //If we don't have a path to the .qml file, then
