@@ -15,11 +15,17 @@ Item {
     id: bubbleContainer
 
     function setPosition(mouseX, mouseY) {
-        wifiCtxMenu.setPosition(mouseX, mouseY)
+        if(networkListModel.offlineMode == false)
+            wifiCtxMenu.setPosition(mouseX, mouseY)
+        else
+            offlineCtxMenu.setPosition(mouseX, mouseY)
     }
     function show() {
         networkListModel.initWifi()
-        wifiCtxMenu.show()
+        if(networkListModel.offlineMode == false)
+            wifiCtxMenu.show()
+        else
+            offlineCtxMenu.show()
     }
 
     Theme{ id: theme }
@@ -201,6 +207,74 @@ Item {
             }
         }
     }
+  ContextMenu  {
+            id: offlineCtxMenu
+
+            content: Item {
+
+                width: offbubbleCol.width
+                height: offbubbleCol.height
+                Column {
+                    id: offbubbleCol
+                    anchors.centerIn: parent
+                    Item {
+                        id:offlineRectangle
+                        width: offbubbleCol.width
+
+                        height: Math.max(wifiText.height,wifiToggle.height) + actionMenu.textMargin
+
+                        Text {
+                            id: offlineText
+                            text: qsTr("Airplane Mode is ON")
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: parent.left
+                            anchors.leftMargin: actionMenu.textMargin
+                            color: theme.contextMenuFontColor
+                            font.pixelSize: theme.contextMenuFontPixelSize
+                        }
+
+
+                    }
+
+                    Image {
+                        source: "image://themedimage/widgets/common/menu/menu-item-separator-header"
+                        width: parent.width
+                    }
+
+                        Text {
+                        id: offlinetxtCurConn
+                        anchors.left: parent.left
+                        anchors.leftMargin: actionMenu.textMargin
+                        width: paintedWidth + actionMenu.textMargin*2
+                        height: paintedHeight + actionMenu.textMargin*2
+                        text: qsTr("To connect WiFi turn off Airplane Mode");
+                        verticalAlignment: Text.AlignVCenter
+                        color: theme.contextMenuFontColor
+                        font.pixelSize: 0
+                    }
+
+                    Image {
+                        source: "image://themedimage/widgets/common/menu/menu-item-separator-header"
+                        width: parent.width
+                    }
+
+                    Item {
+                        height: offlineSettings.height + actionMenu.textMargin
+                        width: parent.width
+                        Button {
+                            id : offlineSettings
+                            text: qsTr("Turn off Airplane Mode")
+                            anchors.centerIn: parent
+
+                            onClicked:{
+                                networkListModel.setOfflineMode(false);
+                                offlineCtxMenu.hide();
+                            }
+                        }
+                    }
+                }
+            }
+        }
 }
 
 
