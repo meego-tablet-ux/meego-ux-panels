@@ -22,7 +22,9 @@ FlipPanel {
         catalog: "meego-ux-panels-friends"
     }
 
-    property Component frontComponent: ((panelManager.servicesConfigured && !panelManager.isEmpty) ? fpcNormal : fpcOOBE)
+    property bool contentEmpty: panelManager.isEmpty
+    property bool initialized: panelManager.servicesConfigured
+    property Component frontComponent: (initialized && !empty ? fpcNormal : fpcEmpty )
 
     front: SimplePanel {
         id: frontPanel
@@ -112,36 +114,49 @@ FlipPanel {
     }
 
     Component {
-        id: fpcOOBE
+        id: fpcEmpty
         Item {
             height: fpContainer.height
             width: fpContainer.width
-
-            Text {
-                id: textOOBE
-                anchors.left: parent.left
-                anchors.right:  parent.right
-                anchors.top: parent.top
-                anchors.topMargin: panelSize.contentTopMargin
-                anchors.leftMargin: panelSize.contentSideMargin
-                anchors.rightMargin: panelSize.contentSideMargin
-                width: parent.width
-                text: qsTr("You have no web accounts enabled - tap here to configure your web accounts.")
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: panelColors.panelHeaderColor
-            }
-
-            Button {
-                id: btnOOBE
-                active: true
-                anchors.top:  textOOBE.bottom
-                anchors.topMargin: panelSize.contentTopMargin
-                text: qsTr("Tap here!")
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    spinnerContainer.startSpinner();
-                    appsModel.launch("/usr/bin/meego-qml-launcher --opengl --app meego-ux-settings --fullscreen --cmd showPage --cdata \"Web Accounts\"")
+            PanelExpandableContent {
+                id: oobe
+                showHeader: false
+                contents: PanelOobe {
+                    text: qsTr("Emails, instant messages and social network updates will appear here.")
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    extraContentModel: setupButtonsModel
+                    extraContentDelegate: setupButtonsDelegate
                 }
+                Component.onCompleted: {
+                    if (panelObj.getCustomProp("FriendsHadContent")) {
+                        visible = false
+                    }
+                }
+            }
+        }
+    }
+    ListModel {
+        id: setupButtonsModel
+        ListElement {
+            title: QT_TR_NOOP("Set up your email")
+            page: "Email"
+        }
+        ListElement {
+            title: QT_TR_NOOP("Set up your instant messaging")
+            page: "IM"
+        }
+        ListElement {
+            title: QT_TR_NOOP("Sign in to a social network")
+            page: "\"Web Accounts\""
+        }
+    }
+    Component {
+        id: setupButtonsDelegate
+        PanelButton {
+            text: qsTr(title)
+            onClicked: {
+                spinnerContainer.startSpinner()
+                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata "+page)
             }
         }
     }
@@ -277,8 +292,27 @@ FlipPanel {
         Item {
             width: parent.width
             height: lvServices.height
+            Connections {
+                target: fpContainer
+                onFrontComponentChanged: {
+                    lvServices.setSettingsModel()
+                }
+            }
+            Component.onCompleted: {
+                lvServices.setSettingsModel()
+            }
             Column {
                 id: lvServices
+                function setSettingsModel() {
+                    serviceSettings.model = undefined;
+                    if (frontComponent == fpcNormal) {
+                        serviceSettings.delegate = servicesDelegate;
+                        serviceSettings.model = panelManager.serviceModel;
+                    } else {
+                        serviceSettings.delegate = setupButtonsDelegate;
+                        serviceSettings.model = setupButtonsModel;
+                    }
+                }
                 width: parent.width
                 BackPanelMessageTextItem {
                     id: bpMessage
@@ -286,11 +320,11 @@ FlipPanel {
                 }
                 Repeater {
                     id: serviceSettings
-                    model: panelManager.serviceModel
-                    delegate: servicesDelegate
                 }
-                BackPanelClearButton {
-                    onClearHistClicked: {
+                PanelButton {
+                    visible: !contentEmpty
+                    text: qsTr("Clear history")
+                    onClicked: {
                         //console.log("Service settings count: " + upids.length);
                         var x;
                         for( x in upids) {

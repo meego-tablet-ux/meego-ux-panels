@@ -28,6 +28,7 @@ FlipPanel {
     Item {
         id: privateData
         property string musicDesktop: "/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop"
+        property bool contentEmpty: true
     }
 
 
@@ -102,6 +103,7 @@ FlipPanel {
                 count = count + musicRecentsModel.count;
             if (backSettingsModel.get(1).isVisible)
                 count = count + playlistsModel.count;
+            privateData.contentEmpty = (count == 0);
             if (count)
                 return itemModelOne;
             else
@@ -115,9 +117,15 @@ FlipPanel {
         subheaderText: qsTr("Music panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
+        clearButtonText: privateData.contentEmpty ? qsTr("Play some music") : ""
 
         onClearHistClicked:{
-            musicRecentsModel.clear()
+            if (privateData.contentEmpty) {
+                spinnerContainer.startSpinner()
+                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+            } else {
+                musicRecentsModel.clear()
+            }
         }
 
     }
@@ -153,36 +161,29 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOOBE
             Item {
-                height: childrenRect.height
-                width: container.width
-                //anchors.left:  container.left
-                //anchors.left: parent.left
-
-
-                Text {
-                    id: textOOBE
-                    anchors.left: parent.left
-                    anchors.right:  parent.right
-                    anchors.top: parent.top
-                    anchors.topMargin: panelSize.contentTopMargin
-                    anchors.leftMargin: panelSize.contentSideMargin
-                    anchors.rightMargin: panelSize.contentSideMargin
-                    width: parent.width
-                    text: qsTr("Enjoy your music.")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    color: panelColors.panelHeaderColor
-                }
-
-                Button {
-                    id: btnOOBE
-                    active: true
-                    anchors.top:  textOOBE.bottom
-                    anchors.topMargin: panelSize.contentTopMargin
-                    text: qsTr("Open Music!")
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    onClicked: {
-                        spinnerContainer.startSpinner();
-                        qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                height: parent.height
+                width: parent.width
+                PanelExpandableContent {
+                    id: oobe
+                    showHeader: false
+                    contents: PanelOobe {
+                        text: qsTr("The latest music you play and your playlists will appear here.")
+                        imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                        extraContentModel: VisualItemModel {
+                            PanelButton {
+                                width: oobe.width
+                                text: qsTr("Play some music")
+                                onClicked: {
+                                    spinnerContainer.startSpinner()
+                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                                }
+                            }
+                        }
+                    }
+                    Component.onCompleted: {
+                        if (panelObj.getCustomProp("MusicHadContent")) {
+                            visible = false
+                        }
                     }
                 }
             }

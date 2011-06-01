@@ -14,6 +14,7 @@ BackPanelGeneric {
     property ListModel settingsListModel
     property Component settingsListDelegate: standardSettingsDelegate
     property bool clearButtonVisible :true
+    property string clearButtonText: ""
 
     signal clearHistClicked()
 
@@ -30,10 +31,11 @@ BackPanelGeneric {
                 model: settingsListModel
                 delegate: settingsListDelegate
             }
-            BackPanelClearButton {
+            PanelButton {
+                text: clearButtonText == "" ? qsTr("Clear history") : clearButtonText
                 separatorVisible: settingsRepeater.count > 0
                 visible: clearButtonVisible
-                onClearHistClicked: {
+                onClicked: {
                     container.clearHistClicked();
                 }
             }

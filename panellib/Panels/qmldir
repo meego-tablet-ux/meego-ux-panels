@@ -1,13 +1,14 @@
 plugin Panels
-BackPanelClearButton 0.1 BackPanelClearButton.qml
 BackPanelTextToggleItem 0.1 BackPanelTextToggleItem.qml
 BackPanelMessageTextItem 0.1 BackPanelMessageTextItem.qml
 BackPanelGeneric 0.1 BackPanelGeneric.qml
 BackPanelStandard 0.1 BackPanelStandard.qml
 FlipPanel 0.1 FlipPanel.qml
 Panel 0.1 Panel.qml
+PanelButton 0.1 PanelButton.qml
 PanelExpandableContent 0.1 PanelExpandableContent.qml
 PanelColumnView 0.1 PanelColumnView.qml
+PanelOobe 0.1 PanelOobe.qml
 PrimaryTile 0.1 PrimaryTile.qml
 PrimaryTileGrid 0.1 PrimaryTileGrid.qml
 SecondaryTile 0.1 SecondaryTile.qml

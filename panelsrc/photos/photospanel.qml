@@ -17,6 +17,8 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
+    property bool contentEmpty: true
+
     Labs.BackgroundModel {
         id: backgroundModel
     }
@@ -88,6 +90,8 @@ FlipPanel {
                 count = count + allPhotosListModel.count;
             if (backSettingsModel.get(1).isVisible)
                 count = count + allAlbumsListModel.count;
+
+            contentEmpty = (count == 0);
             if (count)
                 return photoFront;
             else
@@ -102,9 +106,16 @@ FlipPanel {
         subheaderText: qsTr("Photos panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
+        clearButtonText: contentEmpty ? qsTr("View some photos") : ""
 
-        onClearHistClicked:{
-           allPhotosListModel.clear()
+        onClearHistClicked: {
+            if (contentEmpty) {
+                notifyModel()
+                spinnerContainer.startSpinner()
+                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+            } else {
+'                allPhotosListModel.clear()
+            }
         }
 
     }
@@ -114,34 +125,27 @@ FlipPanel {
         Item {
             height: container.height
             width: container.width
-            //anchors.left:  container.left
-            //anchors.left: parent.left
-
-
-            Text {
-                id: textOOBE
-                anchors.left: parent.left
-                anchors.right:  parent.right
-                anchors.top: parent.top
-                anchors.topMargin: panelSize.contentTopMargin
-                anchors.leftMargin: panelSize.contentSideMargin
-                anchors.rightMargin: panelSize.contentSideMargin
-                width: parent.width
-                text: qsTr("See your photos.")
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: panelColors.panelHeaderColor
-            }
-
-            Button {
-                id: btnOOBE
-                active: true
-                anchors.top:  textOOBE.bottom
-                anchors.topMargin: panelSize.contentTopMargin
-                text: qsTr("Open Photos!")
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    spinnerContainer.startSpinner();
-                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+            PanelExpandableContent {
+                id: oobe
+                showHeader: false
+                contents: PanelOobe {
+                    text: qsTr("The latest photos you view and your photo albums will appear here.")
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    extraContentModel : VisualItemModel {
+                        PanelButton {
+                            text: qsTr("View some photos")
+                            onClicked: {
+                                notifyModel()
+                                spinnerContainer.startSpinner()
+                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+                            }
+                        }
+                    }
+                }
+                Component.onCompleted: {
+                    if (panelObj.getCustomProp("PhotosHadContent")) {
+                        visible = false
+                    }
                 }
             }
         }

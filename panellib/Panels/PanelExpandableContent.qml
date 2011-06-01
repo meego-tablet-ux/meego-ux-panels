@@ -65,7 +65,6 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             //clip: true
-
         }
         Item {
             id: bottomMargin

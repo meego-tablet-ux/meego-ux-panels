@@ -231,24 +231,37 @@ FlipPanel {
     Component {
         id: topAppComp
         Item {
-            width:parent.width
+            //width:parent.width
             height: fpListTopApps.height +
                     fplvTopApps.height
 
-            SecondaryTileGrid {
+            Item {
                 id:fpListTopApps
                 width: parent.width
-                anchors.top: parent.top
-                model: appsModelFavorite
-                delegate: SecondaryTileGridItem {
-                    imageBackground: "empty"
-                    imageSource: icon
-                    fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
-                    onClicked:{
-                        spinnerContainer.startSpinner();
-                        appsModel.favorites.append(filename)
-                        qApp.launchDesktopByName(filename)
+                height: topAppsGrid.visible ? topAppsGrid.height : topAppsOobe.height
+                SecondaryTileGrid {
+                    id: topAppsGrid
+                    width: parent.width
+                    anchors.top: parent.top
+                    visible: modelCount > 0
+                    model: appsModelFavorite
+                    delegate: SecondaryTileGridItem {
+                        imageBackground: "empty"
+                        imageSource: icon
+                        fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
+                        onClicked:{
+                            spinnerContainer.startSpinner();
+                            appsModel.favorites.append(filename)
+                            qApp.launchDesktopByName(filename)
+                        }
                     }
+                }
+                PanelOobe {
+                    id: topAppsOobe
+                    width: parent.width
+                    visible: !topAppsGrid.visible
+                    text: qsTr("The applications you use most will appear here. Discover the apps already in your tablet, or visit Intel AppUp to download more.")
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                 }
             }
 

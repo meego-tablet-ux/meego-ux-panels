@@ -15,6 +15,7 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
+    property bool contentEmpty: (recentlyViewed.count == 0)
 
     Translator {
         catalog: "meego-ux-panels-video"
@@ -65,9 +66,16 @@ FlipPanel {
         subheaderText: qsTr("Video panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
+        clearButtonText: contentEmpty ? qsTr("Watch a video") : ""
 
         onClearHistClicked:{
-            recentlyViewed.clear()
+            if (contentEmpty) {
+                notifyModel();
+                spinnerContainer.startSpinner();
+                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+            } else {
+                recentlyViewed.clear()
+            }
         }
 
     }
@@ -77,34 +85,27 @@ FlipPanel {
         Item {
             height: container.height
             width: container.width
-            //anchors.left:  container.left
-            //anchors.left: parent.left
-
-
-            Text {
-                id: textOOBE
-                anchors.left: parent.left
-                anchors.right:  parent.right
-                anchors.top: parent.top
-                anchors.topMargin: panelSize.contentTopMargin
-                anchors.leftMargin: panelSize.contentSideMargin
-                anchors.rightMargin: panelSize.contentSideMargin
-                width: parent.width
-                text: qsTr("Watch your videos.")
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: panelColors.panelHeaderColor
-            }
-
-            Button {
-                id: btnOOBE
-                active: true
-                anchors.top:  textOOBE.bottom
-                anchors.topMargin: panelSize.contentTopMargin
-                text: qsTr("Open Videos!")
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    spinnerContainer.startSpinner();
-                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+            PanelExpandableContent {
+                id: oobe
+                showHeader: false
+                contents: PanelOobe {
+                    text: qsTr("The latest videos you watch will appear here.")
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    extraContentModel : VisualItemModel {
+                        PanelButton {
+                            text: qsTr("Watch a video")
+                            onClicked: {
+                                notifyModel();
+                                spinnerContainer.startSpinner();
+                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+                            }
+                        }
+                    }
+                }
+                Component.onCompleted: {
+                    if (panelObj.getCustomProp("VideoHadContent")) {
+                        visible = false
+                    }
                 }
             }
         }

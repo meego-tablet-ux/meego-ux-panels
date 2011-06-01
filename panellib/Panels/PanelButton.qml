@@ -12,14 +12,18 @@ import MeeGo.Components 0.1
 TileItem {
     id: container
     separatorVisible: true
-    width: parent.width
-    signal clearHistClicked()
+    width: parent ? parent.width : 0
+
+    property string text: ""
+
+    signal clicked()
+
     contents: Item {
-        height: bpClearButton.height + 2*panelSize.contentTopMargin
+        height: button.height + 2*panelSize.contentTopMargin
         Button {
-            id: bpClearButton
+            id: button
             active: true
-            text: qsTr("Clear history")
+            text: container.text
             font.family: panelSize.fontFamily
             font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
             maxWidth: parent.width
@@ -28,7 +32,7 @@ TileItem {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
-                container.clearHistClicked()
+                container.clicked()
             }
         }
     }

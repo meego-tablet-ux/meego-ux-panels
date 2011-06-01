@@ -14,6 +14,8 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
+    property bool contentEmpty: true
+
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
     function notifyModel()
@@ -111,6 +113,7 @@ FlipPanel {
                 count = count + fpecRecentSites.count;
             if (backSettingsModel.get(1).isVisible)
                 count = count + fpecBookmarks.count;
+            contentEmpty = (count == 0)
             if (count)
                 return itemModelOne;
             else
@@ -124,9 +127,16 @@ FlipPanel {
         subheaderText: qsTr("Web panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
+        clearButtonText: (fpecRecentSites.count == 0) ? qsTr("Visit a website") : ""
 
         onClearHistClicked:{
-           recentpagemodel.clearAllItems()
+            if (fpecRecentSites.count == 0) {
+                notifyModel();
+                spinnerContainer.startSpinner();
+                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+            } else {
+               recentpagemodel.clearAllItems()
+            }
         }
 
     }
@@ -136,35 +146,28 @@ FlipPanel {
             id: itemModelOOBE
             Item {
                 height: childrenRect.height
-                width: container.width
-                //anchors.left:  container.left
-                //anchors.left: parent.left
-
-
-                Text {
-                    id: textOOBE
-                    anchors.left: parent.left
-                    anchors.right:  parent.right
-                    anchors.top: parent.top
-                    anchors.topMargin: panelSize.contentTopMargin
-                    anchors.leftMargin: panelSize.contentSideMargin
-                    anchors.rightMargin: panelSize.contentSideMargin
-                    width: parent.width
-                    text: qsTr("What's going on today? Open the browser to start using the web.")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    color: panelColors.panelHeaderColor
-                }
-
-                Button {
-                    id: btnOOBE
-                    active: true
-                    anchors.top:  textOOBE.bottom
-                    anchors.topMargin: panelSize.contentTopMargin
-                    text: qsTr("Open Browser!")
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    onClicked: {
-                        spinnerContainer.startSpinner();
-                        qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+                width: parent ? parent.width : 0
+                PanelExpandableContent {
+                    id: oobe
+                    showHeader: false
+                    contents: PanelOobe {
+                        text: qsTr("The latest websites you visit and your bookmarks will appear here.")
+                        imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                        extraContentModel : VisualItemModel {
+                            PanelButton {
+                                text: qsTr("Visit a website")
+                                onClicked: {
+                                    notifyModel();
+                                    spinnerContainer.startSpinner();
+                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+                                }
+                            }
+                        }
+                    }
+                    Component.onCompleted: {
+                        if (panelObj.getCustomProp("WebHadContent")) {
+                            visible = false
+                        }
                     }
                 }
             }
