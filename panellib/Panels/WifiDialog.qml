@@ -241,7 +241,7 @@ Item {
                         width: parent.width
                     }
 
-                        Text {
+                    Text {
                         id: offlinetxtCurConn
                         anchors.left: parent.left
                         anchors.leftMargin: actionMenu.textMargin
@@ -250,7 +250,7 @@ Item {
                         text: qsTr("To connect WiFi turn off Airplane Mode");
                         verticalAlignment: Text.AlignVCenter
                         color: theme.contextMenuFontColor
-                        font.pixelSize: 0
+                        font.pixelSize: theme.contextMenuFontPixelSize
                     }
 
                     Image {
@@ -263,6 +263,7 @@ Item {
                         width: parent.width
                         Button {
                             id : offlineSettings
+                            active: true
                             text: qsTr("Turn off Airplane Mode")
                             anchors.centerIn: parent
 
