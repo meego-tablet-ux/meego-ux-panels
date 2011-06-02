@@ -37,8 +37,18 @@ Flipable {
     signal flipToFront()
     signal flipToBack()
     signal flipped()
+    signal flipComplete()
     signal programClicked(string programId, int coordinate_x, int coordinate_y)
 
+    function flip() {
+        if (state == 'back') {
+            state = ''
+            flipablePanel.flipToFront();
+        } else {
+            state = 'back'
+        }
+        flipablePanel.flipped();
+    }
 
     // bind your panels to
     //  front:
@@ -46,13 +56,13 @@ Flipable {
     //  back:
     Connections {
         target: front
-        onTitleClicked: {state = 'back'; flipablePanel.flipped();}
-        onRightIconClicked: {state = 'back'; flipablePanel.flipped();}
+        onTitleClicked: {flipablePanel.flip();}
+        onRightIconClicked: {flipablePanel.flip();}
     }
     Connections {
         target: back
-        onTitleClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
-        onRightIconClicked: { state = ''; flipablePanel.flipToFront(); flipablePanel.flipped();}
+        onTitleClicked: {flipablePanel.flip();}
+        onRightIconClicked: {flipablePanel.flip();}
     }
 
     anchors { bottom: parent.bottom; top: parent.top }
@@ -81,8 +91,13 @@ Flipable {
         }
     ]
     transitions: Transition {
-        ColorAnimation { duration: 300 }
-        NumberAnimation { properties: "angle"; duration: 300; }
+        SequentialAnimation {
+            ParallelAnimation {
+                ColorAnimation { duration: 300 }
+                NumberAnimation { properties: "angle"; duration: 300; }
+            }
+            ScriptAction {script: flipablePanel.flipComplete();}
+        }
     }
 
 

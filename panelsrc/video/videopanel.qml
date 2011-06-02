@@ -88,11 +88,13 @@ FlipPanel {
             PanelExpandableContent {
                 id: oobe
                 showHeader: false
+                showBackground: false
                 contents: PanelOobe {
                     text: qsTr("The latest videos you watch will appear here.")
                     imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                     extraContentModel : VisualItemModel {
                         PanelButton {
+                            separatorVisible: false
                             text: qsTr("Watch a video")
                             onClicked: {
                                 notifyModel();

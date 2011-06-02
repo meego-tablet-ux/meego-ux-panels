@@ -114,7 +114,7 @@ FlipPanel {
                 spinnerContainer.startSpinner()
                 qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
             } else {
-'                allPhotosListModel.clear()
+                allPhotosListModel.clear()
             }
         }
 
@@ -128,11 +128,13 @@ FlipPanel {
             PanelExpandableContent {
                 id: oobe
                 showHeader: false
+                showBackground: false
                 contents: PanelOobe {
                     text: qsTr("The latest photos you view and your photo albums will appear here.")
                     imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                     extraContentModel : VisualItemModel {
                         PanelButton {
+                            separatorVisible: false
                             text: qsTr("View some photos")
                             onClicked: {
                                 notifyModel()

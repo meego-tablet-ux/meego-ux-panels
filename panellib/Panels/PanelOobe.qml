@@ -7,10 +7,11 @@
  */
 
 import Qt 4.7
+import MeeGo.Components 0.1
 
-Item {
-    id: topAppsOobe
-    height: col.height
+PanelContent {
+    id: content
+    contentHeight: col.height
     property alias text: oobeText.text
     property alias imageSource: oobeImage.source
     property alias extraContentModel: extra.model
@@ -19,6 +20,7 @@ Item {
     Column {
         id: col
         width: parent.width
+        anchors.bottom: parent.bottom
         Image {
             id: oobeImage
             anchors.horizontalCenter: parent.horizontalCenter

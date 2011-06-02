@@ -14,7 +14,8 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
-    property bool contentEmpty: true
+    property bool clearHistoryOnFlip: false
+    property bool clearingHistory: false
 
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
@@ -107,19 +108,7 @@ FlipPanel {
     front: Panel {
         id: webPanel
         panelTitle: qsTr("Web")
-        panelContent: {
-            var count = 0;
-            if (backSettingsModel.get(0).isVisible)
-                count = count + fpecRecentSites.count;
-            if (backSettingsModel.get(1).isVisible)
-                count = count + fpecBookmarks.count;
-            contentEmpty = (count == 0)
-            if (count)
-                return itemModelOne;
-            else
-                return itemModelOOBE;
-//            (fpecRecentSites.count + fpecBookmarks.count == 0 ? itemModelOOBE : itemModelOne)
-        }
+        panelContent: contentModel
     }
 
     back: BackPanelStandard {
@@ -135,26 +124,85 @@ FlipPanel {
                 spinnerContainer.startSpinner();
                 qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
             } else {
-               recentpagemodel.clearAllItems()
+                clearHistoryOnFlip = true;
             }
+            container.flip();
         }
 
+    }
+    onFlipComplete: {
+        if (clearHistoryOnFlip) {
+            clearHistoryOnFlip = false;
+            clearingHistoryTimer.running = true
+        }
+    }
+    Timer {
+        id: clearingHistoryTimer
+        interval: 300
+        onTriggered: {
+            clearingHistory = true
+        }
     }
 
     resources: [
         VisualItemModel {
-            id: itemModelOOBE
-            Item {
-                height: childrenRect.height
-                width: parent ? parent.width : 0
-                PanelExpandableContent {
-                    id: oobe
-                    showHeader: false
-                    contents: PanelOobe {
-                        text: qsTr("The latest websites you visit and your bookmarks will appear here.")
-                        imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+            id: contentModel
+
+            PanelExpandableContent {
+                id: oobe
+                showHeader: false
+                showBackground: false
+                isVisible: true
+                contents: PanelOobe {
+                    text: qsTr("The latest websites you visit and your bookmarks will appear here.")
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    extraContentModel : VisualItemModel {
+                        PanelButton {
+                            separatorVisible: false
+                            text: qsTr("Visit a website")
+                            onClicked: {
+                                notifyModel();
+                                spinnerContainer.startSpinner();
+                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+                            }
+                        }
+                    }
+                }
+                Component.onCompleted: {
+                    if (panelObj.getCustomProp("WebHadContent")) {
+                        isVisible = false
+                    }
+                    if (fpecRecentSites.count > 0 || fpecBookmarks.count > 0) {
+                        isVisible = false
+                    }
+                }
+            }
+            PanelExpandableContent {
+                id: fpecRecentSites
+                text: qsTr("Recently visited")
+                isVisible: backSettingsModel.get(0).isVisible && !oobe.isVisible
+
+                property int count: 0
+                contents: Item {
+                    id: recentContent
+                    height: empty.height + grid.height
+                    PanelOobe {
+                        id: empty
+                        width: parent.width
+                        isVisible: !grid.visible
+                        onIsVisibleChanged: {
+                            // if we are at final height and are hidden
+                            if(!isVisible && height == contentHeight) {
+                                var transitionBeginHeight = empty.height
+                                empty.height = 0
+                                empty.visible = false
+                                grid.height = transitionBeginHeight
+                            }
+                        }
+                        text: qsTr("No recently visited websites.")
                         extraContentModel : VisualItemModel {
                             PanelButton {
+                                separatorVisible: false
                                 text: qsTr("Visit a website")
                                 onClicked: {
                                     notifyModel();
@@ -164,68 +212,65 @@ FlipPanel {
                             }
                         }
                     }
-                    Component.onCompleted: {
-                        if (panelObj.getCustomProp("WebHadContent")) {
-                            visible = false
-                        }
-                    }
-                }
-            }
-        },
-
-        VisualItemModel {
-            id: itemModelOne
-
-            PanelExpandableContent {
-                id: fpecRecentSites
-                text: qsTr("Recently visited")
-                visible: backSettingsModel.get(0).isVisible && (count > 0)
-                property int count: 0
-                contents: PrimaryTileGrid {
-                    ContextMenu {
-                        id: ctxMenuRecent
-                        property variant currentUrl
-                        property variant currentId
-                        content: ActionMenu {
-                            model:[ qsTr("View"), qsTr("Hide")]
-
-                            onTriggered: {
-                                if (model[index] == qsTr("View")) {
-                                    spinnerContainer.startSpinner();
-                                    recentpagemodel.viewItem(ctxMenuRecent.currentUrl);
-                                    container.notifyModel();
-                                } else if (model[index] == qsTr("Hide")){
-                                    recentpagemodel.destroyItem(ctxMenuRecent.currentId)
-                                } else {
-                                    console.log("Unhandled context action in Web: " + model[index]);
-                                }
-                                ctxMenuRecent.hide();
+                    PrimaryTileGrid {
+                        id: grid
+                        isVisible: fpecRecentSites.count > 0 && !clearingHistory && fpecRecentSites.notificationVisible
+                        onHidden: {
+                            if (clearingHistory) {
+                                fpecRecentSites.showNotification(qsTr("You have cleared the Web history"))
+                                var transitionBeginHeight = grid.height
+                                grid.height = 0
+                                empty.height = transitionBeginHeight
+                                grid.visible = false
+                                recentpagemodel.clearAllItems()
+                                clearingHistory = false
                             }
                         }
+                        ContextMenu {
+                            id: ctxMenuRecent
+                            property variant currentUrl
+                            property variant currentId
+                            content: ActionMenu {
+                                model:[ qsTr("View"), qsTr("Hide")]
 
-                    }
-                    model: recentpagemodel
-                    onModelCountChanged: fpecRecentSites.count = modelCount
-                    Component.onCompleted: fpecRecentSites.count = modelCount
-                    delegate: PrimaryTile {
-                        id:webPreviewItem
-                        text: title
-                        imageSource: thumbnailUri
-                        //iconSource:faviconUri
-                        onClicked: {
-                            spinnerContainer.startSpinner();
-                            recentpagemodel.viewItem(url);
-                            container.notifyModel();
+                                onTriggered: {
+                                    if (model[index] == qsTr("View")) {
+                                        spinnerContainer.startSpinner();
+                                        recentpagemodel.viewItem(ctxMenuRecent.currentUrl);
+                                        container.notifyModel();
+                                    } else if (model[index] == qsTr("Hide")){
+                                        recentpagemodel.destroyItem(ctxMenuRecent.currentId)
+                                    } else {
+                                        console.log("Unhandled context action in Web: " + model[index]);
+                                    }
+                                    ctxMenuRecent.hide();
+                                }
+                            }
+
                         }
+                        model: recentpagemodel
+                        onModelCountChanged: fpecRecentSites.count = modelCount
+                        Component.onCompleted: fpecRecentSites.count = modelCount
+                        delegate: PrimaryTile {
+                            id:webPreviewItem
+                            text: title
+                            imageSource: thumbnailUri
+                            //iconSource:faviconUri
+                            onClicked: {
+                                spinnerContainer.startSpinner();
+                                recentpagemodel.viewItem(url);
+                                container.notifyModel();
+                            }
 
-                        onPressAndHold:{
-                            var pos = webPreviewItem.mapToItem(topItem.topItem, mouse.x, mouse.y);
-                            ctxMenuRecent.currentUrl = url
-                            ctxMenuRecent.currentId = id
-                            ctxMenuRecent.setPosition(pos.x, pos.y);
-                            ctxMenuRecent.show();
+                            onPressAndHold:{
+                                var pos = webPreviewItem.mapToItem(topItem.topItem, mouse.x, mouse.y);
+                                ctxMenuRecent.currentUrl = url
+                                ctxMenuRecent.currentId = id
+                                ctxMenuRecent.setPosition(pos.x, pos.y);
+                                ctxMenuRecent.show();
+                            }
+
                         }
-
                     }
                 }
             }

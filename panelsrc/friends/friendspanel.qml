@@ -121,6 +121,7 @@ FlipPanel {
             PanelExpandableContent {
                 id: oobe
                 showHeader: false
+                showBackground: false
                 contents: PanelOobe {
                     text: qsTr("Emails, instant messages and social network updates will appear here.")
                     imageSource: "image://themedimage/icons/launchers/meego-app-browser"
@@ -153,6 +154,7 @@ FlipPanel {
     Component {
         id: setupButtonsDelegate
         PanelButton {
+            separatorVisible: false
             text: qsTr(title)
             onClicked: {
                 spinnerContainer.startSpinner()

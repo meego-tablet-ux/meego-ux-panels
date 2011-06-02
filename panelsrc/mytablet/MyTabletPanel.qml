@@ -19,6 +19,7 @@ FlipPanel {
     property int optionClicked
     property int insertionIndex: 2
     property bool appStoreReady: false
+    property int topAppsCount: 0
 
     Translator {
         catalog: "meego-ux-panels-mytablet"
@@ -130,74 +131,66 @@ FlipPanel {
         }
     }
 
-
-    front: SimplePanel {
+    front: Panel {
 
         panelTitle: qsTr("My Tablet")
-        panelComponent: Flickable {
-            anchors.fill: parent
-            interactive: (height < contentHeight)
-            onInteractiveChanged: {
-                if (!interactive)
-                    contentY = 0;
+        panelContent: myContents
+    }
+
+    resources: [
+        VisualItemModel {
+            id: myContents
+/*            PanelExpandableContent{
+                id: connDevSection
+                anchors.top: parent.top
+                text: qsTr("Connected devices")
+                contents: connDevComp
+                visible: (pluggableDeviceModel.count > 0)
+            }
+*/
+            PanelExpandableContent {
+                id: oobe
+                showHeader: false
+                showBackground: false
+                height: 200
+                isVisible: (topAppsCount == 0)
+                contents: PanelOobe {
+                    id: topAppsOobe
+                    width: parent.width
+                    text: qsTr("The applications you use most will appear here. Discover the apps already in your tablet, or visit Intel AppUp to download more.")
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                }
+            }
+            PanelExpandableContent{
+                id: topAppSection
+                text: qsTr("Top applications")
+                showHeader: !oobe.isVisible
+                contents: topAppComp
+                visible: backSettingsModel.get(0).isVisible
             }
 
-            contentHeight: myContent.height
+            PanelExpandableContent {
+                id: appupFeaturedSection
+                text: qsTr("Featured applications")
+                contents: featuredAppsComp
+                visible: (container.appStoreReady && backSettingsModel.get(1).isVisible && appsModelFeatured.count)
+            }
 
-            Item {
-                id: myContent
-                height: /*connDevSection.height +*/ topAppSection.height + appupFeaturedSection.height + appupUpdatedSection.height + settingsSection.height
-                width: parent.width
+            PanelExpandableContent {
+                id: appupUpdatedSection
+                text: qsTr("Updated applications")
+                contents: updatedAppsComp
+                visible: (container.appStoreReady && backSettingsModel.get(2).isVisible && appsModelUpdated.count)
+            }
 
-/*                PanelExpandableContent{
-                    id: connDevSection
-                    anchors.top: parent.top
-                    text: qsTr("Connected devices")
-                    contents: connDevComp
-                    visible: (pluggableDeviceModel.count > 0)
-                }
-*/
-
-                // Loader {
-                //     id: topAppSection
-                //     anchors.top: parent.top //connDevSection.bottom
-                //     sourceComponent: topAppComp
-                //     visible: backSettingsModel.get(0).isVisible
-                // }
-                PanelExpandableContent{
-                    id: topAppSection
-                    anchors.top: parent.top //connDevSection.bottom
-                    text: qsTr("Top applications")
-                    contents: topAppComp
-                    visible: backSettingsModel.get(0).isVisible
-                }
-
-                PanelExpandableContent {
-                    id: appupFeaturedSection
-                    anchors.top: topAppSection.bottom
-                    text: qsTr("Featured applications")
-                    contents: featuredAppsComp
-                    visible: (container.appStoreReady && backSettingsModel.get(1).isVisible && appsModelFeatured.count)
-                }
-
-                PanelExpandableContent {
-                    id: appupUpdatedSection
-                    anchors.top: appupFeaturedSection.bottom
-                    text: qsTr("Updated applications")
-                    contents: updatedAppsComp
-                    visible: (container.appStoreReady && backSettingsModel.get(2).isVisible && appsModelUpdated.count)
-                }
-
-                PanelExpandableContent{
-                    id: settingsSection
-                    anchors.top: appupUpdatedSection.bottom
-                    text: qsTr("Settings")
-                    contents: settingsComp
-                }
+            PanelExpandableContent{
+                id: settingsSection
+                text: qsTr("Settings")
+                contents: settingsComp
             }
         }
+    ]
 
-    }
 
 
     back: BackPanelStandard {
@@ -232,48 +225,40 @@ FlipPanel {
         id: topAppComp
         Item {
             //width:parent.width
-            height: fpListTopApps.height +
+            height: topAppsGrid.height +
                     fplvTopApps.height
 
-            Item {
-                id:fpListTopApps
+            SecondaryTileGrid {
+                id: topAppsGrid
                 width: parent.width
-                height: topAppsGrid.visible ? topAppsGrid.height : topAppsOobe.height
-                SecondaryTileGrid {
-                    id: topAppsGrid
-                    width: parent.width
-                    anchors.top: parent.top
-                    visible: modelCount > 0
-                    model: appsModelFavorite
-                    delegate: SecondaryTileGridItem {
-                        imageBackground: "empty"
-                        imageSource: icon
-                        fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
-                        onClicked:{
-                            spinnerContainer.startSpinner();
-                            appsModel.favorites.append(filename)
-                            qApp.launchDesktopByName(filename)
-                        }
+                anchors.top: parent.top
+                visible: modelCount > 0
+                onModelCountChanged: {
+                    topAppsCount = modelCount;
+                }
+                Component.onCompleted: {
+                    topAppsCount = modelCount;
+                }
+                model: appsModelFavorite
+                delegate: SecondaryTileGridItem {
+                    imageBackground: "empty"
+                    imageSource: icon
+                    fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
+                    onClicked:{
+                        spinnerContainer.startSpinner();
+                        appsModel.favorites.append(filename)
+                        qApp.launchDesktopByName(filename)
                     }
                 }
-                PanelOobe {
-                    id: topAppsOobe
-                    width: parent.width
-                    visible: !topAppsGrid.visible
-                    text: qsTr("The applications you use most will appear here. Discover the apps already in your tablet, or visit Intel AppUp to download more.")
-                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
-                }
             }
-
-
             Column {
                 id:fplvTopApps
-                anchors.top:fpListTopApps.bottom
+                anchors.top:topAppsGrid.bottom
                 width:parent.width
                 Repeater {
                     model:favoriteApplicationsItems
                     delegate: TileListItem {
-                        separatorVisible: true
+                        separatorVisible: topAppsGrid.visible
                         hasImage: false
                         text: qsTr(title)
                         onClicked: {

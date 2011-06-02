@@ -7,18 +7,31 @@
  */
 
 import Qt 4.7
+import MeeGo.Components 0.1
 
 Item {
     id: fpec
 
     width: parent ? parent.width : 0
-    height: visible? (showHeader ? fpsubheader.height : 0 ) + fpContents.height + topMargin.height + bottomMargin.height : 0
+
+    property bool isVisible: true
+    property int animationDuration: panelAnimationsEnabled ?  300 : 0
+
+    signal hidden()
 
     property alias text: fpSubHeaderText.text
     property alias contents: fpContents.sourceComponent
     property alias showHeader: fpsubheader.visible
+    property alias showBackground: background.visible
+
+    property bool notificationVisible: notification.height == 0
+
+    function showNotification(text) {
+        notification.display(text)
+    }
 
     BorderImage {
+        id: background
         anchors.fill: parent
         // TODO: use .sci once there is support in image provider
         source: showHeader ? "image://themedimage/widgets/apps/panels/panel-content-background" :
@@ -56,8 +69,29 @@ Item {
             width: parent.width
             height: panelSize.contentAreaTopMargin
         }
+        InfoBar {
+            id: notification
+            width: parent.width
+            function display(msg) {
+                notification.text = msg
+                notificationTimer.running = true
+                notification.show()
+            }
+            Timer {
+                id: notificationTimer
+                interval: 5000
+                onTriggered: {
+                    notification.text = ""
+                    notification.hide()
+                }
+            }
+        }
+        Item {
+            id: fpContentsContainer
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: fpContents.height
         Loader{
-
             id:fpContents
             height: item ? item.height : 0
             z:fpsubheader.z-1
@@ -66,10 +100,63 @@ Item {
             anchors.right: parent.right
             //clip: true
         }
+        }
         Item {
             id: bottomMargin
             width: parent.width
             height: panelSize.contentAreaBottomMargin
         }
     }
+    states: [
+        State {
+            name: "visible"
+            when: fpec.isVisible
+            PropertyChanges {
+                target: fpec
+                opacity: 1
+                height: (showHeader ? fpsubheader.height : 0 ) + notification.height + fpContentsContainer.height + topMargin.height + bottomMargin.height
+            }
+        },
+        State {
+            name: "hidden"
+            when: !fpec.isVisible
+            PropertyChanges {
+                target: fpec
+                opacity: 0
+                height: 0
+            }
+        }
+    ]
+
+    transitions: [
+        Transition {
+            to: "hidden"
+            SequentialAnimation {
+                PropertyAnimation {
+                    properties: "opacity"
+                    duration: animationDuration
+                }
+                ScriptAction {script: {fpec.visible = false; fpec.hidden()}}
+                PropertyAnimation {
+                    properties: "height"
+                    duration: animationDuration
+                }
+            }
+        },
+        Transition {
+            to: "visible"
+            SequentialAnimation {
+                PropertyAnimation {
+                    properties: "height"
+                    duration: animationDuration
+                }
+                ScriptAction {script: fpec.visible = true}
+                PropertyAnimation {
+                    properties: "opacity"
+                    duration: animationDuration
+                }
+            }
+        }
+    ]
+
 }

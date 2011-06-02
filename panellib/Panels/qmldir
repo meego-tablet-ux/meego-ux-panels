@@ -5,6 +5,7 @@ BackPanelGeneric 0.1 BackPanelGeneric.qml
 BackPanelStandard 0.1 BackPanelStandard.qml
 FlipPanel 0.1 FlipPanel.qml
 Panel 0.1 Panel.qml
+PanelContent 0.1 PanelContent.qml
 PanelButton 0.1 PanelButton.qml
 PanelExpandableContent 0.1 PanelExpandableContent.qml
 PanelColumnView 0.1 PanelColumnView.qml

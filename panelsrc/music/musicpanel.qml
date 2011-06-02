@@ -161,16 +161,18 @@ FlipPanel {
         VisualItemModel {
             id: itemModelOOBE
             Item {
-                height: parent.height
-                width: parent.width
+                height: parent ? parent.height : 0
+                width: parent ? parent.width : 0
                 PanelExpandableContent {
                     id: oobe
                     showHeader: false
+                    showBackground: false
                     contents: PanelOobe {
                         text: qsTr("The latest music you play and your playlists will appear here.")
                         imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                         extraContentModel: VisualItemModel {
                             PanelButton {
+                                separatorVisible: false
                                 width: oobe.width
                                 text: qsTr("Play some music")
                                 onClicked: {

@@ -370,6 +370,7 @@ Window {
                         property QtObject aPanelObj: panelObj
                         property string aDisplayName: displayName
                         property int aIndex: index
+                        property bool panelAnimationsEnabled: false
 
                         function amIVisible() {
                             //console.log("amIVisiblePanel")
@@ -389,6 +390,7 @@ Window {
 
                         Component.onCompleted: {
                             console.log("displayName: " + displayName + ", index: " + index)
+                            panelAnimationsEnabled = true
                         }
 
                         Behavior on opacity {
