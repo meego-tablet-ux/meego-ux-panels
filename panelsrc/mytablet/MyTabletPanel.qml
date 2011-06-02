@@ -118,7 +118,7 @@ FlipPanel {
     Component.onCompleted: {
         console.log("My Tablet onCompleted, haveAppStore: " + qApp.haveAppStore);
         if (qApp.haveAppStore) {
-            favoriteApplicationsItems.append({ "title": qsTr("Visit the Intel AppUp(sm) center"),
+            favoriteApplicationsItems.append({ "title": QT_TR_NOOP("Visit the Intel AppUp(sm) center"),
                                              "actionType": "appStore" });
             backSettingsModel.append({ "settingsTitle": qsTr("Featured applications"),
                                      "custPropName": "FeaturedApps",
@@ -262,7 +262,7 @@ FlipPanel {
                     delegate: TileListItem {
                         separatorVisible: true
                         hasImage: false
-                        text: title
+                        text: qsTr(title)
                         onClicked: {
                             spinnerContainer.startSpinner();
                             if( actionType == "javaScript" )
