@@ -17,6 +17,7 @@ FlipPanel {
     property bool clearHistoryOnFlip: false
     property bool clearingHistory: false
     property bool oobeVisible: true
+    property int enabledServicesCount: 0
 
     signal checkVisible()
 
@@ -75,14 +76,30 @@ FlipPanel {
         }
     }
 
+    function servicesListChanged() {
+        var upids = panelManager.servicesList;
+        // console.log("Feed list count: " + upids.length);
+        // console.log("Feed list: " + upids);
+        var x;
+        var enabledCount = 0;
+        for( x in upids) {
+            if (panelManager.isServiceEnabled(upids[x])) {
+                enabledCount = enabledCount + 1;
+            }
+        }
+        fpContainer.enabledServicesCount = enabledCount;
+    }
+
     function clearHistory() {
         var upids = panelManager.servicesList
         // console.log("Feed list count: " + upids.length);
         // console.log("Feed list: " + upids);
         var x;
         for( x in upids) {
-            console.log("Clearing history from: " + upids[x]);
-            panelManager.clearHistory(upids[x]);
+            if (panelManager.isServiceEnabled(upids[x])) {
+                console.log("Clearing history from: " + upids[x]);
+                panelManager.clearHistory(upids[x]);
+            }
         }
         // console.log("clearHistory done!")
     }
@@ -108,6 +125,10 @@ FlipPanel {
         servicesEnabledByDefault: true
         onIsEmptyChanged: {
             contentEmpty = isEmpty
+        }
+        onServicesListChanged: {
+            console.log("onServicesListChanged: " + serviceList)
+            fpContainer.servicesListChanged()
         }
     }
 
@@ -173,12 +194,31 @@ FlipPanel {
             }
             PanelExpandableContent {
                 id: empty
-                isVisible: !lvContent.visible && !oobe.visible
+                isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount > 0
                 showHeader: false
                 showBackground: false
                 contents: PanelOobe {
                     text: qsTr("No recent updates from friends.")
                     textColor: panelColors.panelHeaderColor
+                }
+            }
+            PanelExpandableContent {
+                id: noServices
+                isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount == 0
+                showHeader: false
+                showBackground: false
+                contents: PanelOobe {
+                    text: qsTr("You have turned off all your accounts.")
+                    textColor: panelColors.panelHeaderColor
+                    extraContentModel : VisualItemModel {
+                        PanelButton {
+                            separatorVisible: false
+                            text: qsTr("Turn accounts on")
+                            onClicked: {
+                                fpContainer.flip();
+                            }
+                        }
+                    }
                 }
             }
             ListView {
