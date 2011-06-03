@@ -90,20 +90,6 @@ FlipPanel {
         fpContainer.enabledServicesCount = enabledCount;
     }
 
-    function clearHistory() {
-        var upids = panelManager.servicesList
-        // console.log("Feed list count: " + upids.length);
-        // console.log("Feed list: " + upids);
-        var x;
-        for( x in upids) {
-            if (panelManager.isServiceEnabled(upids[x])) {
-                console.log("Clearing history from: " + upids[x]);
-                panelManager.clearHistory(upids[x]);
-            }
-        }
-        // console.log("clearHistory done!")
-    }
-
     Connections {
         target: allPanels
         onMovementStarted: {
@@ -293,7 +279,7 @@ FlipPanel {
                         onHidden: {
                             if(clearingHistory) {
                                 empty.showNotification(qsTr("You have cleared the Friends history"))
-                                clearHistory()
+                                panelManager.clearAllHistory()
                                 clearingHistory = false
                             }
                         }
