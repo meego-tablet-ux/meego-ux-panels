@@ -16,6 +16,7 @@ PanelContent {
     property alias imageSource: oobeImage.source
     property alias extraContentModel: extra.model
     property alias extraContentDelegate: extra.delegate
+    property alias textColor: oobeText.color
 
     Column {
         id: col

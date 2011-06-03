@@ -15,7 +15,7 @@ Item {
     width: parent ? parent.width : 0
 
     property bool isVisible: true
-    property int animationDuration: panelAnimationsEnabled ?  300 : 0
+    property int animationDuration: panelAnimationsEnabled ?  contentAnimationDuration : 0
 
     signal hidden()
 

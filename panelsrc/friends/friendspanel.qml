@@ -14,7 +14,9 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: fpContainer
 
-    property variant upids: [];
+    property bool clearHistoryOnFlip: false
+    property bool clearingHistory: false
+    property bool oobeVisible: true
 
     signal checkVisible()
 
@@ -22,14 +24,13 @@ FlipPanel {
         catalog: "meego-ux-panels-friends"
     }
 
-    property bool contentEmpty: panelManager.isEmpty
+    property bool contentEmpty: true
     property bool initialized: panelManager.servicesConfigured
-    property Component frontComponent: (initialized && !contentEmpty ? fpcNormal : fpcEmpty )
 
     front: SimplePanel {
         id: frontPanel
         panelTitle: qsTr("Friends")
-        panelComponent: frontPanelContent
+        panelComponent: fpcContent
     }
 
     back: BackPanelGeneric {
@@ -48,6 +49,19 @@ FlipPanel {
     onFlipToBack: {
         readTimer.stop();
     }
+    onFlipComplete: {
+        if (clearHistoryOnFlip) {
+            clearHistoryOnFlip = false;
+            clearingHistoryTimer.running = true
+        }
+    }
+    Timer {
+        id: clearingHistoryTimer
+        interval: 300
+        onTriggered: {
+            clearingHistory = true
+        }
+    }
 
     Connections {
         target: window
@@ -61,27 +75,17 @@ FlipPanel {
         }
     }
 
-    resources: [
-
-        Timer {
-            id: refreshTimer
-            interval: 30000
-            onTriggered: {
-                panelManager.frozen = false;
-            }
-        },
-
-        Timer {
-            id: readTimer
-            interval: 5000
-            onTriggered: {
-                //console.log("fpContainer.state: ", fpContainer.state);
-                if (contentLoader.amIVisible() && fpContainer.state != "back" && window.isActiveWindow)
-                    fpContainer.checkVisible();
-            }
+    function clearHistory() {
+        var upids = panelManager.servicesList
+        // console.log("Feed list count: " + upids.length);
+        // console.log("Feed list: " + upids);
+        var x;
+        for( x in upids) {
+            console.log("Clearing history from: " + upids[x]);
+            panelManager.clearHistory(upids[x]);
         }
-
-    ]
+        // console.log("clearHistory done!")
+    }
 
     Connections {
         target: allPanels
@@ -102,77 +106,85 @@ FlipPanel {
         id: panelManager
         categories: ["social", "im", "email", "messages"]
         servicesEnabledByDefault: true
-    }
-
-
-    Component {
-        id: frontPanelContent
-        Loader {
-            id: frontPanelLoader
-            sourceComponent: frontComponent
+        onIsEmptyChanged: {
+            contentEmpty = isEmpty
         }
     }
 
-    Component {
-        id: fpcEmpty
+
+    resources: [
+        Timer {
+            id: refreshTimer
+            interval: 30000
+            onTriggered: {
+                panelManager.frozen = false;
+            }
+        },
+
+        Timer {
+            id: readTimer
+            interval: 5000
+            onTriggered: {
+                //console.log("fpContainer.state: ", fpContainer.state);
+                if (contentLoader.amIVisible() && fpContainer.state != "back" && window.isActiveWindow)
+                    fpContainer.checkVisible();
+            }
+        },
+        Component {
+            id: fpcContent
         Item {
-            height: fpContainer.height
-            width: fpContainer.width
+            width: parent.width
+            height: parent.height
             PanelExpandableContent {
                 id: oobe
                 showHeader: false
+                isVisible: contentEmpty && !hadContent
                 showBackground: false
+                property bool hadContent: false
                 contents: PanelOobe {
                     text: qsTr("Emails, instant messages and social network updates will appear here.")
+                    textColor: panelColors.panelHeaderColor
                     imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                     extraContentModel: setupButtonsModel
                     extraContentDelegate: setupButtonsDelegate
                 }
                 Component.onCompleted: {
-                    if (panelObj.getCustomProp("FriendsHadContent")) {
+                    hadContent = panelObj.getCustomProp("FriendsHadContent")
+                    if (hadContent) {
                         visible = false
+                        isVisible = false
+                    }
+                    oobeVisible = isVisible
+                }
+                onIsVisibleChanged: {
+                    oobeVisible = isVisible
+                }
+                Connections {
+                    target: fpContainer
+                    onContentEmptyChanged: {
+                        if (!contentEmpty && !oobe.hadContent) {
+                            oobe.isVisible = false;
+                            oobeVisible = false
+                            oobe.hadContent = true
+                            panelObj.setCustomProp("FriendsHadContent",1)
+                        }
                     }
                 }
             }
-        }
-    }
-    ListModel {
-        id: setupButtonsModel
-        ListElement {
-            title: QT_TR_NOOP("Set up your email")
-            page: "Email"
-        }
-        ListElement {
-            title: QT_TR_NOOP("Set up your instant messaging")
-            page: "IM"
-        }
-        ListElement {
-            title: QT_TR_NOOP("Sign in to a social network")
-            page: "\"Web Accounts\""
-        }
-    }
-    Component {
-        id: setupButtonsDelegate
-        PanelButton {
-            separatorVisible: false
-            text: qsTr(title)
-            onClicked: {
-                spinnerContainer.startSpinner()
-                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata "+page)
+            PanelExpandableContent {
+                id: empty
+                isVisible: !lvContent.visible && !oobe.visible
+                showHeader: false
+                showBackground: false
+                contents: PanelOobe {
+                    text: qsTr("No recent updates from friends.")
+                    textColor: panelColors.panelHeaderColor
+                }
             }
-        }
-    }
-
-    Component {
-        id: fpcNormal
-
-        Item {
-            id: fpcNormalContent
-            anchors.fill: parent
-
             ListView {
                 id: lvContent
                 model: panelManager.feedModel
+                visible: initialized && !contentEmpty
                 delegate: recentUpdatesDelegate
                 anchors.fill: parent
                 interactive: (contentHeight > height)
@@ -202,8 +214,6 @@ FlipPanel {
                     console.log(visibleArea.yPosition * height);
                 }
             }
-
-
             ContextMenu {
                 id: ctxMenu
                 property alias ctxModel: ctxActionMenu.model
@@ -228,16 +238,25 @@ FlipPanel {
             }
 
             resources: [
-	        FuzzyDateTime {
-		    id: fuzzyDateTime
-		},
+                FuzzyDateTime {
+                    id: fuzzyDateTime
+		        },
 
                 Component {
                     id: recentUpdatesDelegate
                     PanelExpandableContent {
                         id: fiContainer
+                        clip: true
                         showHeader: false
                         property variant view: ListView.view
+                        isVisible: !clearingHistory
+                        onHidden: {
+                            if(clearingHistory) {
+                                empty.showNotification(qsTr("You have cleared the Friends history"))
+                                clearHistory()
+                                clearingHistory = false
+                            }
+                        }
                         contents: FriendsItem {
                             id: friendsItemDel
                             serviceName: servicename
@@ -285,8 +304,35 @@ FlipPanel {
                 }
             ]
         }
-    }
+        }
+    ]
 
+    ListModel {
+        id: setupButtonsModel
+        ListElement {
+            title: QT_TR_NOOP("Set up your email")
+            page: "Email"
+        }
+        ListElement {
+            title: QT_TR_NOOP("Set up your instant messaging")
+            page: "IM"
+        }
+        ListElement {
+            title: QT_TR_NOOP("Sign in to a social network")
+            page: "\"Web Accounts\""
+        }
+    }
+    Component {
+        id: setupButtonsDelegate
+        PanelButton {
+            separatorVisible: false
+            text: qsTr(title)
+            onClicked: {
+                spinnerContainer.startSpinner()
+                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata "+page)
+            }
+        }
+    }
 
     Component {
         id: backPanelContent
@@ -296,7 +342,7 @@ FlipPanel {
             height: lvServices.height
             Connections {
                 target: fpContainer
-                onFrontComponentChanged: {
+                onOobeVisibleChanged: {
                     lvServices.setSettingsModel()
                 }
             }
@@ -307,7 +353,7 @@ FlipPanel {
                 id: lvServices
                 function setSettingsModel() {
                     serviceSettings.model = undefined;
-                    if (frontComponent == fpcNormal) {
+                    if (!oobeVisible) {
                         serviceSettings.delegate = servicesDelegate;
                         serviceSettings.model = panelManager.serviceModel;
                     } else {
@@ -327,12 +373,8 @@ FlipPanel {
                     visible: !contentEmpty
                     text: qsTr("Clear history")
                     onClicked: {
-                        //console.log("Service settings count: " + upids.length);
-                        var x;
-                        for( x in upids) {
-                            //console.log("Clearing history from: " + upids[x]);
-                            panelManager.clearHistory(upids[x]);
-                        }
+                        clearHistoryOnFlip = true;
+                        fpContainer.flip();
                     }
                 }
             }
@@ -346,15 +388,6 @@ FlipPanel {
         TileItem {
             id: contentDel
             separatorVisible: true
-            Component.onCompleted: {
-                // TODO fix this ugly workaround
-                // Maybe with different api in panelmanager or panelManager.serviceModel?
-                //console.log("index: " + index + " = " + upid);
-                if (panelManager.isServiceEnabled(upid)) {
-                    upids = upids.concat(upid);
-                }
-                //console.log("lenght: " + upids.length);
-            }
             Item {
                 height: panelSize.tileListItemContentHeight
                 width: parent ? parent.width : 0

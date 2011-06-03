@@ -371,6 +371,7 @@ Window {
                         property string aDisplayName: displayName
                         property int aIndex: index
                         property bool panelAnimationsEnabled: false
+                        property int contentAnimationDuration: 500
 
                         function amIVisible() {
                             //console.log("amIVisiblePanel")

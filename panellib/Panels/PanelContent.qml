@@ -11,7 +11,7 @@ import Qt 4.7
 Item {
     id: content
     property bool isVisible: true
-    property int animationDuration: panelAnimationsEnabled ?  500 : 0
+    property int animationDuration: panelAnimationsEnabled ?  contentAnimationDuration : 0
     property int hiddenHeight: 0
     property int contentHeight: 0
     Component.onCompleted: {
