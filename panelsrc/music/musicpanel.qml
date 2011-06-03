@@ -169,6 +169,7 @@ FlipPanel {
                     showBackground: false
                     contents: PanelOobe {
                         text: qsTr("The latest music you play and your playlists will appear here.")
+                        textColor: panelColors.panelHeaderColor
                         imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                         extraContentModel: VisualItemModel {
                             PanelButton {

@@ -155,6 +155,7 @@ FlipPanel {
                 isVisible: true
                 contents: PanelOobe {
                     text: qsTr("The latest websites you visit and your bookmarks will appear here.")
+                    textColor: panelColors.panelHeaderColor
                     imageSource: "image://themedimage/icons/launchers/meego-app-browser"
                     extraContentModel : VisualItemModel {
                         PanelButton {
