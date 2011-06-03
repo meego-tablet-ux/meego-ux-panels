@@ -18,6 +18,7 @@ FlipPanel {
     id: container
     property int optionClicked
     property int insertionIndex: 2
+    property bool appStoreReady: false
 
     Translator {
         catalog: "meego-ux-panels-mytablet"
@@ -37,6 +38,8 @@ FlipPanel {
     }
 
     property variant appsModelFavorite: appsModel.favorites
+    property variant appsModelFeatured: appsModel.appupFeatured
+    property variant appsModelUpdated: appsModel.appupUpdated
 
 
     ListModel {
@@ -80,13 +83,6 @@ FlipPanel {
 
     }
 
-    Component.onCompleted: {
-        console.log("My Tablet onCompleted, haveAppStore: " + qApp.haveAppStore);
-        if (qApp.haveAppStore)
-            favoriteApplicationsItems.append({ "title": qsTr("Visit the Intel AppUp(sm) center"),
-                                             "actionType": "appStore" });
-    }
-
     ListModel {
         id: backSettingsModel
 
@@ -97,11 +93,43 @@ FlipPanel {
             isVisible: true
         }
 
+//        ListElement {
+//            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+//            settingsTitle: "Featured applications"
+//            custPropName: "FeaturedApps"
+//            isVisible: true
+//        }
+
+//        ListElement {
+//            //i18n OK, as it gets properly set in the Component.onCompleted - long drama why this is necessary - limitation in QML translation capabilities
+//            settingsTitle: "Updated applications"
+//            custPropName: "UpdatedApps"
+//            isVisible: true
+//        }
+
         //Get around i18n issues w/ the qsTr of the strings being in a different file
         Component.onCompleted: {
             backSettingsModel.setProperty(0, "settingsTitle", qsTr("Top applications"));
+//            backSettingsModel.setProperty(1, "settingsTitle", qsTr("Featured applications"));
+//            backSettingsModel.setProperty(2, "settingsTitle", qsTr("Updated applications"));
         }
     }
+
+    Component.onCompleted: {
+        console.log("My Tablet onCompleted, haveAppStore: " + qApp.haveAppStore);
+        if (qApp.haveAppStore) {
+            favoriteApplicationsItems.append({ "title": qsTr("Visit the Intel AppUp(sm) center"),
+                                             "actionType": "appStore" });
+            backSettingsModel.append({ "settingsTitle": qsTr("Featured applications"),
+                                     "custPropName": "FeaturedApps",
+                                     "isVisible": true});
+            backSettingsModel.append({ "settingsTitle": qsTr("Updated applications"),
+                                     "custPropName": "UpdatedApps",
+                                     "isVisible": true});
+            container.appStoreReady = true;
+        }
+    }
+
 
     front: SimplePanel {
 
@@ -118,7 +146,7 @@ FlipPanel {
 
             Item {
                 id: myContent
-                height: /*connDevSection.height +*/ topAppSection.height + settingsSection.height
+                height: /*connDevSection.height +*/ topAppSection.height + appupFeaturedSection.height + appupUpdatedSection.height + settingsSection.height
                 width: parent.width
 
 /*                PanelExpandableContent{
@@ -144,9 +172,25 @@ FlipPanel {
                     visible: backSettingsModel.get(0).isVisible
                 }
 
+                PanelExpandableContent {
+                    id: appupFeaturedSection
+                    anchors.top: topAppSection.bottom
+                    text: qsTr("Featured applications")
+                    contents: featuredAppsComp
+                    visible: (container.appStoreReady && backSettingsModel.get(1).isVisible && appsModelFeatured.count)
+                }
+
+                PanelExpandableContent {
+                    id: appupUpdatedSection
+                    anchors.top: appupFeaturedSection.bottom
+                    text: qsTr("Updated applications")
+                    contents: updatedAppsComp
+                    visible: (container.appStoreReady && backSettingsModel.get(2).isVisible && appsModelUpdated.count)
+                }
+
                 PanelExpandableContent{
                     id: settingsSection
-                    anchors.top: topAppSection.bottom
+                    anchors.top: appupUpdatedSection.bottom
                     text: qsTr("Settings")
                     contents: settingsComp
                 }
@@ -237,6 +281,57 @@ FlipPanel {
         }
     }
 
+    Component {
+        id: featuredAppsComp
+        PanelColumnView {
+            id:fpFeaturedApps
+            width: parent.width
+            anchors.top: parent.top
+            model: appsModelFeatured
+            delegate: SecondaryTile {
+                width: fpFeaturedApps.width
+                separatorVisible: index > 0
+                imageSource: icon
+                text: title
+                description: comment
+                fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
+                onClicked:{
+                    spinnerContainer.startSpinner();
+                    //appsModel.favorites.append(filename)
+                    appsModel.launch(exec);
+                }
+                Component.onCompleted: {
+                    console.log("featured app C.oC, title, icon:", title, icon);
+                }
+            }
+        }
+    }
+
+    Component {
+        id: updatedAppsComp
+        PanelColumnView {
+            id:fpUpdatedApps
+            width: parent.width
+            anchors.top: parent.top
+            model: appsModelUpdated
+            delegate: SecondaryTile {
+                width: fpUpdatedApps.width
+                separatorVisible: index > 0
+                imageSource: icon
+                text: title
+                description: comment
+                fallBackImage: "image://themedimage/icons/launchers/meego-app-widgets"
+                onClicked:{
+                    spinnerContainer.startSpinner();
+                    //appsModel.favorites.append(filename)
+                    appsModel.launch(exec);
+                }
+                Component.onCompleted: {
+                    console.log("updated app C.oC, title, icon:", title, icon);
+                }
+            }
+        }
+    }
 
     Component {
         id: settingsComp
