@@ -116,7 +116,7 @@ FlipPanel {
         subheaderText: qsTr("Web panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        clearButtonText: (fpecRecentSites.count == 0) ? qsTr("Visit a website") : ""
+        clearButtonText: (fpecRecentSites.count == 0) ? qsTr("Visit a website") : qsTr("Clear history")
 
         onClearHistClicked:{
             if (fpecRecentSites.count == 0) {

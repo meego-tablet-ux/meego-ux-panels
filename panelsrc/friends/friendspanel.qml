@@ -24,7 +24,7 @@ FlipPanel {
 
     property bool contentEmpty: panelManager.isEmpty
     property bool initialized: panelManager.servicesConfigured
-    property Component frontComponent: (initialized && !empty ? fpcNormal : fpcEmpty )
+    property Component frontComponent: (initialized && !contentEmpty ? fpcNormal : fpcEmpty )
 
     front: SimplePanel {
         id: frontPanel

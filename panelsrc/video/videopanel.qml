@@ -66,7 +66,7 @@ FlipPanel {
         subheaderText: qsTr("Video panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        clearButtonText: contentEmpty ? qsTr("Watch a video") : ""
+        clearButtonText: contentEmpty ? qsTr("Watch a video") : qsTr("Clear history")
 
         onClearHistClicked:{
             if (contentEmpty) {

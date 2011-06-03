@@ -32,7 +32,7 @@ BackPanelGeneric {
                 delegate: settingsListDelegate
             }
             PanelButton {
-                text: clearButtonText == "" ? qsTr("Clear history") : clearButtonText
+                text: clearButtonText
                 separatorVisible: settingsRepeater.count > 0
                 visible: clearButtonVisible
                 onClicked: {

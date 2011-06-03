@@ -117,7 +117,7 @@ FlipPanel {
         subheaderText: qsTr("Music panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        clearButtonText: privateData.contentEmpty ? qsTr("Play some music") : ""
+        clearButtonText: privateData.contentEmpty ? qsTr("Play some music") : qsTr("Clear history")
 
         onClearHistClicked:{
             if (privateData.contentEmpty) {

@@ -106,7 +106,7 @@ FlipPanel {
         subheaderText: qsTr("Photos panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        clearButtonText: contentEmpty ? qsTr("View some photos") : ""
+        clearButtonText: contentEmpty ? qsTr("View some photos") : qsTr("Clear history")
 
         onClearHistClicked: {
             if (contentEmpty) {
