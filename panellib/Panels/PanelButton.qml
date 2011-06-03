@@ -26,7 +26,8 @@ TileItem {
             text: container.text
             font.family: panelSize.fontFamily
             font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
-            maxWidth: parent.width
+            width: parent.width - 2*panelSize.contentSideMargin
+            maxWidth: width
             anchors.bottomMargin: panelSize.contentTopMargin
             anchors.topMargin: panelSize.contentTopMargin
             anchors.horizontalCenter: parent.horizontalCenter
