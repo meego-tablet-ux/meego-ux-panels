@@ -17,16 +17,15 @@ FlipPanel {
     property bool clearHistoryOnFlip: false
     property bool clearingHistory: false
     property bool oobeVisible: true
-    property int enabledServicesCount: 0
+    property int enabledServicesCount: panelManager.servicesEnabled
+    property bool contentEmpty: true
+    property bool configuredServicesCount: panelManager.servicesConfigured
 
     signal checkVisible()
 
     Translator {
         catalog: "meego-ux-panels-friends"
     }
-
-    property bool contentEmpty: true
-    property bool initialized: panelManager.servicesConfigured
 
     front: SimplePanel {
         id: frontPanel
@@ -76,20 +75,6 @@ FlipPanel {
         }
     }
 
-    function servicesListChanged() {
-        var upids = panelManager.servicesList;
-        // console.log("Feed list count: " + upids.length);
-        // console.log("Feed list: " + upids);
-        var x;
-        var enabledCount = 0;
-        for( x in upids) {
-            if (panelManager.isServiceEnabled(upids[x])) {
-                enabledCount = enabledCount + 1;
-            }
-        }
-        fpContainer.enabledServicesCount = enabledCount;
-    }
-
     Connections {
         target: allPanels
         onMovementStarted: {
@@ -111,10 +96,6 @@ FlipPanel {
         servicesEnabledByDefault: true
         onIsEmptyChanged: {
             contentEmpty = isEmpty
-        }
-        onServicesListChanged: {
-            console.log("onServicesListChanged: " + serviceList)
-            fpContainer.servicesListChanged()
         }
     }
 
@@ -190,7 +171,7 @@ FlipPanel {
             }
             PanelExpandableContent {
                 id: noServices
-                isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount == 0
+                isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount == 0 && configuredServicesCount > 0
                 showHeader: false
                 showBackground: false
                 contents: PanelOobe {
@@ -210,7 +191,7 @@ FlipPanel {
             ListView {
                 id: lvContent
                 model: panelManager.feedModel
-                visible: initialized && !contentEmpty
+                visible: !contentEmpty
                 delegate: recentUpdatesDelegate
                 anchors.fill: parent
                 interactive: (contentHeight > height)
