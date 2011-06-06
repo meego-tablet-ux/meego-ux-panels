@@ -9,15 +9,11 @@
 import Qt 4.7
 import MeeGo.Components 0.1
 
-Item {
+PanelContent {
     id: fpec
 
     width: parent ? parent.width : 0
-
-    property bool isVisible: true
-    property int animationDuration: panelAnimationsEnabled ?  contentAnimationDuration : 0
-
-    signal hidden()
+    contentHeight: col.height
 
     property alias text: fpSubHeaderText.text
     property alias contents: fpContents.sourceComponent
@@ -43,6 +39,7 @@ Item {
     }
 
     Column {
+        id: col
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width - 2*panelSize.contentAreaSideMargin
 
@@ -69,22 +66,8 @@ Item {
             width: parent.width
             height: panelSize.contentAreaTopMargin
         }
-        InfoBar {
+        PanelInfoBar {
             id: notification
-            width: parent.width
-            function display(msg) {
-                notification.text = msg
-                notificationTimer.running = true
-                notification.show()
-            }
-            Timer {
-                id: notificationTimer
-                interval: 5000
-                onTriggered: {
-                    notification.text = ""
-                    notification.hide()
-                }
-            }
         }
         Item {
             id: fpContentsContainer
@@ -107,56 +90,4 @@ Item {
             height: panelSize.contentAreaBottomMargin
         }
     }
-    states: [
-        State {
-            name: "visible"
-            when: fpec.isVisible
-            PropertyChanges {
-                target: fpec
-                opacity: 1
-                height: (showHeader ? fpsubheader.height : 0 ) + notification.height + fpContentsContainer.height + topMargin.height + bottomMargin.height
-            }
-        },
-        State {
-            name: "hidden"
-            when: !fpec.isVisible
-            PropertyChanges {
-                target: fpec
-                opacity: 0
-                height: 0
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            to: "hidden"
-            SequentialAnimation {
-                PropertyAnimation {
-                    properties: "opacity"
-                    duration: animationDuration
-                }
-                ScriptAction {script: {fpec.visible = false; fpec.hidden()}}
-                PropertyAnimation {
-                    properties: "height"
-                    duration: animationDuration
-                }
-            }
-        },
-        Transition {
-            to: "visible"
-            SequentialAnimation {
-                PropertyAnimation {
-                    properties: "height"
-                    duration: animationDuration
-                }
-                ScriptAction {script: fpec.visible = true}
-                PropertyAnimation {
-                    properties: "opacity"
-                    duration: animationDuration
-                }
-            }
-        }
-    ]
-
 }

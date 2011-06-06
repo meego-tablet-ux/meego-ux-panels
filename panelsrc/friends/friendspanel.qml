@@ -125,10 +125,10 @@ FlipPanel {
             height: parent.height
             PanelExpandableContent {
                 id: oobe
+                property bool hadContent: false
                 showHeader: false
                 isVisible: contentEmpty && !hadContent
                 showBackground: false
-                property bool hadContent: false
                 contents: PanelOobe {
                     text: qsTr("Emails, instant messages and social network updates will appear here.")
                     textColor: panelColors.panelHeaderColor
@@ -377,7 +377,8 @@ FlipPanel {
                     id: serviceSettings
                 }
                 PanelButton {
-                    visible: !contentEmpty
+                    id: button
+                    isVisible: !contentEmpty
                     text: qsTr("Clear history")
                     onClicked: {
                         clearHistoryOnFlip = true;

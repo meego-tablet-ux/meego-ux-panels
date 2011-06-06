@@ -15,6 +15,9 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
+    property string musicDesktop: "/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop"
+    property bool contentEmpty: musicRecentsModel.count == 0
+
     Translator {
         catalog: "meego-ux-panels-music"
     }
@@ -23,14 +26,8 @@ FlipPanel {
     //Need to modify model that this app is launched
     function notifyModel()
     {
-        appsModel.favorites.append(privateData.musicDesktop)
+        appsModel.favorites.append(musicDesktop)
     }
-    Item {
-        id: privateData
-        property string musicDesktop: "/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop"
-        property bool contentEmpty: true
-    }
-
 
     ListModel{
         id: backSettingsModel
@@ -103,7 +100,6 @@ FlipPanel {
                 count = count + musicRecentsModel.count;
             if (backSettingsModel.get(1).isVisible)
                 count = count + playlistsModel.count;
-            privateData.contentEmpty = (count == 0);
             if (count)
                 return itemModelOne;
             else
@@ -117,14 +113,15 @@ FlipPanel {
         subheaderText: qsTr("Music panel content")
         settingsListModel: backSettingsModel
         isBackPanel: true
-        clearButtonText: privateData.contentEmpty ? qsTr("Play some music") : qsTr("Clear history")
+        clearButtonText: contentEmpty ? qsTr("Play some music") : qsTr("Clear history")
 
         onClearHistClicked:{
-            if (privateData.contentEmpty) {
+            if (contentEmpty) {
                 spinnerContainer.startSpinner()
                 qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
             } else {
                 musicRecentsModel.clear()
+                container.flip()
             }
         }
 
@@ -204,7 +201,7 @@ FlipPanel {
                     urns: musicIntf.nowTrack
                 }
                 id: currentlyPlaying
-                visible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
+                isVisible: ((musicIntf.state == "playing" || musicIntf.state == "paused") && musicIntf.ready)
                 text:qsTr("Currently playing")
 
                 Component.onCompleted: {
@@ -240,7 +237,7 @@ FlipPanel {
             PanelExpandableContent {
                 id: fpRecentMusic
 
-                visible: backSettingsModel.get(0).isVisible && (count > 0) && !currentlyPlaying.visible
+                isVisible: backSettingsModel.get(0).isVisible && (count > 0) && !currentlyPlaying.visible
                 text: qsTr("Recently played")
 
                 property int count: 0;
@@ -298,7 +295,7 @@ FlipPanel {
 
                 id: playqueueItem
                 property int count: 0
-                visible: backSettingsModel.get(1).isVisible
+                isVisible: backSettingsModel.get(1).isVisible
                 //visible: (musicIntf.nextTrackCount > 0)
 
                 text:qsTr("Coming up in play queue")
@@ -404,7 +401,7 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: fpPlaylists
-                visible: backSettingsModel.get(2).isVisible && (count > 0)
+                isVisible: backSettingsModel.get(2).isVisible && (count > 0)
                 text: qsTr("Playlists")
                 property int count: 0
 

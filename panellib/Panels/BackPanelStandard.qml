@@ -34,7 +34,7 @@ BackPanelGeneric {
             PanelButton {
                 text: clearButtonText
                 separatorVisible: settingsRepeater.count > 0
-                visible: clearButtonVisible
+                isVisible: clearButtonVisible
                 onClicked: {
                     container.clearHistClicked();
                 }

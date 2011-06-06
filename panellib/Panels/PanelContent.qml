@@ -14,83 +14,84 @@ Item {
     property int animationDuration: panelAnimationsEnabled ?  contentAnimationDuration : 0
     property int hiddenHeight: 0
     property int contentHeight: 0
+
     Component.onCompleted: {
         if (isVisible) {
             height = contentHeight
             opacity = 1
         } else {
             height = hiddenHeight
-            opacity = 0
+            opacity = 0.0001
         }
     }
-                        onIsVisibleChanged: {
-                            if (isVisible) {
-                                content.show()
-                            } else {
-                                content.hide()
-                            }
-                        }
-
+    onIsVisibleChanged: {
+        if (isVisible) {
+            content.show()
+        } else {
+            content.hide()
+        }
+    }
 
     function show() {
-        hideAnimation.running = false
-        showAnimation.running = true
+        // content.showCalled()
+        console.log("showCalled: " + contentHeight)
+        hideAnimation.stop()
+        showAnimation.start()
     }
     function hide() {
-        showAnimation.running = false
-        hideAnimation.running = true
+        showAnimation.stop()
+        hideAnimation.start()
     }
-
     onContentHeightChanged: {
         if (isVisible) {
-            height = contentHeight
+            height = contentHeight;
         }
     }
 
-    signal showCalled()
+    // signal showCalled()
     signal shown()
     signal hidden()
 
-            SequentialAnimation {
-                id: hideAnimation
-                PropertyAnimation {
-                    target: content
-                    property: "opacity"
-                    to: 0
-                    duration: animationDuration
-                }
-                ScriptAction {script: {content.hidden()}}
-                PropertyAnimation {
-                    target: content
-                    property: "height"
-                    to: hiddenHeight
-                    duration: animationDuration
-                }
-                ScriptAction {script: {content.visible = false; }}
-            }
-            SequentialAnimation {
-                id: showAnimation
-                ScriptAction {script: content.visible = true}
-                PropertyAnimation {
-                    target: content
-                    property: "height"
-                    to: contentHeight
-                    duration: animationDuration
-                }
-                PropertyAnimation {
-                    target: content
-                    property: "opacity"
-                    to: 1
-                    duration: animationDuration
-                }
-                ScriptAction {script: {content.shown()}}
-            }
+    SequentialAnimation {
+        id: hideAnimation
+        PropertyAnimation {
+            target: content
+            property: "opacity"
+            to: 0.00001
+            duration: animationDuration
+        }
+        ScriptAction {script: {content.hidden()}}
+        PropertyAnimation {
+            target: content
+            property: "height"
+            to: hiddenHeight
+            duration: animationDuration
+        }
+        ScriptAction {script: {content.visible = false; }}
+    }
+    SequentialAnimation {
+        id: showAnimation
+        ScriptAction {script: content.visible = true}
+        PropertyAnimation {
+            target: content
+            property: "height"
+            to: contentHeight
+            duration: animationDuration
+        }
+        PropertyAnimation {
+            target: content
+            property: "opacity"
+            to: 1
+            duration: animationDuration
+        }
+        ScriptAction {script: {content.shown();height = contentHeight;}}
+    }
 
 
     // states: [
     //     State {
     //         name: "visible"
-    //         //when: content.isVisible
+    //         when: content.isVisible
     //         PropertyChanges {
     //             target: content
     //             opacity: 1
@@ -99,10 +100,10 @@ Item {
     //     },
     //     State {
     //         name: "hidden"
-    //         //when: !content.isVisible
+    //         when: !content.isVisible
     //         PropertyChanges {
     //             target: content
-    //             opacity: 0
+    //             opacity: 0.00001
     //             height: hiddenHeight
     //         }
     //     }

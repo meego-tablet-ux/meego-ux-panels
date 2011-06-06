@@ -8,9 +8,9 @@
 
 import Qt 4.7
 
-Item {
+PanelContent {
     id: container
-    height: fpColumn.height
+    contentHeight: fpColumn.height
     property alias model: fpContent.model
     property alias delegate: fpContent.delegate
     property alias count: fpContent.count

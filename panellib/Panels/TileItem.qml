@@ -11,10 +11,10 @@ import Qt 4.7
 //TileItem - base class for standard content items in the
 //panel - this contains standard visual properties that are common
 
-Item {
+PanelContent {
     id: container
     width: parent ? parent.width : 0
-    height: col.height
+    contentHeight: col.height
     property alias mouseAreaActive: fpMouseArea.visible
     property bool separatorVisible: false
     default property alias contents: tileContent.sourceComponent

@@ -9,6 +9,7 @@ PanelContent 0.1 PanelContent.qml
 PanelButton 0.1 PanelButton.qml
 PanelExpandableContent 0.1 PanelExpandableContent.qml
 PanelColumnView 0.1 PanelColumnView.qml
+PanelInfoBar 0.1 PanelInfoBar.qml
 PanelOobe 0.1 PanelOobe.qml
 PrimaryTile 0.1 PrimaryTile.qml
 PrimaryTileGrid 0.1 PrimaryTileGrid.qml

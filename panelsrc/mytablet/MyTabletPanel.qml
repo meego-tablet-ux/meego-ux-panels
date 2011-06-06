@@ -167,7 +167,10 @@ FlipPanel {
                 text: qsTr("Top applications")
                 showHeader: !oobe.isVisible
                 contents: topAppComp
-                visible: backSettingsModel.get(0).isVisible
+                isVisible: backSettingsModel.get(0).isVisible
+                // onIsVisibleChanged: {
+                //     container.flip();
+                // }
             }
 
             PanelExpandableContent {
@@ -225,10 +228,8 @@ FlipPanel {
     Component {
         id: topAppComp
         Item {
-            //width:parent.width
             height: topAppsGrid.height +
                     fplvTopApps.height
-
             SecondaryTileGrid {
                 id: topAppsGrid
                 width: parent.width
@@ -259,7 +260,7 @@ FlipPanel {
                 Repeater {
                     model:favoriteApplicationsItems
                     delegate: TileListItem {
-                        separatorVisible: topAppsGrid.visible
+                        separatorVisible: topAppsGrid.isVisible
                         hasImage: false
                         text: qsTr(title)
                         onClicked: {

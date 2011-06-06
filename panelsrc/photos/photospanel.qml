@@ -17,7 +17,9 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
-    property bool contentEmpty: true
+    property bool clearHistoryOnFlip: false
+    property bool clearingHistory: false
+    property bool contentEmpty: recentlyViewedModel.count == 0
 
     Labs.BackgroundModel {
         id: backgroundModel
@@ -31,7 +33,7 @@ FlipPanel {
     //Need to modify model that this app is launched
     function notifyModel()
     {
-        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")        
+        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
     }
 
     ListModel{
@@ -58,12 +60,12 @@ FlipPanel {
     }
 
     onPanelObjChanged: {
-        allPhotosListModel.hideItemsByURN(panelObj.HiddenItems)
+        recentlyViewedModel.hideItemsByURN(panelObj.HiddenItems)
         allAlbumsListModel.hideItemsByURN(panelObj.HiddenItems)
     }
 
     PhotoListModel {
-        id: allPhotosListModel
+        id: recentlyViewedModel
         type: PhotoListModel.ListofRecentlyViewed
         limit: 16
         sort: PhotoListModel.SortByDefault
@@ -82,23 +84,9 @@ FlipPanel {
         }
     }
 
-    front: SimplePanel {
+    front: Panel {
         panelTitle: qsTr("Photos")
-        panelComponent: {
-            var count = 0;
-            if (backSettingsModel.get(0).isVisible)
-                count = count + allPhotosListModel.count;
-            if (backSettingsModel.get(1).isVisible)
-                count = count + allAlbumsListModel.count;
-
-            contentEmpty = (count == 0);
-            if (count)
-                return photoFront;
-            else
-                return photoOOBE;
-//            (allPhotosListModel.count + allAlbumsListModel.count == 0 ? photoOOBE : photoFront)
-
-        }
+        panelContent: photoFront
     }
 
     back: BackPanelStandard {
@@ -114,51 +102,27 @@ FlipPanel {
                 spinnerContainer.startSpinner()
                 qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
             } else {
-                allPhotosListModel.clear()
+                clearHistoryOnFlip = true
+                container.flip()
             }
         }
 
     }
-
-    Component {
-        id: photoOOBE
-        Item {
-            height: container.height
-            width: container.width
-            PanelExpandableContent {
-                id: oobe
-                showHeader: false
-                showBackground: false
-                contents: PanelOobe {
-                    text: qsTr("The latest photos you view and your photo albums will appear here.")
-                    textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
-                    extraContentModel : VisualItemModel {
-                        PanelButton {
-                            separatorVisible: false
-                            text: qsTr("View some photos")
-                            onClicked: {
-                                notifyModel()
-                                spinnerContainer.startSpinner()
-                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
-                            }
-                        }
-                    }
-                }
-                Component.onCompleted: {
-                    if (panelObj.getCustomProp("PhotosHadContent")) {
-                        visible = false
-                    }
-                }
-            }
+    onFlipComplete: {
+        if (clearHistoryOnFlip) {
+            clearHistoryOnFlip = false;
+            clearingHistoryTimer.running = true
+        }
+    }
+    Timer {
+        id: clearingHistoryTimer
+        interval: 300
+        onTriggered: {
+            clearingHistory = true
         }
     }
 
-    Component {
-        id: photoFront
-
-        Flickable{
-
+    resources: [
             ContextMenu {
                 id: ctxMenuPhoto
                 property string currentUrn
@@ -173,7 +137,7 @@ FlipPanel {
                             container.notifyModel()
                         } else if (model[index] == qsTr("Hide")){
                             panelObj.addHiddenItem(ctxMenuPhoto.currentUrn)
-                            allPhotosListModel.hideItemByURN(ctxMenuPhoto.currentUrn)
+                            recentlyViewedModel.hideItemByURN(ctxMenuPhoto.currentUrn)
                         }else if (model[index] == qsTr("Share"))
                         {
                             shareObj.clearItems();
@@ -188,8 +152,7 @@ FlipPanel {
                         ctxMenuPhoto.hide();
                     }
                 }
-            }
-
+            },
             ContextMenu {
                 id: ctxMenuAlbum
                 property string currentUrn
@@ -212,24 +175,66 @@ FlipPanel {
                         ctxMenuAlbum.hide();
                     }
                 }
+            },
+
+        VisualItemModel {
+            id: photoFront
+
+            PanelExpandableContent {
+                id: oobe
+                property bool hadContent: false
+                isVisible: contentEmpty && fpecAlbumList.count == 0 && !hadContent
+                showHeader: false
+                showBackground: false
+                contents: PanelOobe {
+                    text: qsTr("The latest photos you view and your photo albums will appear here.")
+                    textColor: panelColors.panelHeaderColor
+                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    extraContentModel : VisualItemModel {
+                        PanelButton {
+                            separatorVisible: false
+                            text: qsTr("View some photos")
+                            onClicked: {
+                                notifyModel()
+                                spinnerContainer.startSpinner()
+                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+                            }
+                        }
+                    }
+                }
+                Component.onCompleted: {
+                    hadContent = !!panelObj.getCustomProp("PhotosHadContent")
+                    if (hadContent) {
+                        visible = false
+                    }
+                }
+            }
+            PanelInfoBar {
+                id: empty
+                // isVisible: !fpecPhotoGrid.visible && !oobe.visible //&& notificationVisible
+                // showHeader: false
+                // showBackground: false
             }
 
-
-            id: photoFrontItem
-            anchors.fill: parent
-            interactive: (contentHeight > height)
-            onInteractiveChanged: {
-                if (!interactive)
-                    contentY = 0;
-            }
-            contentHeight: fpecPhotoGrid.height + fpecAlbumList.height
             PanelExpandableContent {
                 id: fpecPhotoGrid
                 text: qsTr("Recently viewed")
-                visible: backSettingsModel.get(0).isVisible && (count > 0)
+                isVisible: backSettingsModel.get(0).isVisible && (count > 0) && !clearingHistory
+                onHidden: {
+                    if(clearingHistory) {
+                        empty.display(qsTr("You have cleared the Photos history"))
+                        recentlyViewedModel.clear()
+                        clearingHistory = false
+                    }
+                }
+                    // onHeightChanged: {
+                    //     console.log("expandable height: " + height)
+                    //     console.log("hidden height: " + hiddenHeight)
+                    //     console.log("content height: " + contentHeight)
+                    // }
                 property int count: 0
                 contents: SecondaryTileGrid{
-                    model: allPhotosListModel
+                    model: recentlyViewedModel
                     onModelCountChanged: fpecPhotoGrid.count = modelCount
                     Component.onCompleted: fpecPhotoGrid.count = modelCount
                     delegate: SecondaryTileGridItem {
@@ -258,8 +263,7 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: fpecAlbumList
-                anchors.top: fpecPhotoGrid.bottom
-                visible: backSettingsModel.get(1).isVisible && (count > 0)
+                isVisible: backSettingsModel.get(1).isVisible && (count > 0)
                 text: qsTr("Albums")
                 property int count: 0
                 contents: PanelColumnView {
@@ -318,7 +322,6 @@ FlipPanel {
                 }
             }
         }
+    ]
 
-    }
-    
 }

@@ -9,7 +9,7 @@
 import Qt 4.7
 import MeeGo.Panels 0.1
 
-Item {
+PanelContent {
     id: container
     property alias model: repeater.model
     property alias delegate: repeater.delegate
@@ -17,7 +17,7 @@ Item {
     property alias emptyItemsDelegate: emptyItems.delegate
     property int gridColumns: 4
     width: parent.width
-    height: col.height
+    contentHeight: col.height
     Column {
         id: col
         width: parent.width
