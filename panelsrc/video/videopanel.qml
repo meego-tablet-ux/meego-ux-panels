@@ -56,9 +56,9 @@ FlipPanel {
         recentlyViewed.hideItemsByURN(panelObj.HiddenItems)
     }
 
-    front: SimplePanel {
+    front: Panel {
         panelTitle: qsTr("Video")
-        panelComponent: (recentlyViewed.count == 0 ? videoOOBE : videoFront)
+        panelContent: videoFront
     }
 
     back: BackPanelStandard {
@@ -74,19 +74,20 @@ FlipPanel {
                 spinnerContainer.startSpinner();
                 qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
             } else {
-                recentlyViewed.clear()
+                clearHistoryOnFlip = true;
             }
+            container.flip();
         }
 
     }
 
-    Component {
-        id: videoOOBE
-        Item {
-            height: container.height
-            width: container.width
+    resources: [
+        VisualItemModel {
+            id: videoFront
             PanelExpandableContent {
                 id: oobe
+                property bool hadContent: false
+                isVisible: contentEmpty && !hadContent
                 showHeader: false
                 showBackground: false
                 contents: PanelOobe {
@@ -106,29 +107,55 @@ FlipPanel {
                     }
                 }
                 Component.onCompleted: {
-                    if (panelObj.getCustomProp("VideoHadContent")) {
+                    hadContent = panelObj.getCustomProp("VideosHadContent")
+                    if (hadContent) {
                         visible = false
+                        isVisible = false
+                    }
+                }
+                Connections {
+                    target: container
+                    onContentEmptyChanged: {
+                        if (!contentEmpty && !oobe.hadContent) {
+                            oobe.isVisible = false;
+                            oobe.hadContent = true
+                            panelObj.setCustomProp("VideosHadContent",1)
+                        }
                     }
                 }
             }
-        }
-    }
-
-    Component {
-        id: videoFront
-        Flickable {
-            anchors.fill: parent
-            interactive: (height < contentHeight)
-            onInteractiveChanged: {
-                if (!interactive)
-                    contentY = 0;
+            PanelExpandableContent {
+                id: empty
+                isVisible: !myContent.visible && !oobe.visible
+                showHeader: false
+                showBackground: false
+                contents: PanelOobe {
+                    text: qsTr("No recently watched videos.")
+                    textColor: panelColors.panelHeaderColor
+                    extraContentModel : VisualItemModel {
+                        PanelButton {
+                            separatorVisible: false
+                            text: qsTr("Watch a video")
+                            onClicked: {
+                                notifyModel();
+                                spinnerContainer.startSpinner();
+                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+                            }
+                        }
+                    }
+                }
             }
-
-            contentHeight: myContent.height
-            clip: true
             PanelExpandableContent {
                 id: myContent
                 showHeader: false
+                isVisible: !contentEmpty && !clearingHistory
+                onHidden: {
+                    if(clearingHistory) {
+                         empty.showNotification(qsTr("You have cleared the Video history"))
+                         recentlyViewed.clear()
+                         clearingHistory = false
+                    }
+                }
                 contents: PrimaryTileGrid {
                     ContextMenu {
                         id: ctxMenu
@@ -192,5 +219,5 @@ FlipPanel {
                 }
             }
         }
-    }
+    ]
 }

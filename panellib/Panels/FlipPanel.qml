@@ -26,6 +26,8 @@ Flipable {
 
     //property bool moveDirection
 
+    property bool clearHistoryOnFlip: false
+    property bool clearingHistory: false
     property QtObject panelObj: parent.aPanelObj
 
 
@@ -63,6 +65,20 @@ Flipable {
         target: back
         onTitleClicked: {flipablePanel.flip();}
         onRightIconClicked: {flipablePanel.flip();}
+    }
+
+    onFlipComplete: {
+        if (clearHistoryOnFlip) {
+            clearHistoryOnFlip = false;
+            clearingHistoryTimer.running = true
+        }
+    }
+    Timer {
+        id: clearingHistoryTimer
+        interval: 300
+        onTriggered: {
+            clearingHistory = true
+        }
     }
 
     anchors { bottom: parent.bottom; top: parent.top }

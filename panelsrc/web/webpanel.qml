@@ -14,9 +14,6 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
-    property bool clearHistoryOnFlip: false
-    property bool clearingHistory: false
-
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
     function notifyModel()
@@ -129,19 +126,6 @@ FlipPanel {
             container.flip();
         }
 
-    }
-    onFlipComplete: {
-        if (clearHistoryOnFlip) {
-            clearHistoryOnFlip = false;
-            clearingHistoryTimer.running = true
-        }
-    }
-    Timer {
-        id: clearingHistoryTimer
-        interval: 300
-        onTriggered: {
-            clearingHistory = true
-        }
     }
 
     resources: [

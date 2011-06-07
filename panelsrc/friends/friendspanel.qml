@@ -14,8 +14,6 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: fpContainer
 
-    property bool clearHistoryOnFlip: false
-    property bool clearingHistory: false
     property bool oobeVisible: true
     property int enabledServicesCount: panelManager.servicesEnabled
     property bool contentEmpty: true
@@ -48,19 +46,6 @@ FlipPanel {
 
     onFlipToBack: {
         readTimer.stop();
-    }
-    onFlipComplete: {
-        if (clearHistoryOnFlip) {
-            clearHistoryOnFlip = false;
-            clearingHistoryTimer.running = true
-        }
-    }
-    Timer {
-        id: clearingHistoryTimer
-        interval: 300
-        onTriggered: {
-            clearingHistory = true
-        }
     }
 
     Connections {

@@ -12,10 +12,12 @@ import MeeGo.Components 0.1
 Column {
     id: col
     width: parent.width
+    property bool spacingVisible: false
     function display(msg) {
         notification.display(msg)
     }
     Item {
+        visible: spacingVisible
         width: parent.width
         height: notification.height > 0 ? panelSize.contentAreaTopMargin : 0
         Behavior on height {PropertyAnimation {duration:100}}
@@ -40,6 +42,7 @@ Column {
     }
 
     Item {
+        visible: spacingVisible
         width: parent.width
         height: notification.height > 0 ? panelSize.contentAreaTopMargin : 0
         Behavior on height {PropertyAnimation {duration:100}}

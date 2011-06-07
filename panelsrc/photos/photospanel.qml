@@ -17,8 +17,6 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
-    property bool clearHistoryOnFlip: false
-    property bool clearingHistory: false
     property bool contentEmpty: recentlyViewedModel.count == 0
 
     Labs.BackgroundModel {
@@ -107,19 +105,6 @@ FlipPanel {
             }
         }
 
-    }
-    onFlipComplete: {
-        if (clearHistoryOnFlip) {
-            clearHistoryOnFlip = false;
-            clearingHistoryTimer.running = true
-        }
-    }
-    Timer {
-        id: clearingHistoryTimer
-        interval: 300
-        onTriggered: {
-            clearingHistory = true
-        }
     }
 
     resources: [
@@ -211,9 +196,7 @@ FlipPanel {
             }
             PanelInfoBar {
                 id: empty
-                // isVisible: !fpecPhotoGrid.visible && !oobe.visible //&& notificationVisible
-                // showHeader: false
-                // showBackground: false
+                spacingVisible: true
             }
 
             PanelExpandableContent {
@@ -227,11 +210,6 @@ FlipPanel {
                         clearingHistory = false
                     }
                 }
-                    // onHeightChanged: {
-                    //     console.log("expandable height: " + height)
-                    //     console.log("hidden height: " + hiddenHeight)
-                    //     console.log("content height: " + contentHeight)
-                    // }
                 property int count: 0
                 contents: SecondaryTileGrid{
                     model: recentlyViewedModel
