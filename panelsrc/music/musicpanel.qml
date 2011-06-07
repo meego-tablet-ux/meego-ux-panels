@@ -118,6 +118,7 @@ FlipPanel {
         onClearHistClicked:{
             if (contentEmpty) {
                 spinnerContainer.startSpinner()
+                container.notifyModel()
                 qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
             } else {
                 musicRecentsModel.clear()
@@ -174,6 +175,7 @@ FlipPanel {
                                 text: qsTr("Play some music")
                                 onClicked: {
                                     spinnerContainer.startSpinner()
+                                    container.notifyModel()
                                     qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
                                 }
                             }
