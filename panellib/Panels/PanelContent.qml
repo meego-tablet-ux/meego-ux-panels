@@ -33,8 +33,6 @@ Item {
     }
 
     function show() {
-        // content.showCalled()
-        console.log("showCalled: " + contentHeight)
         hideAnimation.stop()
         showAnimation.start()
     }
@@ -48,7 +46,6 @@ Item {
         }
     }
 
-    // signal showCalled()
     signal shown()
     signal hidden()
 

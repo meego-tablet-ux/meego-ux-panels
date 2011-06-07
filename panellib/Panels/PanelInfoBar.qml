@@ -11,7 +11,7 @@ import MeeGo.Components 0.1
 
 Column {
     id: col
-    width: parent.width
+    width: parent ? parent.width : 0
     property bool spacingVisible: false
     function display(msg) {
         notification.display(msg)
