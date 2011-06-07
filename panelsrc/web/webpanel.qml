@@ -14,6 +14,8 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
+    property bool contentEmpty: (fpecRecentSites.count == 0 && fpecBookmarks.count == 0)
+
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
     function notifyModel()
@@ -134,9 +136,10 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: oobe
+                property bool hadContent: false
                 showHeader: false
                 showBackground: false
-                isVisible: true
+                isVisible: contentEmpty && !hadContent
                 contents: PanelOobe {
                     text: qsTr("The latest websites you visit and your bookmarks will appear here.")
                     textColor: panelColors.panelHeaderColor
@@ -154,11 +157,20 @@ FlipPanel {
                     }
                 }
                 Component.onCompleted: {
-                    if (panelObj.getCustomProp("WebHadContent")) {
+                    hadContent = !!panelObj.getCustomProp("WebHadContent")
+                    if (hadContent) {
+                        visible = false
                         isVisible = false
                     }
-                    if (fpecRecentSites.count > 0 || fpecBookmarks.count > 0) {
-                        isVisible = false
+                }
+                Connections {
+                    target: container
+                    onContentEmptyChanged: {
+                        if (!contentEmpty && !oobe.hadContent) {
+                            oobe.isVisible = false;
+                            oobe.hadContent = true
+                            panelObj.setCustomProp("WebHadContent",1)
+                        }
                     }
                 }
             }
@@ -174,7 +186,7 @@ FlipPanel {
                     PanelOobe {
                         id: empty
                         width: parent.width
-                        isVisible: !grid.visible
+                        isVisible: !grid.isVisible
                         onIsVisibleChanged: {
                             // if we are at final height and are hidden
                             if(!isVisible && height == contentHeight) {
@@ -199,7 +211,7 @@ FlipPanel {
                     }
                     PrimaryTileGrid {
                         id: grid
-                        isVisible: fpecRecentSites.count > 0 && !clearingHistory && fpecRecentSites.notificationVisible
+                        isVisible: fpecRecentSites.count > 0 && (!clearingHistory || fpecRecentSites.notificationVisible)
                         onHidden: {
                             if (clearingHistory) {
                                 fpecRecentSites.showNotification(qsTr("You have cleared the Web history"))

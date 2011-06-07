@@ -107,7 +107,7 @@ FlipPanel {
                     }
                 }
                 Component.onCompleted: {
-                    hadContent = panelObj.getCustomProp("VideosHadContent")
+                    hadContent = !!panelObj.getCustomProp("VideosHadContent")
                     if (hadContent) {
                         visible = false
                         isVisible = false
