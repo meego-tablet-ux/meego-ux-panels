@@ -159,7 +159,7 @@ FlipPanel {
                     width: parent.width
                     text: qsTr("The applications you use most will appear here. Discover the apps already in your tablet, or visit Intel AppUp to download more.")
                     textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    imageSource: "image://themedimage/icons/launchers/meego-app-appup"
                 }
             }
             PanelExpandableContent{
@@ -260,7 +260,7 @@ FlipPanel {
                 Repeater {
                     model:favoriteApplicationsItems
                     delegate: TileListItem {
-                        separatorVisible: topAppsGrid.isVisible
+                        separatorVisible: topAppsGrid.visible || index > 0
                         hasImage: false
                         text: qsTr(title)
                         onClicked: {

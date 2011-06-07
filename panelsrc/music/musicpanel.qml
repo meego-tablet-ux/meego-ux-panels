@@ -167,11 +167,10 @@ FlipPanel {
                     contents: PanelOobe {
                         text: qsTr("The latest music you play and your playlists will appear here.")
                         textColor: panelColors.panelHeaderColor
-                        imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                        imageSource: "image://themedimage/icons/launchers/meego-app-music"
                         extraContentModel: VisualItemModel {
                             PanelButton {
                                 separatorVisible: false
-                                width: oobe.width
                                 text: qsTr("Play some music")
                                 onClicked: {
                                     spinnerContainer.startSpinner()

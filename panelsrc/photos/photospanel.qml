@@ -174,7 +174,7 @@ FlipPanel {
                 contents: PanelOobe {
                     text: qsTr("The latest photos you view and your photo albums will appear here.")
                     textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/launchers/meego-app-browser"
+                    imageSource: "image://themedimage/icons/launchers/meego-app-photos"
                     extraContentModel : VisualItemModel {
                         PanelButton {
                             separatorVisible: false
