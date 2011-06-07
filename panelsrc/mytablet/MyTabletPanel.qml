@@ -177,14 +177,14 @@ FlipPanel {
                 id: appupFeaturedSection
                 text: qsTr("Featured applications")
                 contents: featuredAppsComp
-                visible: (container.appStoreReady && backSettingsModel.get(1).isVisible && appsModelFeatured.count)
+                isVisible: (container.appStoreReady && backSettingsModel.get(1).isVisible && appsModelFeatured.count)
             }
 
             PanelExpandableContent {
                 id: appupUpdatedSection
                 text: qsTr("Updated applications")
                 contents: updatedAppsComp
-                visible: (container.appStoreReady && backSettingsModel.get(2).isVisible && appsModelUpdated.count)
+                isVisible: (container.appStoreReady && backSettingsModel.get(2).isVisible && appsModelUpdated.count)
             }
 
             PanelExpandableContent{
@@ -234,7 +234,7 @@ FlipPanel {
                 id: topAppsGrid
                 width: parent.width
                 anchors.top: parent.top
-                visible: modelCount > 0
+                isVisible: modelCount > 0
                 onModelCountChanged: {
                     topAppsCount = modelCount;
                 }
