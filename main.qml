@@ -46,8 +46,8 @@ Window {
     Labs.ApplicationsModel {
         id: appsModel
         directories: [ "/usr/share/meego-ux-appgrid/applications", "/usr/share/applications", "~/.local/share/applications" ]
-        favorites.limit: 8
-        favorites.filterOut: ["/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"]
+        //favorites.limit: 8
+        //favorites.filterOut: ["/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"]
     }
 
     Labs.WindowModel {
@@ -64,6 +64,8 @@ Window {
                 bgRect.bgImage2 = bgImageLandscape.createObject(bgRect);
 	    } else {
                 bgRect.bgImage2 = bgImagePortrait.createObject(bgRect);
+                bgRect.bgImage2.sourceSize.height = window.width;
+                bgRect.bgImage2.sourceSize.width = window.height;
 	    }
             animBG2In.start();
         } else {
@@ -71,6 +73,8 @@ Window {
                 bgRect.bgImage1 = bgImageLandscape.createObject(bgRect);
 	    } else {
                 bgRect.bgImage1 = bgImagePortrait.createObject(bgRect);
+                bgRect.bgImage1.sourceSize.height = window.width;
+                bgRect.bgImage1.sourceSize.width = window.height;
 	    }
             animBG1In.start();
         }
@@ -100,10 +104,10 @@ Window {
             target: bgRect.bgImage1
             onStatusChanged: {
                 console.log("Image1 status changed:", bgRect.bgImage1.status);
-                if (bgRect.bgImage1.status == Image.Ready) {
+                 if (bgRect.bgImage1.status == Image.Ready) {
                     console.log("Starting animBG1In");
                     animBG1In.start();
-                }
+                } 
             }
         }
 
@@ -111,10 +115,10 @@ Window {
             target: bgRect.bgImage2
             onStatusChanged: {
                 console.log("Image2 status changed:", bgRect.bgImage2.status);
-                if (bgRect.bgImage2.status == Image.Ready) {
+                 if (bgRect.bgImage2.status == Image.Ready) {
                     console.log("Starting animBG2In");
                     animBG2In.start();
-                }
+                } 
             }
         }
 
@@ -178,10 +182,12 @@ Window {
                 fillMode: Image.PreserveAspectCrop
                 opacity: 0.0
 
-                Component.onCompleted: {
-                    sourceSize.height = bgRect.height;
-                    rotation = (window.orientation == 1) ? 0 : 180;
+                transform: Rotation {
+                    origin.x: parent.width / 2
+                    origin.y: parent.height / 2
+                    angle: (window.orientation == 1) ? 0 : 180
                 }
+
             }
         }
 
@@ -193,14 +199,19 @@ Window {
                 source: backgroundModel.activeWallpaper
                 opacity: 0.0
                 anchors.fill: parent
-                height: bgRect.width
-                width: bgRect.height
+
                 fillMode: Image.PreserveAspectCrop
 
-                Component.onCompleted: {
-                    sourceSize.height = bgRect.width;
-                    rotation = (window.orientation == 2) ? 270 : 90;
-                }
+//scale: (sourceSize.height< sourceSize.width )? window.height/sourceSize.height
+//: window.width/sourceSize.width
+
+                transform: [
+                    Rotation {
+                        origin.x: parent.width / 2
+                        origin.y: parent.height / 2
+                        angle: (window.orientation == 2) ? 270 : 90
+                    }
+                ]
             }
         }
     }
@@ -277,7 +288,7 @@ Window {
     }
 
     overlayItem: Item {
-        id: deviceScreen        
+        id: deviceScreen
         anchors.fill: parent
 
         clip: true
@@ -318,29 +329,6 @@ Window {
             Item {
                 id: background
                 anchors.fill: parent
-//                color: "black"
-//                property variant backgroundImage: null
-/*                Image {
-                    id: backgroundImage
-                    anchors.fill: parent
-                    asynchronous: true
-                    source: backgroundModel.activeWallpaper
-                    fillMode: Image.PreserveAspectCrop
-                    Component.onCompleted: {
-                        sourceSize.height = background.height;
-                    }
-                }*/
-                Component {
-                    id: backgroundImageComponent
-                    Image {
-                        //anchors.centerIn: parent
-                        anchors.fill: parent
-                        asynchronous: true
-                        source: backgroundModel.activeWallpaper
-                        sourceSize.height: background.height
-                        fillMode: Image.PreserveAspectCrop
-                    }
-                }
             }
 
             StatusBar {
@@ -412,7 +400,7 @@ Window {
 
                         Behavior on x {
                             id:moveSlowly
-                            enabled: allPanels.animationEnabled 
+                            enabled: allPanels.animationEnabled
                             NumberAnimation { duration: 250}
                         }
 
