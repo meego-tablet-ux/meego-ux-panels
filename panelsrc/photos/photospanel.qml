@@ -193,9 +193,19 @@ FlipPanel {
                         visible = false
                     }
                 }
+                Connections {
+                    target: container
+                    onContentEmptyChanged: {
+                        if (!contentEmpty && !oobe.hadContent) {
+                            oobe.isVisible = false;
+                            oobe.hadContent = true
+                            panelObj.setCustomProp("PhotosHadContent",1)
+                        }
+                    }
+                }
             }
             PanelInfoBar {
-                id: empty
+                id: infobar
                 spacingVisible: true
             }
 
@@ -205,7 +215,7 @@ FlipPanel {
                 isVisible: backSettingsModel.get(0).isVisible && (count > 0) && !clearingHistory
                 onHidden: {
                     if(clearingHistory) {
-                        empty.display(qsTr("You have cleared the Photos history"))
+                        infobar.display(qsTr("You have cleared the Photos history"))
                         recentlyViewedModel.clear()
                         clearingHistory = false
                     }
@@ -241,60 +251,83 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: fpecAlbumList
-                isVisible: backSettingsModel.get(1).isVisible && (count > 0)
+                isVisible: backSettingsModel.get(1).isVisible && !oobe.isVisible
                 text: qsTr("Albums")
                 property int count: 0
-                contents: PanelColumnView {
+                contents: Item {
                     width: parent.width
-                    model: allAlbumsListModel
-                    onCountChanged: fpecAlbumList.count = count
-                    Component.onCompleted: fpecAlbumList.count = count
-                    delegate: SecondaryTileBase {
-                        id:albumPreview
-                        separatorVisible: index > 0
-                        imageSource: thumburi == ""? "image://themedimage/images/media/photo_thumb_default":thumburi
-                        imageBackground: "normal"
-                        fillMode: Image.PreserveAspectCrop
-                        text: title
-                        zoomImage: true
-                        descriptionComponent: Item {
-                            Column {
-                                width: parent.width
-                                anchors.bottom: parent.bottom
-                                Text {
-                                    text: (photocount == 1 ? qsTr("%1 photo").arg(photocount) : qsTr("%1 photos").arg(photocount))
-                                    width: parent.width
-                                    font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
-                                    color: panelColors.tileDescTextColor //THEME - VERIFY
-                                    wrapMode: Text.NoWrap
-                                    elide: Text.ElideRight
-                                }
-                                Text {
-                                    // TODO creationtime is empty. Use Qt.formatDateTime(t,"MMMM yyyy")
-                                    // if we get creationtime as QDateTime instead of ISODate formatted string
-                                    text: qsTr("Created %1").arg(""+Qt.formatDateTime(addedtime, "MMMM yyyy"))
-                                    width: parent.width
-                                    font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
-                                    color: panelColors.tileDescTextColor //THEME - VERIFY
-                                    wrapMode: Text.NoWrap
-                                    elide: Text.ElideRight
+                    height: empty.isVisible ? empty.height : albums.height
+                    PanelOobe {
+                        id: empty
+                        width: parent.width
+                        text: qsTr("You have no photo albums")
+                        isVisible: !albums.visible
+                        extraContentModel: VisualItemModel {
+                            PanelButton {
+                                separatorVisible: false
+                                text: qsTr("Create an album")
+                                onClicked: {
+                                    notifyModel()
+                                    spinnerContainer.startSpinner()
+                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
                                 }
                             }
                         }
+                    }
+                    PanelColumnView {
+                        id: albums
+                        width: parent.width
+                        model: allAlbumsListModel
+                        visible: fpecAlbumList.count > 0
+                        onCountChanged: fpecAlbumList.count = count
+                        Component.onCompleted: fpecAlbumList.count = count
+                        delegate: SecondaryTileBase {
+                            id:albumPreview
+                            separatorVisible: index > 0
+                            imageSource: thumburi == ""? "image://themedimage/images/media/photo_thumb_default":thumburi
+                            imageBackground: "normal"
+                            fillMode: Image.PreserveAspectCrop
+                            text: title
+                            zoomImage: true
+                            descriptionComponent: Item {
+                                Column {
+                                    width: parent.width
+                                    anchors.bottom: parent.bottom
+                                    Text {
+                                        text: (photocount == 1 ? qsTr("%1 photo").arg(photocount) : qsTr("%1 photos").arg(photocount))
+                                        width: parent.width
+                                        font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+                                        color: panelColors.tileDescTextColor //THEME - VERIFY
+                                        wrapMode: Text.NoWrap
+                                        elide: Text.ElideRight
+                                    }
+                                    Text {
+                                        // TODO creationtime is empty. Use Qt.formatDateTime(t,"MMMM yyyy")
+                                        // if we get creationtime as QDateTime instead of ISODate formatted string
+                                        text: qsTr("Created %1").arg(""+Qt.formatDateTime(addedtime, "MMMM yyyy"))
+                                        width: parent.width
+                                        font.pixelSize: panelSize.tileFontSize //THEME - VERIFY
+                                        color: panelColors.tileDescTextColor //THEME - VERIFY
+                                        wrapMode: Text.NoWrap
+                                        elide: Text.ElideRight
+                                    }
+                                }
+                            }
 
-                        onClicked: {
-                            spinnerContainer.startSpinner();
-                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + urn)
-                            container.notifyModel();
-                        }
+                            onClicked: {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + urn)
+                                container.notifyModel();
+                            }
 
-                        //For the context Menu
-                        onPressAndHold:{
-                            var pos = albumPreview.mapToItem(window, mouse.x, mouse.y);
+                            //For the context Menu
+                            onPressAndHold:{
+                                var pos = albumPreview.mapToItem(window, mouse.x, mouse.y);
 
-                            ctxMenuAlbum.currentUrn= urn
-                            ctxMenuAlbum.setPosition(pos.x, pos.y);
-                            ctxMenuAlbum.show();
+                                ctxMenuAlbum.currentUrn= urn
+                                ctxMenuAlbum.setPosition(pos.x, pos.y);
+                                ctxMenuAlbum.show();
+                            }
                         }
                     }
                 }
