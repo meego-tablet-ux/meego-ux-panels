@@ -402,7 +402,7 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: fpPlaylists
-                isVisible: backSettingsModel.get(2).isVisible && (count > 0)
+                isVisible: backSettingsModel.get(2).isVisible
                 text: qsTr("Playlists")
                 property int count: 0
 
@@ -430,7 +430,29 @@ FlipPanel {
                     }
                 }
 
-                contents: PanelColumnView {
+                contents: Item {
+                    width: parent.width
+                    height: empty.isVisible ? empty.height : playlists.height
+                    PanelOobe {
+                        id: empty
+                        width: parent.width
+                        text: qsTr("You have no playlists")
+                        isVisible: !playlists.visible
+                        extraContentModel: VisualItemModel {
+                            PanelButton {
+                                separatorVisible: false
+                                text: qsTr("Create a playlist")
+                                onClicked: {
+                                    notifyModel()
+                                    spinnerContainer.startSpinner()
+                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                                }
+                            }
+                        }
+                    }
+                PanelColumnView {
+                    id: playlists
+                    visible: fpPlaylists.count > 0
                     model: playlistsModel
                     width: parent.width
                     onCountChanged: fpPlaylists.count = count
@@ -461,6 +483,7 @@ FlipPanel {
                         }
 
                     }
+                }
                 }
             }
         }
