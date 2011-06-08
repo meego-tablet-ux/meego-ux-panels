@@ -108,66 +108,74 @@ FlipPanel {
         Item {
             width: parent.width
             height: parent.height
-            PanelExpandableContent {
-                id: oobe
-                property bool hadContent: false
-                showHeader: false
-                isVisible: contentEmpty && !hadContent
-                showBackground: false
-                contents: PanelOobe {
-                    text: qsTr("Emails, instant messages and social network updates will appear here.")
-                    textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/launchers/meego-app-contacts"
-                    extraContentModel: setupButtonsModel
-                    extraContentDelegate: setupButtonsDelegate
-                }
-                Component.onCompleted: {
-                    hadContent = panelObj.getCustomProp("FriendsHadContent")
-                    if (hadContent) {
-                        visible = false
-                        isVisible = false
+            Flickable {
+                anchors.fill: parent
+                //interactive: true
+                flickableDirection: Flickable.VerticalFlick
+                // lock all movement when contents don't need to scroll
+                interactive: (contentHeight > height)
+                contentHeight: oobe.height + empty.height + noServices.height
+                PanelExpandableContent {
+                    id: oobe
+                    property bool hadContent: false
+                    showHeader: false
+                    isVisible: contentEmpty && !hadContent
+                    showBackground: false
+                    contents: PanelOobe {
+                        text: qsTr("Emails, instant messages and social network updates will appear here.")
+                        textColor: panelColors.panelHeaderColor
+                        imageSource: "image://themedimage/icons/oobe/contacts-unavailable"
+                        extraContentModel: setupButtonsModel
+                        extraContentDelegate: setupButtonsDelegate
                     }
-                    oobeVisible = isVisible
-                }
-                onIsVisibleChanged: {
-                    oobeVisible = isVisible
-                }
-                Connections {
-                    target: fpContainer
-                    onContentEmptyChanged: {
-                        if (!contentEmpty && !oobe.hadContent) {
-                            oobe.isVisible = false;
-                            oobeVisible = false
-                            oobe.hadContent = true
-                            panelObj.setCustomProp("FriendsHadContent",1)
+                    Component.onCompleted: {
+                        hadContent = !!panelObj.getCustomProp("FriendsHadContent")
+                        if (hadContent) {
+                            visible = false
+                            isVisible = false
+                        }
+                        oobeVisible = isVisible
+                    }
+                    onIsVisibleChanged: {
+                        oobeVisible = isVisible
+                    }
+                    Connections {
+                        target: fpContainer
+                        onContentEmptyChanged: {
+                            if (!contentEmpty && !oobe.hadContent) {
+                                oobe.isVisible = false;
+                                oobeVisible = false
+                                oobe.hadContent = true
+                                panelObj.setCustomProp("FriendsHadContent",1)
+                            }
                         }
                     }
                 }
-            }
-            PanelExpandableContent {
-                id: empty
-                isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount > 0
-                showHeader: false
-                showBackground: false
-                contents: PanelOobe {
-                    text: qsTr("No recent updates from friends.")
-                    textColor: panelColors.panelHeaderColor
+                PanelExpandableContent {
+                    id: empty
+                    isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount > 0
+                    showHeader: false
+                    showBackground: false
+                    contents: PanelOobe {
+                        text: qsTr("No recent updates from friends.")
+                        textColor: panelColors.panelHeaderColor
+                    }
                 }
-            }
-            PanelExpandableContent {
-                id: noServices
-                isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount == 0 && configuredServicesCount > 0
-                showHeader: false
-                showBackground: false
-                contents: PanelOobe {
-                    text: qsTr("You have turned off all your accounts.")
-                    textColor: panelColors.panelHeaderColor
-                    extraContentModel : VisualItemModel {
-                        PanelButton {
-                            separatorVisible: false
-                            text: qsTr("Turn accounts on")
-                            onClicked: {
-                                fpContainer.flip();
+                PanelExpandableContent {
+                    id: noServices
+                    isVisible: !lvContent.visible && !oobe.visible && enabledServicesCount == 0 && configuredServicesCount > 0
+                    showHeader: false
+                    showBackground: false
+                    contents: PanelOobe {
+                        text: qsTr("You have turned off all your accounts.")
+                        textColor: panelColors.panelHeaderColor
+                        extraContentModel : VisualItemModel {
+                            PanelButton {
+                                separatorVisible: false
+                                text: qsTr("Turn accounts on")
+                                onClicked: {
+                                    fpContainer.flip();
+                                }
                             }
                         }
                     }
