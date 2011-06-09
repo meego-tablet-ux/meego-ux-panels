@@ -159,7 +159,7 @@ FlipPanel {
                     width: parent.width
                     text: qsTr("The applications you use most will appear here. Discover the apps already in your tablet, or visit Intel AppUp to download more.")
                     textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/launchers/meego-app-appup"
+                    imageSource: "image://themedimage/icons/oobe/phone-unavailable"
                 }
             }
             PanelExpandableContent{

@@ -158,33 +158,29 @@ FlipPanel {
     resources: [
         VisualItemModel {
             id: itemModelOOBE
-            Item {
-                height: parent ? parent.height : 0
-                width: parent ? parent.width : 0
-                PanelExpandableContent {
-                    id: oobe
-                    showHeader: false
-                    showBackground: false
-                    contents: PanelOobe {
-                        text: qsTr("The latest music you play and your playlists will appear here.")
-                        textColor: panelColors.panelHeaderColor
-                        imageSource: "image://themedimage/icons/launchers/meego-app-music"
-                        extraContentModel: VisualItemModel {
-                            PanelButton {
-                                separatorVisible: false
-                                text: qsTr("Play some music")
-                                onClicked: {
-                                    spinnerContainer.startSpinner()
-                                    container.notifyModel()
-                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
-                                }
+            PanelExpandableContent {
+                id: oobe
+                showHeader: false
+                showBackground: false
+                contents: PanelOobe {
+                    text: qsTr("The latest music you play and your playlists will appear here.")
+                    textColor: panelColors.panelHeaderColor
+                    imageSource: "image://themedimage/icons/oobe/music-unavailable"
+                    extraContentModel: VisualItemModel {
+                        PanelButton {
+                            separatorVisible: false
+                            text: qsTr("Play some music")
+                            onClicked: {
+                                spinnerContainer.startSpinner()
+                                container.notifyModel()
+                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
                             }
                         }
                     }
-                    Component.onCompleted: {
-                        if (panelObj.getCustomProp("MusicHadContent")) {
-                            visible = false
-                        }
+                }
+                Component.onCompleted: {
+                    if (panelObj.getCustomProp("MusicHadContent")) {
+                        visible = false
                     }
                 }
             }

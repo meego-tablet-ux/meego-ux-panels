@@ -93,7 +93,7 @@ FlipPanel {
                 contents: PanelOobe {
                     text: qsTr("The latest videos you watch will appear here.")
                     textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/launchers/meego-app-video"
+                    imageSource: "image://themedimage/icons/oobe/video-unavailable"
                     extraContentModel : VisualItemModel {
                         PanelButton {
                             separatorVisible: false
