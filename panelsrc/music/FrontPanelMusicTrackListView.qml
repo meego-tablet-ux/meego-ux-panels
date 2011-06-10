@@ -34,6 +34,12 @@ PanelColumnView {
                 imageSource: thumburi
                 text: title
                 description: "" + artist
+                onClicked:{
+                    trackItem.clicked(mouse)
+                }
+                onPressAndHold:{
+                    trackItem.pressAndHold(mouse)
+                }
             }
             TileListItem {
                 id: listItem
@@ -44,10 +50,14 @@ PanelColumnView {
                 zoomImage: true
                 text: title
                 description: "" + artist
-            }
-            MouseArea {
-                anchors.fill: parent
                 onClicked:{
+                    trackItem.clicked(mouse)
+                }
+                onPressAndHold:{
+                    trackItem.pressAndHold(mouse)
+                }
+            }
+            function clicked(mouse) {
                     spinnerContainer.startSpinner();
                     var playCommand = "playSong";
                     if (itemtype == MediaItem.SongItem)
@@ -61,9 +71,8 @@ PanelColumnView {
 
                       appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
                       container.notifyModel();
-                }
-                //For the context Menu
-                onPressAndHold:{
+            }
+            function pressAndHold(mouse) {
                     var pos = trackItem.mapToItem(topItem.topItem, mouse.x, mouse.y);
 
                     contextMenu.currentUrn=urn;
@@ -83,7 +92,6 @@ PanelColumnView {
                     contextMenu.menuPos = pos;
                     contextMenu.setPosition(pos.x, pos.y);
                     contextMenu.show();
-                }
             }
         }
 
