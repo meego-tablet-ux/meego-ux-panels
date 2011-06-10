@@ -108,60 +108,6 @@ FlipPanel {
     }
 
     resources: [
-            ContextMenu {
-                id: ctxMenuPhoto
-                property string currentUrn
-                property string currentUri
-                property variant menuPos
-                content: ActionMenu {
-                    model:[qsTr("Open"), qsTr("Share") ,qsTr("Hide"), qsTr("Set as background")]
-                    onTriggered: {
-                        if (model[index] == qsTr("Open")) {
-                            spinnerContainer.startSpinner();
-                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + ctxMenuPhoto.currentUrn )
-                            container.notifyModel()
-                        } else if (model[index] == qsTr("Hide")){
-                            panelObj.addHiddenItem(ctxMenuPhoto.currentUrn)
-                            recentlyViewedModel.hideItemByURN(ctxMenuPhoto.currentUrn)
-                        }else if (model[index] == qsTr("Share"))
-                        {
-                            shareObj.clearItems();
-                            shareObj.addItem(ctxMenuPhoto.currentUri);
-                            shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeImage
-                            ctxMenuPhoto.hide()
-                            shareObj.showContextTypes(ctxMenuPhoto.menuPos.x, ctxMenuPhoto.menuPos.y);
-                        }
-                        else {
-                            backgroundModel.activeWallpaper = ctxMenuPhoto.currentUri;
-                        }
-                        ctxMenuPhoto.hide();
-                    }
-                }
-            },
-            ContextMenu {
-                id: ctxMenuAlbum
-                property string currentUrn
-
-
-                content: ActionMenu {
-                    model:[qsTr("Open"),qsTr("Hide")]
-
-                    onTriggered: {
-                        if (model[index] == qsTr("Open")) {
-                            spinnerContainer.startSpinner();
-                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + ctxMenuAlbum.currentUrn )
-                            container.notifyModel()
-                        } else if (model[index] == qsTr("Hide")){
-                            panelObj.addHiddenItem(ctxMenuAlbum.currentUrn)
-                            allAlbumsListModel.hideItemByURN(ctxMenuAlbum.currentUrn)
-                        } else {
-                            console.log("Unhandled context action in Photos: " + model[index]);
-                        }
-                        ctxMenuAlbum.hide();
-                    }
-                }
-            },
-
         VisualItemModel {
             id: photoFront
 
@@ -247,6 +193,36 @@ FlipPanel {
 
                     }
                 }
+                ContextMenu {
+                    id: ctxMenuPhoto
+                    property string currentUrn
+                    property string currentUri
+                    property variant menuPos
+                    content: ActionMenu {
+                        model:[qsTr("Open"), qsTr("Share") ,qsTr("Hide"), qsTr("Set as background")]
+                        onTriggered: {
+                            if (model[index] == qsTr("Open")) {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + ctxMenuPhoto.currentUrn )
+                                container.notifyModel()
+                            } else if (model[index] == qsTr("Hide")){
+                                panelObj.addHiddenItem(ctxMenuPhoto.currentUrn)
+                                recentlyViewedModel.hideItemByURN(ctxMenuPhoto.currentUrn)
+                            }else if (model[index] == qsTr("Share"))
+                            {
+                                shareObj.clearItems();
+                                shareObj.addItem(ctxMenuPhoto.currentUri);
+                                shareObj.shareType = MeeGoUXSharingClientQmlObj.ShareTypeImage
+                                ctxMenuPhoto.hide()
+                                shareObj.showContextTypes(ctxMenuPhoto.menuPos.x, ctxMenuPhoto.menuPos.y);
+                            }
+                            else {
+                                backgroundModel.activeWallpaper = ctxMenuPhoto.currentUri;
+                            }
+                            ctxMenuPhoto.hide();
+                        }
+                    }
+                }
             }
 
             PanelExpandableContent {
@@ -328,6 +304,29 @@ FlipPanel {
                                 ctxMenuAlbum.setPosition(pos.x, pos.y);
                                 ctxMenuAlbum.show();
                             }
+                        }
+                    }
+                }
+                ContextMenu {
+                    id: ctxMenuAlbum
+                    property string currentUrn
+
+
+                    content: ActionMenu {
+                        model:[qsTr("Open"),qsTr("Hide")]
+
+                        onTriggered: {
+                            if (model[index] == qsTr("Open")) {
+                                spinnerContainer.startSpinner();
+                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + ctxMenuAlbum.currentUrn )
+                                container.notifyModel()
+                            } else if (model[index] == qsTr("Hide")){
+                                panelObj.addHiddenItem(ctxMenuAlbum.currentUrn)
+                                allAlbumsListModel.hideItemByURN(ctxMenuAlbum.currentUrn)
+                            } else {
+                                console.log("Unhandled context action in Photos: " + model[index]);
+                            }
+                            ctxMenuAlbum.hide();
                         }
                     }
                 }
