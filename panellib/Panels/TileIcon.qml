@@ -10,7 +10,7 @@ import Qt 4.7
 BorderImage {
     id: tileIcon
 
-    property alias imageSource: fpImage.source
+    property string imageSource
     property bool zoomImage: false
     property alias fillMode: fpImage.fillMode
     property string fallBackImage: ""
@@ -21,6 +21,9 @@ BorderImage {
     height: imageHeight + border.bottom + border.top
     width: imageWidth + border.right + border.left
 
+    onImageSourceChanged: {
+        fpImage.source = imageSource;
+    }
     Image {
         id: fpImage
         anchors.centerIn: parent
@@ -32,11 +35,17 @@ BorderImage {
         smooth: true
         asynchronous: true
 
-        Component.onCompleted: {
-            if ((fallBackImage != "") && ((fpImage.status == Image.Error))) {
-                console.log("Failed to load: " + tileIcon.imageSource)
-                tileIcon.imageSource = fallBackImage;
+        function checkImage() {
+            if (fallBackImage != "" && source != fallBackImage && (status == Image.Error || source == "")) {
+                source = fallBackImage;
             }
+        }
+        Component.onCompleted: {
+            source = imageSource;
+            checkImage();
+        }
+        onStatusChanged: {
+            checkImage();
         }
         Loader {
             id: imageChildComp
