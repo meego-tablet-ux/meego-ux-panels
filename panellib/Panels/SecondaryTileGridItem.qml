@@ -18,6 +18,7 @@ TileItem {
     property variant fillMode: Image.PreserveAspectCrop
 
     mouseAreaActive: true
+    feedbackEnabled: false
 
     contents: Item {
         id: tileImage

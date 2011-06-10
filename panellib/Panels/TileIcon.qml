@@ -43,6 +43,17 @@ BorderImage {
             anchors.fill: parent
         }
     }
+    Rectangle {
+        id: fog
+        z: 10
+        height: imageHeight
+        width: imageWidth
+        anchors.centerIn: parent
+        anchors.verticalCenterOffset: parent.border.top - parent.border.bottom
+        color: "white"
+        opacity: 0.25
+        visible: contentPressed
+    }
     state: "empty"
     states: [
         State {

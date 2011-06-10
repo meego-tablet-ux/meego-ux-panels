@@ -18,6 +18,7 @@ TileItem {
     property string fallBackImage
 
     mouseAreaActive: true
+    feedbackEnabled: false
 
     contents: Item {
         height: fpIconBackground.height + panelSize.primaryTileGridVSpacing

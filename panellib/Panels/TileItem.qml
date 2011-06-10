@@ -18,6 +18,8 @@ PanelContent {
     property alias mouseAreaActive: fpMouseArea.visible
     property bool separatorVisible: false
     default property alias contents: tileContent.sourceComponent
+    property bool contentPressed: false
+    property bool feedbackEnabled: true
 
     signal pressAndHold(variant mouse)
     signal clicked(variant mouse)
@@ -40,6 +42,14 @@ PanelContent {
         Loader {
             id: tileContent
             width: parent.width
+            Rectangle {
+                id: fog
+                z: 10
+                anchors.fill: parent
+                color: "white"
+                opacity: 0.25
+                visible: feedbackEnabled && contentPressed
+            }
         }
         Item {
             width: parent.width
@@ -50,6 +60,15 @@ PanelContent {
         id: fpMouseArea
         anchors.fill: parent
         visible: false
+        onPressed: {
+            contentPressed = true
+        }
+        onReleased: {
+            contentPressed = false
+        }
+        onCanceled: {
+            contentPressed = false
+        }
         onPressAndHold: {
             container.pressAndHold(mouse)
         }
