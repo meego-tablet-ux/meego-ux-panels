@@ -28,7 +28,7 @@ Item{
             bubbleContainer.visible = false;
         }
         visible: bubbleContainer.visible
-        Labs.VolumeControl {
+        VolumeControl {
             id: volCon
         }
 
