@@ -1,11 +1,11 @@
 include(../common.pri)
 TEMPLATE = subdirs
-SUBDIRS += friends/ \
-	mytablet/ \
-	photos/ \
-	video/ \
-	web/ \
-	music/
+SUBDIRS += friends \
+	mytablet \
+	photos \
+	video \
+	web \
+	music
 
 OTHER_FILES += friends/*.qml \
     mytablet/*.qml \
