@@ -92,20 +92,7 @@ FlipPanel {
 
     front: Panel {
         panelTitle: qsTr("Music")
-        panelContent: {
-            var count = 0;
-            if (musicIntf.state == "playing" || musicIntf.state == "paused")
-                count = count+1;
-            if (backSettingsModel.get(0).isVisible)
-                count = count + musicRecentsModel.count;
-            if (backSettingsModel.get(1).isVisible)
-                count = count + playlistsModel.count;
-            if (count)
-                return itemModelOne;
-            else
-                return itemModelOOBE;
-//            (((playlistsModel.count + musicRecentsModel.count == 0) && (musicIntf.state != "playing" && musicIntf.state != "paused")) ? itemModelOOBE : itemModelOne)
-        }
+        panelContent: itemModel
     }
 
     back: BackPanelStandard {
@@ -157,9 +144,18 @@ FlipPanel {
 
     resources: [
         VisualItemModel {
-            id: itemModelOOBE
+            id: itemModel
             PanelExpandableContent {
                 id: oobe
+                property bool hadContent: false
+                isVisible: contentEmpty && !hadContent
+                function hideOobe() {
+                    if (!oobe.hadContent) {
+                        oobe.isVisible = false;
+                        oobe.hadContent = true
+                        panelObj.setCustomProp("MusicHadContent",1)
+                    }
+                }
                 showHeader: false
                 showBackground: false
                 contents: PanelOobe {
@@ -179,17 +175,30 @@ FlipPanel {
                     }
                 }
                 Component.onCompleted: {
-                    if (panelObj.getCustomProp("MusicHadContent")) {
-                        visible = false
+                    hadContent = !!panelObj.getCustomProp("MusicHadContent")
+                    if (hadContent) {
+                        isVisible = false
+                    } else if(currentlyPlaying.isVisible || !contentEmpty) {
+                        oobe.hideOobe()
+                    }
+                }
+                Connections {
+                    target: container
+                    onContentEmptyChanged: {
+                        if(!contentEmpty) {
+                            oobe.hideOobe()
+                        }
+                    }
+                }
+                Connections {
+                    target: currentlyPlaying
+                    onIsVisibleChanged: {
+                        if (isVisible) {
+                            oobe.hideOobe()
+                        }
                     }
                 }
             }
-        },
-
-        VisualItemModel {
-            id: itemModelOne
-
-
 
             PanelExpandableContent {
                 MusicListModel {
@@ -292,7 +301,7 @@ FlipPanel {
 
                 id: playqueueItem
                 property int count: 0
-                isVisible: backSettingsModel.get(1).isVisible
+                isVisible: backSettingsModel.get(1).isVisible && !oobe.visible
                 //visible: (musicIntf.nextTrackCount > 0)
 
                 text:qsTr("Coming up in play queue")
@@ -398,7 +407,7 @@ FlipPanel {
 
             PanelExpandableContent {
                 id: fpPlaylists
-                isVisible: backSettingsModel.get(2).isVisible
+                isVisible: backSettingsModel.get(2).isVisible && !oobe.visible
                 text: qsTr("Playlists")
                 property int count: 0
 
