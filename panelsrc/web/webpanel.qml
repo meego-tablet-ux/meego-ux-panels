@@ -143,7 +143,7 @@ FlipPanel {
                 contents: PanelOobe {
                     text: qsTr("The latest websites you visit and your bookmarks will appear here.")
                     textColor: panelColors.panelHeaderColor
-                    imageSource: "image://themedimage/icons/oobe/phone-unavailable"
+                    imageSource: "image://themedimage/icons/oobe/web-unavailable"
                     extraContentModel : VisualItemModel {
                         PanelButton {
                             separatorVisible: false
