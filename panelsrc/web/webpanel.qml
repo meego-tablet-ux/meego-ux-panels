@@ -106,13 +106,15 @@ FlipPanel {
 
     front: Panel {
         id: webPanel
-        panelTitle: qsTr("Web")
+        panelTitle: qsTr("Web", "PanelTitle")
         panelContent: contentModel
     }
 
     back: BackPanelStandard {
-        panelTitle: qsTr("Web settings")
-        subheaderText: qsTr("Web panel content")
+        //: %1 is "Web" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("Web", "PanelTitle"))
+        //: %1 is "Web" panel title
+        subheaderText: qsTr("%1 panel content").arg(qsTr("Web", "PanelTitle"))
         settingsListModel: backSettingsModel
         isBackPanel: true
         clearButtonText: (fpecRecentSites.count == 0) ? qsTr("Visit a website") : qsTr("Clear history")

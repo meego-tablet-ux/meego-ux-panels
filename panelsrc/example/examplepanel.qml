@@ -73,13 +73,15 @@ FlipPanel {
 
     front: Panel {
         id: examplePanel
-        panelTitle: qsTr("Example")
+        panelTitle: qsTr("Example", "PanelTitle")
         panelContent: contents
     }
 
     back: BackPanelStandard {
-        panelTitle: qsTr("Example settings")
-        subheaderText: qsTr("Example panel content")
+        //: %1 is "Example" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("Example", "PanelTitle"))
+        //: %1 is "Example" panel title
+        subheaderText: qsTr("%1 panel content").arg(qsTr("Example", "PanelTitle"))
         settingsListModel: backSettingsModel
 
         onClearHistClicked:{

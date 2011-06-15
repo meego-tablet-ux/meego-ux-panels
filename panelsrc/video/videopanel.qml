@@ -57,13 +57,15 @@ FlipPanel {
     }
 
     front: Panel {
-        panelTitle: qsTr("Video")
+        panelTitle: qsTr("Video", "PanelTitle")
         panelContent: videoFront
     }
 
     back: BackPanelStandard {
-        panelTitle: qsTr("Video settings")
-        subheaderText: qsTr("Video panel content")
+        //: %1 is "Video" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("Video", "PanelTitle"))
+        //: %1 is "Video" panel title
+        subheaderText: qsTr("%1 panel content").arg(qsTr("Video", "PanelTitle"))
         settingsListModel: backSettingsModel
         isBackPanel: true
         clearButtonText: contentEmpty ? qsTr("Watch a video") : qsTr("Clear history")

@@ -133,7 +133,7 @@ FlipPanel {
 
     front: Panel {
 
-        panelTitle: qsTr("My Tablet")
+        panelTitle: qsTr("My Tablet", "PanelTitle")
         panelContent: myContents
     }
 
@@ -198,8 +198,10 @@ FlipPanel {
 
 
     back: BackPanelStandard {
-        panelTitle: qsTr("My Tablet settings")
-        subheaderText: qsTr("My Tablet content")
+        //: %1 is "My Tablet" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("My Tablet", "PanelTitle"))
+        //: %1 is "My Tablet" panel title
+        subheaderText: qsTr("%1 content").arg(qsTr("My Tablet", "PanelTitle"))
         settingsListModel: backSettingsModel
         isBackPanel: true
 

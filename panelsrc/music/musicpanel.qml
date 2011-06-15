@@ -91,13 +91,15 @@ FlipPanel {
 
 
     front: Panel {
-        panelTitle: qsTr("Music")
+        panelTitle: qsTr("Music", "PanelTitle")
         panelContent: itemModel
     }
 
     back: BackPanelStandard {
-        panelTitle: qsTr("Music settings")
-        subheaderText: qsTr("Music panel content")
+        //: %1 is "Music" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("Music", "PanelTitle"))
+        //: %1 is "Music" panel title
+        subheaderText: qsTr("%1 panel content").arg(qsTr("Music", "PanelTitle"))
         settingsListModel: backSettingsModel
         isBackPanel: true
         clearButtonText: contentEmpty ? qsTr("Play some music") : qsTr("Clear history")

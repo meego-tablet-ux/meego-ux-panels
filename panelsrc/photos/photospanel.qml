@@ -83,13 +83,15 @@ FlipPanel {
     }
 
     front: Panel {
-        panelTitle: qsTr("Photos")
+        panelTitle: qsTr("Photos", "PanelTitle")
         panelContent: photoFront
     }
 
     back: BackPanelStandard {
-        panelTitle: qsTr("Photos settings")
-        subheaderText: qsTr("Photos panel content")
+        //: %1 is "Photos" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("Photos", "PanelTitle"))
+        //: %1 is "Photos" panel title
+        subheaderText: qsTr("%1 panel content").arg(qsTr("Photos", "PanelTitle"))
         settingsListModel: backSettingsModel
         isBackPanel: true
         clearButtonText: contentEmpty ? qsTr("View some photos") : qsTr("Clear history")

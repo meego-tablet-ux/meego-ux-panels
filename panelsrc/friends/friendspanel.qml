@@ -27,14 +27,16 @@ FlipPanel {
 
     front: SimplePanel {
         id: frontPanel
-        panelTitle: qsTr("Friends")
+        panelTitle: qsTr("Friends", "PanelTitle")
         panelComponent: fpcContent
     }
 
     back: BackPanelGeneric {
         id: backPanel
-        panelTitle: qsTr("Friends settings")
-        subheaderText: qsTr("Friends panel content")
+        //: %1 is "Friends" panel title
+        panelTitle: qsTr("%1 settings").arg(qsTr("Friends", "PanelTitle"))
+        //: %1 is "Friends" panel title
+        subheaderText: qsTr("%1 panel content").arg(qsTr("Friends", "PanelTitle"))
         bpContent: backPanelContent
     }
 
