@@ -107,8 +107,8 @@ SecondaryTileBase {
                         anchors.bottom: parent.bottom
                         anchors.right: parent.right
                         height: Math.min(panelSize.serviceIconSize, sourceSize.height)
-                        width: Math.min(panelSize.serviceIconSize, sourceSize.height)
-                        fillMode: Image.PreserveAspectCrop
+                        width: Math.min(panelSize.serviceIconSize, sourceSize.width)
+                        fillMode: Image.PreserveAspectFit
                         clip: true
                         asynchronous: true
                         source: (serviceIconThemed == "" ? (serviceIcon == "" ? "image://themedimage/icons/services/generic" : serviceIcon ) : serviceIconThemed)
