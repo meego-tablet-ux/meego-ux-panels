@@ -22,6 +22,8 @@ SecondaryTileBase {
 
     property string serviceName: ""
     property string serviceIcon: ""
+    //Ugly hack for the moment, as the more general service name isn't available from ContentAggregator
+    property string serviceIconThemed: "image://themedimage/icons/services/" + serviceName.toLowerCase()
     property string authorName: ""
     property string messageText: ""
     property string picImage: ""
@@ -38,7 +40,6 @@ SecondaryTileBase {
     signal acceptClicked(string myID)
     signal rejectClicked(string myID)
     signal read(string myID)
-
 
 
     function amIVisible() {
@@ -102,6 +103,7 @@ SecondaryTileBase {
                     asynchronous: true
                     Image {
                         id: serviceIconImage
+                        property bool usedServiceIcon: false
                         anchors.bottom: parent.bottom
                         anchors.right: parent.right
                         height: Math.min(panelSize.serviceIconSize, sourceSize.height)
@@ -109,10 +111,15 @@ SecondaryTileBase {
                         fillMode: Image.PreserveAspectCrop
                         clip: true
                         asynchronous: true
-                        source: (serviceIcon == "" ? "image://themedimage/icons/services/generic" : serviceIcon)
+                        source: (serviceIconThemed == "" ? (serviceIcon == "" ? "image://themedimage/icons/services/generic" : serviceIcon ) : serviceIconThemed)
                         onStatusChanged: {
                             if (status == Image.Error) {
-                                source = "image://themedimage/icons/services/generic";
+                                if (usedServiceIcon) {
+                                    source = "image://themedimage/icons/services/generic";
+                                } else {
+                                    usedServiceIcon = true;
+                                    source = serviceIcon;
+                                }
                             }
                         }
                     }
