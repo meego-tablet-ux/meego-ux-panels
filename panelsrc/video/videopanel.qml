@@ -198,7 +198,7 @@ FlipPanel {
                     delegate: PrimaryTile {
                         id:previewItem
                         imageSource:thumburi
-                        text:qsTr(title)
+                        text: title
 
                         onClicked: {
                             spinnerContainer.startSpinner();
