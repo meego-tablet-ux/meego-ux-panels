@@ -266,7 +266,8 @@ FlipPanel {
                                 qApp.launchDesktopByName(musicDesktop, ctxMenuRecent.playCommand, ctxMenuRecent.currentUrn);
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Play")){
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuRecent.currentUrn )
+//                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuRecent.currentUrn )
+                                qApp.launchDesktopByName(musicDesktop, ctxMenuRecent.playCommand, ctxMenuRecent.currentUrn, true);
                                 //container.notifyModel();
                             }
                             else if(model[index] == qsTr("Share"))
@@ -324,7 +325,8 @@ FlipPanel {
                                 qApp.launchDesktopByName(musicDesktop, ctxMenuQueue.playCommand, ctxMenuQueue.currentUrn);
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Play")){
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
+//                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
+                                qApp.launchDesktopByName(musicDesktop, ctxMenuQueue.playCommand, ctxMenuQueue.currentUrn, true);
                                 //container.notifyModel();
                             }
                             else if(model[index] == qsTr("Share"))
