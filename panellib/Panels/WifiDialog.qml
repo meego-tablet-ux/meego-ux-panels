@@ -199,7 +199,8 @@ Item {
 
                         onClicked:{
                             spinnerContainer.startSpinner();
-                            appsModel.launch("meego-qml-launcher --opengl  --app meego-ux-settings --cmd showPage --cdata Connections --fullscreen")
+//                            appsModel.launch("meego-qml-launcher --opengl  --app meego-ux-settings --cmd showPage --cdata Connections --fullscreen")
+                            qApp.launchDesktopByName("/usr/share/applications/meego-ux-settings.desktop", "showPage", "Connections");
                             wifiCtxMenu.hide();
                         }
                     }

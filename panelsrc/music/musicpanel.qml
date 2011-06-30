@@ -15,7 +15,7 @@ import MeeGo.Components 0.1
 FlipPanel {
     id: container
 
-    property string musicDesktop: "/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop"
+    property string musicDesktop: "/usr/share/applications/meego-app-music.desktop"
     property bool contentEmpty: musicRecentsModel.count == 0
 
     Translator {
@@ -108,7 +108,7 @@ FlipPanel {
             if (contentEmpty) {
                 spinnerContainer.startSpinner()
                 container.notifyModel()
-                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                qApp.launchDesktopByName(musicDesktop)
             } else {
                 musicRecentsModel.clear()
                 container.flip()
@@ -171,7 +171,7 @@ FlipPanel {
                             onClicked: {
                                 spinnerContainer.startSpinner()
                                 container.notifyModel()
-                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                                qApp.launchDesktopByName(musicDesktop)
                             }
                         }
                     }
@@ -262,7 +262,8 @@ FlipPanel {
                         onTriggered: {
                             if (model[index] == qsTr("Open")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --cdata " + ctxMenuRecent.currentUrn)
+//                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --cdata " + ctxMenuRecent.currentUrn)
+                                qApp.launchDesktopByName(musicDesktop, ctxMenuRecent.playCommand, ctxMenuRecent.currentUrn);
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Play")){
                                 appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuRecent.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuRecent.currentUrn )
@@ -319,7 +320,8 @@ FlipPanel {
                         onTriggered: {
                             if (model[index] == qsTr("Open")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --cdata " + ctxMenuQueue.currentUrn)
+//                                appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --cdata " + ctxMenuQueue.currentUrn)
+                                qApp.launchDesktopByName(musicDesktop, ctxMenuQueue.playCommand, ctxMenuQueue.currentUrn);
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Play")){
                                 appsModel.launch( "/usr/bin/meego-qml-launcher --fullscreen --opengl --cmd " + ctxMenuQueue.playCommand + " --app meego-app-music --noraise --cdata " + ctxMenuQueue.currentUrn )
@@ -387,7 +389,8 @@ FlipPanel {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     onClicked: {
                                         spinnerContainer.startSpinner();
-                                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --app meego-app-music --cmd show --cdata playqueue")
+//                                        appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --app meego-app-music --cmd show --cdata playqueue")
+                                        qApp.launchDesktopByName(musicDesktop, "show", "playqueue");
                                         container.notifyModel();
                                     }
                                 }
@@ -422,7 +425,8 @@ FlipPanel {
                         onTriggered: {
                             if (model[index] == qsTr("Play")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playPlaylist --app meego-app-music --cdata " + ctxMenuAlbum.currentUrn)
+//                                appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playPlaylist --app meego-app-music --cdata " + ctxMenuAlbum.currentUrn)
+                                qApp.launchDesktopByName(musicDesktop, "playPlaylist", ctxMenuAlbum.currentUrn);
                                 container.notifyModel();
                             } else if (model[index] == qsTr("Hide"))
                             {
@@ -452,7 +456,7 @@ FlipPanel {
                                 onClicked: {
                                     notifyModel()
                                     spinnerContainer.startSpinner()
-                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-music.desktop")
+                                    qApp.launchDesktopByName(musicDesktop)
                                 }
                             }
                         }
@@ -476,7 +480,8 @@ FlipPanel {
 
                         onClicked:{
                             spinnerContainer.startSpinner();
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playPlaylist --app meego-app-music --cdata " + urn)
+//                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd playPlaylist --app meego-app-music --cdata " + urn)
+                            qApp.launchDesktopByName(musicDesktop, "playPlaylist", urn);
                             container.notifyModel();
                         }
 

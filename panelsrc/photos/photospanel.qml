@@ -18,6 +18,7 @@ FlipPanel {
     id: container
 
     property bool contentEmpty: recentlyViewedModel.count == 0
+    property string photosDesktop: "/usr/share/applications/meego-app-photos.desktop"
 
     Labs.BackgroundModel {
         id: backgroundModel
@@ -31,7 +32,7 @@ FlipPanel {
     //Need to modify model that this app is launched
     function notifyModel()
     {
-        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+        appsModel.favorites.append(photosDesktop)
     }
 
     ListModel{
@@ -100,7 +101,7 @@ FlipPanel {
             if (contentEmpty) {
                 notifyModel()
                 spinnerContainer.startSpinner()
-                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+                qApp.launchDesktopByName(photosDesktop)
             } else {
                 clearHistoryOnFlip = true
                 container.flip()
@@ -130,7 +131,7 @@ FlipPanel {
                             onClicked: {
                                 notifyModel()
                                 spinnerContainer.startSpinner()
-                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+                                qApp.launchDesktopByName(photosDesktop)
                             }
                         }
                     }
@@ -179,7 +180,8 @@ FlipPanel {
                         zoomImage: true
                         onClicked: {
                             spinnerContainer.startSpinner();
-                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + urn )
+//                            appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + urn )
+                            qApp.launchDesktopByName(photosDesktop, "showPhoto", urn);
                             container.notifyModel();
                         }
                         //For the context Menu
@@ -205,7 +207,8 @@ FlipPanel {
                         onTriggered: {
                             if (model[index] == qsTr("Open")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + ctxMenuPhoto.currentUrn )
+//                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showPhoto --fullscreen --app meego-app-photos --cdata " + ctxMenuPhoto.currentUrn )
+                                qApp.launchDesktopByName(photosDesktop, "showPhoto", ctxMenuPhoto.currentUrn);
                                 container.notifyModel()
                             } else if (model[index] == qsTr("Hide")){
                                 panelObj.addHiddenItem(ctxMenuPhoto.currentUrn)
@@ -247,7 +250,7 @@ FlipPanel {
                                 onClicked: {
                                     notifyModel()
                                     spinnerContainer.startSpinner()
-                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-photos.desktop")
+                                    qApp.launchDesktopByName(photosDesktop)
                                 }
                             }
                         }
@@ -294,7 +297,8 @@ FlipPanel {
 
                             onClicked: {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + urn)
+//                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + urn)
+                                qApp.launchDesktopByName(photosDesktop, "showAlbum", urn);
                                 container.notifyModel();
                             }
 
@@ -320,7 +324,8 @@ FlipPanel {
                         onTriggered: {
                             if (model[index] == qsTr("Open")) {
                                 spinnerContainer.startSpinner();
-                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + ctxMenuAlbum.currentUrn )
+//                                appsModel.launch("/usr/bin/meego-qml-launcher --opengl --cmd showAlbum --fullscreen --app meego-app-photos --cdata " + ctxMenuAlbum.currentUrn )
+                                qApp.launchDesktopByName(photosDesktop, "showAlbum", ctxMenuAlbum.currentUrn);
                                 container.notifyModel()
                             } else if (model[index] == qsTr("Hide")){
                                 panelObj.addHiddenItem(ctxMenuAlbum.currentUrn)

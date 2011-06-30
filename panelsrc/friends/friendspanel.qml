@@ -331,7 +331,8 @@ FlipPanel {
             text: qsTr(title)
             onClicked: {
                 spinnerContainer.startSpinner()
-                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata "+page)
+//                appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata "+page)
+                qApp.launchDesktopByName("/usr/share/applications/meego-ux-settings.desktop", "showPage", page);
             }
         }
     }

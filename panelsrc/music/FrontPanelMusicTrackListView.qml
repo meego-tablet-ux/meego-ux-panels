@@ -69,7 +69,8 @@ PanelColumnView {
                       else if (itemtype == MediaItem.MusicPlaylistItem)
                           playCommand = "playPlaylist";
 
-                      appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
+//                      appsModel.launch("/usr/bin/meego-qml-launcher --opengl --fullscreen --cmd " + playCommand + " --app meego-app-music --cdata " + urn)
+                      qApp.launchDesktopByName("/usr/share/applications/meego-app-music.desktop", playCommand, urn);
                       container.notifyModel();
             }
             function pressAndHold(mouse) {
