@@ -62,7 +62,7 @@ FlipPanel {
             icon: "image://themedimage/icons/settings/everyday-settings"
             type: "allSettings"
             title: QT_TR_NOOP("All settings")
-            launchName: "/usr/share/meego-ux-appgrid/applications/meego-ux-settings.desktop"
+            launchName: "/usr/share/applications/meego-ux-settings.desktop"
         }
     }
 

@@ -15,12 +15,13 @@ FlipPanel {
     id: container
 
     property bool contentEmpty: (fpecRecentSites.count == 0 && fpecBookmarks.count == 0)
+    property string browserDesktop: "/usr/share/applications/meego-app-browser.desktop"
 
     //Because we do not have a universal launcher
     //Need to modify model that this app is launched
     function notifyModel()
     {
-        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+        appsModel.favorites.append(browserDesktop)
     }
 
     Translator {
@@ -123,7 +124,7 @@ FlipPanel {
             if (fpecRecentSites.count == 0) {
                 notifyModel();
                 spinnerContainer.startSpinner();
-                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+                qApp.launchDesktopByName(browserDesktop)
             } else {
                 clearHistoryOnFlip = true;
             }
@@ -153,7 +154,7 @@ FlipPanel {
                             onClicked: {
                                 notifyModel();
                                 spinnerContainer.startSpinner();
-                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+                                qApp.launchDesktopByName(browserDesktop)
                             }
                         }
                     }
@@ -206,7 +207,7 @@ FlipPanel {
                                 onClicked: {
                                     notifyModel();
                                     spinnerContainer.startSpinner();
-                                    qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-browser.desktop")
+                                    qApp.launchDesktopByName(browserDesktop)
                                 }
                             }
                         }
