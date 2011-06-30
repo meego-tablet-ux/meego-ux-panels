@@ -16,6 +16,7 @@ FlipPanel {
     id: container
 
     property bool contentEmpty: (recentlyViewed.count == 0)
+    property string videoDesktop: "/usr/share/applications/meego-app-video.desktop"
 
     Translator {
         catalog: "meego-ux-panels-video"
@@ -38,7 +39,7 @@ FlipPanel {
     //Need to modify model that this app is launched
     function notifyModel()
     {
-        appsModel.favorites.append("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+        appsModel.favorites.append(videoDesktop)
     }
 
 
@@ -74,7 +75,7 @@ FlipPanel {
             if (contentEmpty) {
                 notifyModel();
                 spinnerContainer.startSpinner();
-                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+                qApp.launchDesktopByName(videoDesktop)
             } else {
                 clearHistoryOnFlip = true;
             }
@@ -103,7 +104,7 @@ FlipPanel {
                             onClicked: {
                                 notifyModel();
                                 spinnerContainer.startSpinner();
-                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+                                qApp.launchDesktopByName(videoDesktop)
                             }
                         }
                     }
@@ -141,7 +142,7 @@ FlipPanel {
                             onClicked: {
                                 notifyModel();
                                 spinnerContainer.startSpinner();
-                                qApp.launchDesktopByName("/usr/share/meego-ux-appgrid/applications/meego-app-video.desktop")
+                                qApp.launchDesktopByName(videoDesktop)
                             }
                         }
                     }
@@ -172,7 +173,8 @@ FlipPanel {
                             onTriggered: {
                                 if (model[index] == qsTr("Play")) {
                                     spinnerContainer.startSpinner();
-                                    appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
+//                                    appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + ctxMenu.currentUrn )
+                                    qApp.launchDesktopByName(videoDesktop, "playVideo", ctxMenu.currentUrn);
                                     container.notifyModel()
                                 } else if (model[index] == qsTr("Hide")){
                                     panelObj.addHiddenItem(ctxMenu.currentUrn)
@@ -202,7 +204,8 @@ FlipPanel {
 
                         onClicked: {
                             spinnerContainer.startSpinner();
-                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + urn )
+//                            appsModel.launch( "/usr/bin/meego-qml-launcher --opengl --cmd playVideo --app meego-app-video --fullscreen --cdata " + urn )
+                            qApp.launchDesktopByName(videoDesktop, "playVideo", urn);
                             container.notifyModel()
                         }
 

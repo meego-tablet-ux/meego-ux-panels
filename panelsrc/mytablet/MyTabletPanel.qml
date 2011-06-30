@@ -359,7 +359,8 @@ FlipPanel {
                     } else if (type == "allSettings") {
                         spinnerContainer.startSpinner();
                         appsModel.favorites.append(launchName);
-                        appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata settings")
+                        qApp.launchDesktopByName(launchName, "showPage", "settings");
+//                        appsModel.launch("meego-qml-launcher --fullscreen --opengl --app meego-ux-settings --cmd showPage --cdata settings")
                     }
                 }
             }

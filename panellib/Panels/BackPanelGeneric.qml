@@ -46,7 +46,8 @@ SimplePanel {
                         text: qsTr("Manage panels")
                         onClicked: {
                             spinnerContainer.startSpinner();
-                            appsModel.launch("meego-qml-launcher --opengl --app meego-ux-settings --cmd showPage --cdata Personalize --fullscreen")
+//                            appsModel.launch("meego-qml-launcher --opengl --app meego-ux-settings --cmd showPage --cdata Personalize --fullscreen")
+                            qApp.launchDesktopByName("/usr/share/applications/meego-ux-settings.desktop", "showPage", "Personalize");
                         }
                     }
                 }
