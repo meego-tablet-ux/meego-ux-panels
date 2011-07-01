@@ -20,7 +20,7 @@ PanelContent {
     property alias showHeader: fpsubheader.visible
     property alias showBackground: background.visible
 
-    property bool notificationVisible: notification.height == 0
+    property bool notificationVisible: notification.height > 0
 
     function showNotification(text) {
         notification.display(text)
