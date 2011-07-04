@@ -176,7 +176,7 @@ Window {
                     objectName: "PLV"
                     anchors.topMargin: panelSize.panelOuterSpacing
                     anchors.fill: parent
-                    interactive: true
+                    interactive: false
                     cacheBuffer: count * panelSize.baseSize
                     flickableDirection: Flickable.HorizontalFlick
                     orientation: ListView.Horizontal
