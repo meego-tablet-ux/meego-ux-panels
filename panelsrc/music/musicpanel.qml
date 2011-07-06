@@ -351,7 +351,7 @@ FlipPanel {
                     urns: musicIntf.nextTracks
                 }
                 contents: Item {
-                    property bool playQueueEmpty: playqueueItem.count == 0
+                    property bool playQueueEmpty: playqueueItem.count == 0 || musicIntf.nextTrackCount == 0
                     width: parent ? parent.width : 0
                     height: playQueueEmpty ? emptyQueue.height: trackList.height
                     Item {
