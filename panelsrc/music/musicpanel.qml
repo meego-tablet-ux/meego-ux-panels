@@ -150,7 +150,7 @@ FlipPanel {
             PanelExpandableContent {
                 id: oobe
                 property bool hadContent: false
-                isVisible: contentEmpty && !hadContent
+                isVisible: contentEmpty && !hadContent && !(fpPlaylists.count > 0)
                 function hideOobe() {
                     if (!oobe.hadContent) {
                         oobe.isVisible = false;
