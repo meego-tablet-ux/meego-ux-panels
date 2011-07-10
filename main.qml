@@ -71,6 +71,7 @@ Window {
 
     Item {
         id: panelSize
+        objectName: "panelSize" 
         property int baseSize: 0
         property int oneHalf: Math.round(baseSize/2)
         property int oneThird: Math.round(baseSize/3)
