@@ -184,6 +184,9 @@ Window {
                     snapMode: ListView.NoSnap
                     spacing: panelSize.panelOuterSpacing
                     property bool animationEnabled: true
+
+                    signal panelFlip(int index)
+
                     onMovementEnded: {
                         snapMode = ListView.NoSnap
                     }
@@ -262,6 +265,7 @@ Window {
                             // using positionViewAtIndex. Assumes that all panels are same width. Is that safe?
                             //allPanels.positionViewAtIndex(index, ListView.Contain);
                             //console.log("Panel index: " + index);
+                            allPanels.panelFlip(index)
                             var start = allPanels.contentX;
                             var end = start + allPanels.width
                             var panelStartsAt = index*(width + allPanels.spacing);
